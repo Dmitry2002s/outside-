@@ -10,8 +10,7 @@ int length(string a, int n = 0)
 		return n - 1;
 		
 	}
-	n += 1;
-	return length(a, n);
+	return length(a, n+1);
 	
 }
 
@@ -23,15 +22,13 @@ string noSimmetry(string a,string g, int n, int k=0)
 	}
 	if (a[n] != a[k])
 	{
-		g += a[n];
-		return (g += noSimmetry(a, g, n - 1, k + 1));
+		g += a[n];;
 	}
-	else
-	if (n == k)
+	else if (n == k)
 		{
 			g += a[n];
 		}
-		return (g += noSimmetry(a, g, n - 1, k + 1));
+		return (noSimmetry(a, g, n - 1, k + 1));
 	}
 
 
