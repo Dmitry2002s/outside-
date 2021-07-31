@@ -22,5 +22,5 @@ int main()
 	int b; 
 	cin >> a >> b; 
 	cout << "Greatest Common divisior "<< a << " and " << b << " = " << GCD(a, b);
-	return 0; 
+	return GCD(a,b); 
 }
