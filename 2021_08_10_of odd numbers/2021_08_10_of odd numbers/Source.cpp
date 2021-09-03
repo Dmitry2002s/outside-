@@ -14,4 +14,6 @@ int main()
 		}
 	}
 	cout << endl <<"end"; 
+	int c = 0; 
+	printf("% d \n ", c);
 }
