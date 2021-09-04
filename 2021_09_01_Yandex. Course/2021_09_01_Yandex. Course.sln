@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2021_09_01_Yandex. Course", "2021_09_01_Yandex. Course\2021_09_01_Yandex. Course.vcxproj", "{0FEA4FEB-5004-4442-BAA5-CD99D39F369F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2021_09_03_covering a segment with points", "2021_09_03_covering a segment with points\2021_09_03_covering a segment with points.vcxproj", "{F680927C-3110-456D-A78D-37158F07A7DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{0FEA4FEB-5004-4442-BAA5-CD99D39F369F}.Release|x64.Build.0 = Release|x64
 		{0FEA4FEB-5004-4442-BAA5-CD99D39F369F}.Release|x86.ActiveCfg = Release|Win32
 		{0FEA4FEB-5004-4442-BAA5-CD99D39F369F}.Release|x86.Build.0 = Release|Win32
+		{F680927C-3110-456D-A78D-37158F07A7DA}.Debug|x64.ActiveCfg = Debug|x64
+		{F680927C-3110-456D-A78D-37158F07A7DA}.Debug|x64.Build.0 = Debug|x64
+		{F680927C-3110-456D-A78D-37158F07A7DA}.Debug|x86.ActiveCfg = Debug|Win32
+		{F680927C-3110-456D-A78D-37158F07A7DA}.Debug|x86.Build.0 = Debug|Win32
+		{F680927C-3110-456D-A78D-37158F07A7DA}.Release|x64.ActiveCfg = Release|x64
+		{F680927C-3110-456D-A78D-37158F07A7DA}.Release|x64.Build.0 = Release|x64
+		{F680927C-3110-456D-A78D-37158F07A7DA}.Release|x86.ActiveCfg = Release|Win32
+		{F680927C-3110-456D-A78D-37158F07A7DA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
