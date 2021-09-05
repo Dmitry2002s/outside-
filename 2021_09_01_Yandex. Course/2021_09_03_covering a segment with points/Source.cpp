@@ -74,11 +74,22 @@ int main()
 	cout << endl; 
 	printArray(array, n); 
 	cout << endl << endl << endl; 
+
+	int** points;
+	points = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		array[i] = new int[2];
+	}
+
+
+	int P = 0; 
 	for (int i = 0; i < n; i++)
 	{
 		if (array[i][1] >= array[n - 1][0])
 		{
-			cout << array[i][1]; 
+			points[P][1] << array[i][1];
+			P++; 
 			break;
 		}
 		
@@ -87,10 +98,12 @@ int main()
 			{
 				if (array[i][1] < array[k][0])
 				{
-					cout << array[i][1] << "  ";
+					points[P][1] << array[i][1];
+					P++;
 					break;
 				}
 			}
 		}
 	}
+	printArray(points, n);	
 }
