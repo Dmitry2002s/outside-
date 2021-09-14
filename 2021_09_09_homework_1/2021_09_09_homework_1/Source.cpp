@@ -86,8 +86,67 @@ struct List
 		}
 		return temp; 
 	}
-	
+	void insertp(int place,int element)
+	{
+		Node* p;
+		p = head; 
+		for (int i = 0; i < place; i++)
+		{
+			p = p->next; 
+		}
+		p->next = new Node(element, p->next);
+	}
+	void delp(int place)
+	{
+		Node* p = head; 
+		for (int i = 0; i < place-1; i++)
+		{
+			p = p->next; 
+		}
+		Node* k = p; 
+		k = k->next; 
+		p->next = k->next; 
+		delete[] k; 
+	}
+	void remove_if(bool k(int i))
+	{
+		Node* element; 
+		element = head; 
+		while (element->next != nullptr)
+		{
+			if (k(element->next->data) == true)
+			{
+				Node* p = element; 
+				Node* v = element;
+				v = v->next;
+				p->next = v->next;
+				delete[] v;
+			}
+			element = element->next; 
+		}
+	}
+	void reverse()
+	{
+		Node* p = head; 
+		Node* k = head->next; 
+		Node* c = k->next; 
+		while (k->next != nullptr)
+		{
+			k->next = p; 
+			p = p->next; 
+			k = k->next; 
+		}
+
+	}
 };
+bool odd_number(int element)
+{
+	if (element % 2 == 0)
+	{
+		return false;
+	}
+	return true;
+}
 
 
 
@@ -109,4 +168,14 @@ int main()
 	l.print();
 	l.add_first(123);
 	l.print();
+	cout << endl << endl; 
+	l.insertp(3, 123);
+	l.print();
+	cout << endl << endl; 
+	l.delp(3);
+	l.print();
+	cout << odd_number(3) << " " << odd_number(2);
+	cout << endl; 
+	l.remove_if(odd_number);
+	l.print(); 
 }
