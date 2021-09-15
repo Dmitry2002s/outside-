@@ -88,6 +88,10 @@ struct List
 	}
 	void insertp(int place,int element)
 	{
+		if (place = 0)
+		{
+			add_first(element);
+		}
 		Node* p;
 		p = head; 
 		for (int i = 0; i < place; i++)
@@ -127,16 +131,21 @@ struct List
 	}
 	void reverse()
 	{
-		Node* p = head; 
-		Node* k = head->next; 
-		Node* c = k->next; 
-		while (k->next != nullptr)
+		Node* p = head; //Первый элемент цепочки 
+		
+		Node* k = head->next; // второй элемент цепочки 
+		p->next = nullptr; 
+		Node* c = k->next; //третий элемент цепочки 
+		while (c->next != nullptr) // Если 3-ий элемент цепочки не последний - следующий цикл 
 		{
 			k->next = p; 
-			p = p->next; 
-			k = k->next; 
+			p = k; 
+			k = c; 
+			c = c->next;  
 		}
-
+		k -> next = p; 
+		head = c; 
+		c->next = k;
 	}
 };
 bool odd_number(int element)
@@ -177,5 +186,8 @@ int main()
 	cout << odd_number(3) << " " << odd_number(2);
 	cout << endl; 
 	l.remove_if(odd_number);
+	l.print(); 
+	cout << "will be a reverse " << endl;
+	l.reverse();
 	l.print(); 
 }
