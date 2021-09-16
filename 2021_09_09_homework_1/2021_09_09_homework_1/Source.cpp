@@ -50,7 +50,7 @@ struct List
 	void print()
 	{
 		Node* p = head;
-		while (p != nullptr)
+		while (p->next != nullptr)
 		{
 			cout << p->data << " ";
 			p = p->next; 
@@ -60,7 +60,7 @@ struct List
 	Node* last()
 	{
 		Node* p = head; 
-		while (p != nullptr)
+		while (p->next != nullptr)
 		{
 			p = p->next; 
 		}
@@ -70,7 +70,7 @@ struct List
 	{
 		Node* p = head;
 		Node* k = p; 
-		while (p != nullptr)
+		while (p->next != nullptr)
 		{
 			p = p->next;
 			k = p; 
@@ -88,7 +88,7 @@ struct List
 	}
 	void insertp(int place,int element)
 	{
-		if (place = 0)
+		if (place == 0)
 		{
 			add_first(element);
 		}
@@ -167,9 +167,10 @@ int main()
 		l.add_after_first(i);
 		l.print();
 	}
+	cout << " massive ";
 	l.print();
-	cout << l.last();
-	cout << l.prelast();
+	cout << l.last()->data;
+	cout << l.prelast()->data;
 	cout << endl; 
 	l.add_after_first(9);
 	l.print();
