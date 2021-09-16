@@ -162,32 +162,32 @@ bool odd_number(int element)
 int main()
 {
 	List l; 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; i++) // Заполнить массив 5-ю элементами 
 	{
 		l.add_after_first(i);
 		l.print();
 	}
-	l.print();
-	cout << l.last();
-	cout << l.prelast();
+	l.print(); // отобразить массив 
+	cout << l.last(); // последние элементы ? ? ? ?  
+	cout << l.prelast(); // 
 	cout << endl; 
-	l.add_after_first(9);
+	l.add_after_first(9); // Добавить после 1-ого 
+	l.print(); 
+	l.add_last(22); // добавить в конец 22 
 	l.print();
-	l.add_last(22);
-	l.print();
-	l.add_first(123);
+	l.add_first(123); // добавить в начало 123 
 	l.print();
 	cout << endl << endl; 
-	l.insertp(3, 123);
+	l.insertp(3, 123); // добавить в 3ю позицию 123 
 	l.print();
 	cout << endl << endl; 
-	l.delp(3);
-	l.print();
-	cout << odd_number(3) << " " << odd_number(2);
+	l.delp(3); // удалить 3-ий элемент 
+	l.print(); 
+	cout << odd_number(3) << " " << odd_number(2); // проверка на чётность числа 3 и 2  
 	cout << endl; 
-	l.remove_if(odd_number);
+	l.remove_if(odd_number); // удалить нечетные элементы 
 	l.print(); 
 	cout << "will be a reverse " << endl;
-	l.reverse();
+	l.reverse(); // Выполнить реверс. 
 	l.print(); 
 }
