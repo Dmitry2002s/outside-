@@ -1,11 +1,11 @@
 #include <iostream>
 
-using namespace std;  
+using namespace std;
 
 struct Node
 {
-	int data; 
-	Node* next; 
+	int data;
+	Node* next;
 
 	Node(int d = 0, Node* n = nullptr) :
 		data(d), next(n) {}
@@ -13,19 +13,19 @@ struct Node
 
 struct List
 {
-	Node* head; 
-	Node* tail; 
+	Node* head;
+	Node* tail;
 
 	List()
 	{
-		head = tail = nullptr; 
+		head = tail = nullptr;
 	}
 	void add_first(int d)
 	{
-		
-			Node* tmp;
-			tmp = new Node(d, head);
-			head = tmp;
+
+		Node* tmp;
+		tmp = new Node(d, head);
+		head = tmp;
 	}
 	void add_after_first(int d)
 	{
@@ -37,7 +37,7 @@ struct List
 		{
 			tail = head->next = new Node(d, head->next);
 		}
-		else 
+		else
 		{
 			head->next = new Node(d, head->next);
 		}
@@ -51,36 +51,36 @@ struct List
 	{
 		if (head == nullptr)
 		{
-			cout << "list is empty" << endl; 
+			cout << "list is empty" << endl;
 		}
-		else 
+		else
 		{
 			Node* p = head;
-		while (p != nullptr)
-		{
-			cout << p->data << " ";
-			p = p->next;
-		}
-		cout << endl;
+			while (p != nullptr)
+			{
+				cout << p->data << " ";
+				p = p->next;
+			}
+			cout << endl;
 		}
 	}
 	Node* last()
 	{
-		Node* p = head; 
-		while (p != nullptr)
+		Node* p = head;
+		while (p->next != nullptr)
 		{
-			p = p->next; 
+			p = p->next;
 		}
-		return p; 
+		return p;
 	}
 	Node* prelast()
 	{
 		Node* p = head;
-		Node* k = p; 
-		while (p != nullptr)
+		Node* k = p;
+		while (p ->next!= nullptr)
 		{
+			k = p;
 			p = p->next;
-			k = p; 
 		}
 		return k;
 	}
@@ -89,21 +89,21 @@ struct List
 		Node* temp;
 		for (; n > 0; n--)
 		{
-			temp = temp->next; 
+			temp = temp->next;
 		}
-		return temp; 
+		return temp;
 	}
-	void insertp(int place,int element)
+	void insertp(int place, int element)
 	{
 		if (place = 0)
 		{
 			add_first(element);
 		}
 		Node* p;
-		p = head; 
+		p = head;
 		for (int i = 0; i < place; i++)
 		{
-			p = p->next; 
+			p = p->next;
 		}
 		p->next = new Node(element, p->next);
 	}
@@ -111,54 +111,54 @@ struct List
 	{
 		Node* p = head->next;
 		head->next = nullptr;
-		delete head;  
-		head = p; 
+		delete head;
+		head = p;
 	}
 	void delp(int place)
 	{
-		Node* p = head; 
-		for (int i = 0; i < place-1; i++)
+		Node* p = head;
+		for (int i = 0; i < place - 1; i++)
 		{
-			p = p->next; 
+			p = p->next;
 		}
-		Node* k = p; 
-		k = k->next; 
-		p->next = k->next; 
-		delete[] k; 
+		Node* k = p;
+		k = k->next;
+		p->next = k->next;
+		delete[] k;
 	}
 	void remove_if(bool k(int i))
 	{
-		Node* element; 
-		element = head; 
+		Node* element;
+		element = head;
 		while (element->next != nullptr)
 		{
 			if (k(element->next->data) == true)
 			{
-				Node* p = element; 
+				Node* p = element;
 				Node* v = element;
 				v = v->next;
 				p->next = v->next;
 				delete[] v;
 			}
-			element = element->next; 
+			element = element->next;
 		}
 	}
 	void reverse()
 	{
-		Node* p = head; //Первый элемент цепочки 
-		
-		Node* k = head->next; // второй элемент цепочки 
-		p->next = nullptr; 
-		Node* c = k->next; //третий элемент цепочки 
-		while (c->next != nullptr) // Если 3-ий элемент цепочки не последний - следующий цикл 
+		Node* p = head; //Первый элемент тройки 
+
+		Node* k = head->next; // 
+		p->next = nullptr;
+		Node* c = k->next; //?????? ??????? ??????? 
+		while (c->next != nullptr) // ???? 3-?? ??????? ??????? ?? ????????? - ????????? ???? 
 		{
-			k->next = p; 
-			p = k; 
-			k = c; 
-			c = c->next;  
+			k->next = p;
+			p = k;
+			k = c;
+			c = c->next;
 		}
-		k -> next = p; 
-		head = c; 
+		k->next = p;
+		head = c;
 		c->next = k;
 	}
 	void del()
@@ -180,41 +180,41 @@ bool odd_number(int element)
 }
 void del(Node*& x)
 {
-	
+
 }
 
 
 int main()
 {
-	List l; 
-	for (int i = 0; i < 5; i++) // Заполнить массив 5-ю элементами 
+	List l;
+	for (int i = 0; i < 5; i++) // ????????? ?????? 5-? ?????????? 
 	{
 		l.add_after_first(i);
 		l.print();
 	}
-	l.print(); // отобразить массив 
-	cout << l.last()->data; // последние элементы 
-	cout << l.prelast()->data; // предпоследний 
-	cout << endl; 
-	l.add_after_first(9); // Добавить после 1-ого 
-	l.print(); 
-	l.add_last(22); // добавить в конец 22 
+	l.print(); // ?????????? ?????? 
+	cout << l.last()->data; // ????????? ???????? 
+	cout << l.prelast()->data; // ????????????? 
+	cout << endl;
+	l.add_after_first(9); // ???????? ????? 1-??? 
 	l.print();
-	l.add_first(123); // добавить в начало 123 
+	l.add_last(22); // ???????? ? ????? 22 
 	l.print();
-	cout << endl << endl; 
-	l.insertp(3, 123); // добавить в 3ю позицию 123 
+	l.add_first(123); // ???????? ? ?????? 123 
 	l.print();
-	cout << endl << endl; 
-	l.delp(3); // удалить 3-ий элемент 
-	l.print(); 
-	cout << odd_number(3) << " " << odd_number(2); // проверка на чётность числа 3 и 2  
-	cout << endl; 
-	l.remove_if(odd_number); // удалить нечетные элементы 
-	l.print(); 
+	cout << endl << endl;
+	l.insertp(3, 123); // ???????? ? 3? ??????? 123 
+	l.print();
+	cout << endl << endl;
+	l.delp(3); // ??????? 3-?? ??????? 
+	l.print();
+	cout << odd_number(3) << " " << odd_number(2); // ???????? ?? ???????? ????? 3 ? 2  
+	cout << endl;
+	l.remove_if(odd_number); // ??????? ???????? ???????? 
+	l.print();
 	cout << "will be a reverse " << endl;
-	l.reverse(); // Выполнить реверс. 
-	l.print(); 
+	l.reverse(); // ????????? ??????. 
+	l.print();
 	l.del();
 	l.print();
 }
