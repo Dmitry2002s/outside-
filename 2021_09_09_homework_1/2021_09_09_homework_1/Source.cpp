@@ -49,13 +49,20 @@ struct List
 	}
 	void print()
 	{
-		Node* p = head;
+		if (head == nullptr)
+		{
+			cout << "list is empty" << endl; 
+		}
+		else 
+		{
+			Node* p = head;
 		while (p != nullptr)
 		{
 			cout << p->data << " ";
-			p = p->next; 
+			p = p->next;
 		}
 		cout << endl;
+		}
 	}
 	Node* last()
 	{
@@ -99,6 +106,13 @@ struct List
 			p = p->next; 
 		}
 		p->next = new Node(element, p->next);
+	}
+	void delete_first()
+	{
+		Node* p = head->next;
+		head->next = nullptr;
+		delete head;  
+		head = p; 
 	}
 	void delp(int place)
 	{
@@ -147,6 +161,14 @@ struct List
 		head = c; 
 		c->next = k;
 	}
+	void del()
+	{
+		while (head != nullptr)
+		{
+			delete_first();
+		}
+
+	}
 };
 bool odd_number(int element)
 {
@@ -156,7 +178,10 @@ bool odd_number(int element)
 	}
 	return true;
 }
-
+void del(Node*& x)
+{
+	
+}
 
 
 int main()
@@ -168,8 +193,8 @@ int main()
 		l.print();
 	}
 	l.print(); // отобразить массив 
-	cout << l.last(); // последние элементы ? ? ? ?  
-	cout << l.prelast(); // 
+	cout << l.last()->data; // последние элементы 
+	cout << l.prelast()->data; // предпоследний 
 	cout << endl; 
 	l.add_after_first(9); // Добавить после 1-ого 
 	l.print(); 
@@ -190,4 +215,6 @@ int main()
 	cout << "will be a reverse " << endl;
 	l.reverse(); // Выполнить реверс. 
 	l.print(); 
+	l.del();
+	l.print();
 }
