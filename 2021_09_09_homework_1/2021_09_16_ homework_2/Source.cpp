@@ -21,17 +21,26 @@ struct DList
 	}
 	void add_first(int d)
 	{
-		DNode* t;
-		t = new DNode(d, head, nullptr);
 		if (head == nullptr)
 		{
-			head = t;
-			tail = t;
+			DNode* t = new DNode(d, nullptr, nullptr);
+			head = t; 
+			tail = t; 
 		}
 		else
 		{
-			head->prev = t;
-			head = t;
+			DNode* t;
+			t = new DNode(d, head, nullptr);
+			if (head == nullptr)
+			{
+				head = t;
+				tail = t;
+			}
+			else
+			{
+				head->prev = t;
+				head = t;
+			}
 		}
 	}
 	void print()
@@ -66,15 +75,16 @@ struct DList
 		//DNode* p = new DNode(d, nullptr, tail);
 		DNode* p = new DNode; 
 		p->data = d; 
-		tail->next = p; 
+		
 		p->next = nullptr; 
 		p->prev = tail; 
+		tail->next = p;
 			tail = p; 
 	}
 	void add_after_first(int d)
 	{
 		DNode* p = new DNode; 
-		DNode* k = head->next->next;  
+		DNode* k = head->next;  
 		k->prev = p;
 		p->next = k; 
 		head->next = p; 
@@ -83,9 +93,13 @@ struct DList
 	}
 	void dell_first()
 	{
+		DNode* p = head; 
+		p = p->next;  
+		p->prev = nullptr; 
 		delete[] head; 
+		p = head; 
 	}
-	void dell_last()
+	void del_last()
 	{
 		if (tail == head)
 		{
@@ -117,25 +131,108 @@ struct DList
 			p->prev = head;
 		}
 	}
+	int lenght()
+	{
+		int i = 0;
+		DNode* p = head; 
+		while (p != nullptr)
+		{
+			++i;
+			p = p->next; 
+		}
+		return i; 
+	}
+	bool insertp(int place, int element)
+	{
+		if (place<0 || place > lenght() - 1)
+		{
+			return false;
+		}
+		else if (place == 0)
+		{
+			add_first(element);
+		}
+		 else if (place == lenght() - 1)
+		{
+			add_last(element);
+		}
+		 else 
+		{
+			DNode* k = head; 
+			for (int i = 0; i < place; i++)
+			{
+				k = k->next; 
+			}
+			DNode* c = k->next; 
+			DNode* p = new DNode; 
+			p->data = element;
+			k->next = p; 
+			p->prev = k; 
+			p->next = c; 
+			c->prev = p; 
+		}
+		return true; 
+	}
+	bool Delp(int place)
+	{
+		if (place<0 || place > lenght() - 1)
+		{
+			return false; 
+		}
+		else if (place == 0)
+		{
+			dell_first();
+			 
+		}
+		else if (place == lenght() - 1)
+		{
+			del_last();
+		}
+		return true;
+	}
+	void reverse()
+	{
+		DNode* p = head; 
+		DNode* k = head->next; 
+		while (k != nullptr)
+		{
+			p->prev = k; 
+			k->next = p; 
+		}
+	}
+	void del()
+	{
+		while (head != nullptr)
+		{
+			dell_first();
+		}
+	}
 };
 
 int main()
 {
 
 	DList l;  
-	for (int i = 0; i < 5;i++)
+	for (int i = 0; i < 10;i++)
 	{
 		l.add_first(i);
 	}
 	l.Print(); // показать собранный список 
+	cout << l.tail->data;
 	l.add_last(123); // Добавить в конец 123 
-	l.print();
+	l.Print();
 	l.add_after_first(981273); // Добавить сразу после первого 
-	l.print(); 
-	l.dell_last(); //удаление последнего 
+	l.Print(); 
+	l.del_last(); //удаление последнего 
 	l.Print();
 
-	l.del_second();
-	l.print();
+	l.del_second(); // удаление второго 
+	l.Print();
+	l.insertp(5, 123123);//вставка в 5-ю позицию числа 
+	l.Print();
+	cout << l.lenght();
+	l.Delp(10);
+	l.Print();
+
 
 }
