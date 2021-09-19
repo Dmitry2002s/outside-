@@ -197,18 +197,20 @@ struct List
 };
 Node* copy(Node* x)
 {
-	List k; 
+	List* k=new List(); 
 	if (x != nullptr)
 	{
-		k.add_first(x->data);
+		k->add_first(x->data);
 		x = x->next; 
 	}
 	while (x != nullptr)
 	{
-		k.add_last(x->data);
+		k->add_last(x->data);
 		x = x->next; 
 	}
-	return k.head; 
+	Node* ret = k->head;
+
+	return ret; 
 }
 bool odd_number(int element)
 {
