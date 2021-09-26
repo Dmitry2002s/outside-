@@ -19,16 +19,13 @@ struct DList
 		tail = nullptr;
 		// Конструктор создающий пустой список
 	}
+	~DList()
+	{
+		del();
+	}
 	void add_first(int d)
 	{
-		if (head == nullptr)
-		{
-			DNode* t = new DNode(d, nullptr, nullptr);
-			head = t; 
-			tail = t; 
-		}
-		else
-		{
+		
 			DNode* t;
 			t = new DNode(d, head, nullptr);
 			if (head == nullptr)
@@ -41,7 +38,6 @@ struct DList
 				head->prev = t;
 				head = t;
 			}
-		}
 	}
 	void print()
 	{
@@ -53,7 +49,13 @@ struct DList
 		}
 		cout << endl;
 	}
-
+	void del()
+	{
+		while (head != nullptr)
+		{
+			dell_first();
+		}
+	}
 	void print_reverse() //печать в обратном порядке
 	{
 		DNode* p = tail;
@@ -64,6 +66,7 @@ struct DList
 		}
 		cout << endl;
 	}
+
 	void Print()
 	{
 		print();
@@ -95,9 +98,10 @@ struct DList
 	{
 		DNode* p = head; 
 		p = p->next;  
-		p->prev = nullptr; 
-		delete[] head; 
-		p = head; 
+		p->prev = nullptr;
+		head->next = nullptr; 
+		delete head; 
+		head = p; 
 	}
 	void del_last()
 	{
@@ -118,7 +122,7 @@ struct DList
 		{
 			tail->prev = nullptr; 
 			head->next = nullptr; 
-			delete[] tail; 
+			delete tail; 
 		} //next->prev= nullptr 
 		else
 		{
@@ -126,7 +130,7 @@ struct DList
 			DNode* k = head->next;
 			k->next = nullptr;
 			k->prev = nullptr;
-			delete[] k;
+			delete k;
 			head->next = p;
 			p->prev = head;
 		}
@@ -188,9 +192,20 @@ struct DList
 		{
 			del_last();
 		}
+		else
+		{
+			DNode* p = head;
+			for (int i = 0; i < place; i++)
+			{
+				p = p->next;  
+			}
+			p->prev->next = p->next; 
+			p->next->prev = p->prev; 
+			delete p; 
+		}
 		return true;
 	}
-	void reverse()
+	/*void reverse()
 	{
 		DNode* p = head; 
 		DNode* k = head->next; 
@@ -199,7 +214,7 @@ struct DList
 			p->prev = k; 
 			k->next = p; 
 		}
-	}
+	}*/
 	void del()
 	{
 		while (head != nullptr)
@@ -207,7 +222,84 @@ struct DList
 			dell_first();
 		}
 	}
+	void reverse()
+	{
+		if (lenght() == 2)
+		{
+			tail->next = head; 
+			head->next = nullptr;
+			head->prev = tail; 
+			head = tail;  
+			tail = head->next;
+		}
+		else if (lenght() <= 1)
+		{
+			
+		}
+		else
+		{
+			DNode* p = head; //Первый элемент цепочки 
+			tail = p; 
+			DNode* k = head->next; // второй элемент цепочки 
+			p->next = nullptr;
+			p->prev = k; 
+			DNode* c = k->next; //третий элемент цепочки 
+			while (c->next != nullptr) // Если 3-ий элемент цепочки не последний - следующий цикл 
+			{
+				k->next = p;
+				k->prev = c; 
+				p = k;
+				k = c;
+				c = c->next;
+			}
+			k->next = p;
+			p->prev = k;
+			c->next = k;
+			c->prev = nullptr;
+			k->prev = c; 
+			head = c;
+		}
+		
+		
+	}
+	bool remove_if(bool function(int k))
+	{
+		DNode* k = head;
+		int len = lenght();
+		int i = 0; 
+		while (k!=nullptr)
+		{
+			if (k == tail)
+			{
+				if (function(k->data) == true)
+				{
+					del_last();
+				}
+				return 1; 
+			}
+			else {
+				k = k->next;
+				if (function(k->prev->data) == true)
+				{
+					Delp(i);
+				}
+				else
+				{
+					i++;
+				}
+			}
+		}
+	}
 };
+bool odd_number(int element)
+{
+	if (element % 2 == 0)
+	{
+		return false;
+	}
+	return true;
+}
+
 
 int main()
 {
@@ -231,8 +323,18 @@ int main()
 	l.insertp(5, 123123);//вставка в 5-ю позицию числа 
 	l.Print();
 	cout << l.lenght();
+	cout << "delete *10*" << endl; 
 	l.Delp(10);
 	l.Print();
-
-
+	l.Delp(4);
+	cout << "delete *4*" << endl;
+	l.Print();
+	cout << "Reverse" << endl; 
+	l.reverse();
+	l.Print();
+	cout << "Чистим от нечетных" << endl; 
+	l.Delp(0);
+	l.Print(); 
+	l.remove_if(odd_number);
+	l.Print();
 }
