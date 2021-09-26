@@ -188,6 +188,10 @@ struct DList
 		{
 			del_last();
 		}
+		else
+		{
+
+		}
 		return true;
 	}
 	void reverse()
@@ -205,6 +209,19 @@ struct DList
 		while (head != nullptr)
 		{
 			dell_first();
+		}
+	}
+	void remove_if(bool function(int i))
+	{
+		DNode* element = head;
+		int i = 0; 
+		while (element != nullptr)
+		{
+			if (function(element->data) == true)
+			{
+				Delp(i);
+			}
+			i++; 
 		}
 	}
 };

@@ -11,6 +11,8 @@ struct Node
 		data(d), next(n) {}
 };
 
+Node* copy(Node* x);
+
 struct List
 {
 	Node* head;
@@ -23,7 +25,20 @@ struct List
 	{
 		head = tail = nullptr;
 	}
-
+	List(const List & I)
+	{
+		head = copy(I.head);
+		Node* p = head; 
+		while (p!= nullptr)
+		{
+			p = p->next; 
+		}
+		tail = p; 
+	}
+	List operator=(const List& I)
+	{
+		return List(I); 
+	}
 	void add_first(int d)
 	{
 		if (head == nullptr)
@@ -97,7 +112,7 @@ struct List
 			delete_first();
 		}
 	}
-		Node* last()
+	Node* last()
 	{
 		Node* p = head;
 		while (p->next != nullptr)
@@ -197,21 +212,23 @@ struct List
 };
 Node* copy(Node* x)
 {
-	List* k=new List(); 
+	List* k = new List();
 	if (x != nullptr)
 	{
 		k->add_first(x->data);
-		x = x->next; 
+		x = x->next;
 	}
 	while (x != nullptr)
 	{
 		k->add_last(x->data);
-		x = x->next; 
+		x = x->next;
 	}
 	Node* ret = k->head;
 
-	return ret; 
+	return ret;
 }
+
+
 bool odd_number(int element)
 {
 	if (element % 2 == 0)
@@ -259,6 +276,12 @@ int main()
 	cout << "Tut vashe drugoe" << endl; 
 	cout << l.head->data << endl; 
 	l.tail->next = copy(l.head);
+	l.print();
+	l = k; 
+	List s(l); 
+	cout << "List X = "; 
+	s.print();
+	cout << "Hobana" << endl; 
 	l.print();
 	
 }
