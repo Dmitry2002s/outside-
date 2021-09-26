@@ -10,15 +10,27 @@ struct DNode
 	DNode(int d = 0, DNode* n = nullptr, DNode*p = nullptr) : 
 		data(d),next (n), prev(p) {} // конструктор 
 };
-
+DNode* copy(DNode* x);
 struct DList
 {
+	
 	DNode* head, * tail;
 	DList() {
 		head = nullptr;
 		tail = nullptr;
 		// Конструктор создающий пустой список
 	}
+	DList(const DList& l)
+	{
+		head = copy(l.head);
+		DNode* p = head;
+		while (p->next != nullptr)
+		{
+			p = p->next;
+		}
+		tail = p;
+	}
+	
 	~DList()
 	{
 		del();
@@ -41,30 +53,38 @@ struct DList
 	}
 	void print()
 	{
-		DNode* p = head;
-		while (p != nullptr)
+		if (head == nullptr)
 		{
-			cout << p->data << " ";
-			p = p->next;
+			cout << "list is empty" << endl; 
 		}
-		cout << endl;
-	}
-	void del()
-	{
-		while (head != nullptr)
+		else 
 		{
-			dell_first();
+			DNode* p = head;
+			while (p != nullptr)
+			{
+				cout << p->data << " ";
+				p = p->next;
+			}
+			cout << endl;
 		}
 	}
+	
 	void print_reverse() //печать в обратном порядке
 	{
-		DNode* p = tail;
-		while (p != nullptr)
+		if (head == nullptr)
 		{
-			cout << p->data << " ";
-			p = p->prev;
+			cout << "list is empty" << endl;
 		}
-		cout << endl;
+		else
+		{
+			DNode* p = tail;
+			while (p != nullptr)
+			{
+				cout << p->data << " ";
+				p = p->prev;
+			}
+			cout << endl;
+		}
 	}
 
 	void Print()
@@ -96,12 +116,23 @@ struct DList
 	}
 	void dell_first()
 	{
-		DNode* p = head; 
-		p = p->next;  
-		p->prev = nullptr;
-		head->next = nullptr; 
-		delete head; 
-		head = p; 
+
+		if (head ->next == nullptr)
+		{
+			head->next = nullptr;
+			head->prev = nullptr; 
+			
+			delete head;
+		}
+		else
+		{
+			DNode* p;
+			p = head->next;
+			p->prev = nullptr;
+			head->next = nullptr;
+			delete head;
+			head = p;
+		}
 	}
 	void del_last()
 	{
@@ -217,12 +248,13 @@ struct DList
 	}*/
 	void del()
 	{
-		while (head != nullptr)
+		while (head->next != nullptr)
 		{
 			dell_first();
 		}
+		dell_first();
 	}
-	void reverse()
+	void reverse()	
 	{
 		if (lenght() == 2)
 		{
@@ -290,7 +322,36 @@ struct DList
 			}
 		}
 	}
+	DList operator = (const DList& l)
+	{
+		return DList(l);
+		del();
+	}
 };
+DNode* copy(DNode* x)
+{
+	DList* L = new DList();
+	if (x != nullptr)
+	{
+		/*while (x->prev != nullptr)
+		{
+			x = x->prev;
+		}*/
+		if (L->head == nullptr)
+		{
+			L->add_first(x->data);
+			x = x->next;
+		}
+		while (x != nullptr)
+		{
+			L->add_last(x->data);
+			x = x->next;
+		}
+	}
+	L->tail = x;
+	return L->head;
+}
+
 bool odd_number(int element)
 {
 	if (element % 2 == 0)
@@ -337,4 +398,20 @@ int main()
 	l.Print(); 
 	l.remove_if(odd_number);
 	l.Print();
+	DList D;
+
+
+	D.head = copy(l.head->next);
+	DNode* p = D.head; 
+	while (p->next != nullptr)
+	{
+		p = p->next; 
+	}
+	D.tail = p; // Это копирование можно вытащить в отдельный метод, чтобы копировало список корректно. 
+	cout << "testing copy" << endl; 
+	D.Print();
+	l = D; 
+	cout << "checking assignment" << endl; 
+	l.Print();
+	
 }
