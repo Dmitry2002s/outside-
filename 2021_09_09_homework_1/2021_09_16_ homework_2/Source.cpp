@@ -119,9 +119,8 @@ struct DList
 
 		if (head ->next == nullptr)
 		{
-			head->next = nullptr;
-			head->prev = nullptr; 
 			
+			head->prev = nullptr; 
 			delete head;
 		}
 		else
@@ -139,21 +138,24 @@ struct DList
 		if (tail == head)
 		{
 			dell_first();
+			
 		}
-		DNode* k = tail; 
-		k = k->prev; 
-		k->next = nullptr; 
-		tail->prev = nullptr; 
-		delete[] tail; 
-		tail = k; 
+		else
+		{
+			DNode* k = tail;
+			k = k->prev;
+			k->next = nullptr;
+			delete tail;
+			tail = k;
+		}
 	}
 	void del_second()
 	{
 		if (head == tail->prev) //случай списка из двух элементов 
 		{
-			tail->prev = nullptr; 
 			head->next = nullptr; 
 			delete tail; 
+			tail = head; 
 		} //next->prev= nullptr 
 		else
 		{
@@ -324,8 +326,16 @@ struct DList
 	}
 	DList operator = (const DList& l)
 	{
-		return DList(l);
-		del();
+		
+		DList P; 
+		P.head = copy(l.head);
+		DNode* p = head;
+		while (p->next != nullptr)
+		{
+			p = p->next;
+		}
+		P.tail = p;
+		return P;
 	}
 };
 DNode* copy(DNode* x)
@@ -366,11 +376,16 @@ int main()
 {
 
 	DList l;  
+	DList D; 
 	for (int i = 0; i < 10;i++)
 	{
 		l.add_first(i);
 	}
 	l.Print(); // показать собранный список 
+	D = l;
+	
+	D.Print();
+	
 	cout << l.tail->data;
 	l.add_last(123); // ƒобавить в конец 123 
 	l.Print();
@@ -398,10 +413,9 @@ int main()
 	l.Print(); 
 	l.remove_if(odd_number);
 	l.Print();
-	DList D;
+	
 
-
-	D.head = copy(l.head->next);
+	D.head = copy(l.head);
 	DNode* p = D.head; 
 	while (p->next != nullptr)
 	{
@@ -410,6 +424,7 @@ int main()
 	D.tail = p; // Ёто копирование можно вытащить в отдельный метод, чтобы копировало список корректно. 
 	cout << "testing copy" << endl; 
 	D.Print();
+	l.del();
 	l = D; 
 	cout << "checking assignment" << endl; 
 	l.Print();
