@@ -119,9 +119,11 @@ struct DList
 
 		if (head ->next == nullptr)
 		{
-			
-			head->prev = nullptr; 
-			delete head;
+			head=nullptr;
+		}
+		else if (head == nullptr)
+		{
+			 
 		}
 		else
 		{
@@ -250,11 +252,11 @@ struct DList
 	}*/
 	void del()
 	{
-		while (head->next != nullptr)
+		while (head != nullptr)
 		{
 			dell_first();
 		}
-		dell_first();
+
 	}
 	void reverse()	
 	{
@@ -327,15 +329,28 @@ struct DList
 	DList operator = (const DList& l)
 	{
 		
-		DList P; 
-		P.head = copy(l.head);
+		/*
+
+		DList P = DList(l);
+		DNode* p = P.head;
+		while (p->next != nullptr)
+		{
+			p = p->next;
+		}
+		head = P.head; 
+		tail = P.tail;
+		return P;
+		*/
+		
+		head = copy(l.head);
 		DNode* p = head;
 		while (p->next != nullptr)
 		{
 			p = p->next;
 		}
-		P.tail = p;
-		return P;
+		tail = p;
+		Print();
+		return l; 
 	}
 };
 DNode* copy(DNode* x)
@@ -352,13 +367,13 @@ DNode* copy(DNode* x)
 			L->add_first(x->data);
 			x = x->next;
 		}
-		while (x != nullptr)
+		while (x->next != nullptr)
 		{
 			L->add_last(x->data);
 			x = x->next;
 		}
+		L->tail = x;
 	}
-	L->tail = x;
 	return L->head;
 }
 
@@ -382,7 +397,8 @@ int main()
 		l.add_first(i);
 	}
 	l.Print(); // показать собранный список 
-	D = l;
+	/*
+	
 	
 	D.Print();
 	
@@ -413,7 +429,7 @@ int main()
 	l.Print(); 
 	l.remove_if(odd_number);
 	l.Print();
-	
+	*/
 
 	D.head = copy(l.head);
 	DNode* p = D.head; 
@@ -424,9 +440,21 @@ int main()
 	D.tail = p; // Это копирование можно вытащить в отдельный метод, чтобы копировало список корректно. 
 	cout << "testing copy" << endl; 
 	D.Print();
+	D.del();
 	l.del();
-	l = D; 
 	cout << "checking assignment" << endl; 
 	l.Print();
 	
+	for (int i = 0; i < 10;i++)
+	{
+		l.add_first(i);
+	}
+	l.Print();
+	D.add_first(1);
+	D = l; 
+	D.Print();
+	l.Print();
+	l.del();
+	D.Print();
+
 }
