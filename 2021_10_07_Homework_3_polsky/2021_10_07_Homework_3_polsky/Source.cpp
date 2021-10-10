@@ -26,14 +26,29 @@ int f2()
 		}
 		else
 		{
-			output += expression[i];
+			if (expression[i] == '*' || expression[i] == '/')
+			{
+				output += expression[i]; 
+				s.pop();
+				s.push(expression[i]);
+			}
+			else
+			{
+				output += expression[i];
+				i++; 
+			}
 		}
 
-
 	}
+	while (s.empty() == 0)
+	{
+		output+= s.top();
+		s.pop();
+	}
+	cout << output; 
 
 }
 int main()
 {
-	
+	f2();
 }
