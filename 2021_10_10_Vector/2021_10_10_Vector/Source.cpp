@@ -125,6 +125,39 @@ vector<double> ::iterator found_last(vector<double> &a, int search)
 			return result;
 	}
 }
+vector<int> ::iterator found_upper(vector<int> a, int search)
+{
+	vector<int> ::iterator result = a.end();
+	vector<int> ::iterator test = a.begin();
+	while (test != a.end())
+	{
+		result = test;
+		test = lower_bound(++test, a.end(), search);
+
+	}
+	return result; 
+}
+bool subseq(vector<double> a, vector<double> b)
+{
+	vector <double> ::iterator A = a.begin(); 
+	vector <double> ::iterator border = a.begin();
+	vector <double> ::iterator B = b.begin();
+	while (A != a.end())
+	{
+		border =find(A, a.end(), *B);
+		if (border != a.end())
+		{
+			A = border; 
+			B++;
+		}
+		else
+		{
+			return false; 
+		}
+		return true; 
+	}
+}
+
 
 int main()
 {
@@ -158,4 +191,10 @@ int main()
 	cout << "test found_last" << endl; 
 	c.erase(op);
 	print(c);
+	cout << endl << endl << "test subseq " << endl; 
+	vector<double> V{ 1,9,18,27,36 };
+	vector<double> W{ 4, 3,1,9,18,27,36 };
+	cout << subseq(W, V) << endl; 
+
+	cout << subseq(V,W) << endl;
 }
