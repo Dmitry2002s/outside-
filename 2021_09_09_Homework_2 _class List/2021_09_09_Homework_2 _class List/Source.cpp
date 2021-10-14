@@ -17,7 +17,6 @@ struct Subscriber
 	
 }; 
 
-
 std::ostream& operator << (ostream &cout , const Subscriber& S) 
 {
 	cout << S.order << endl; 
@@ -27,7 +26,6 @@ std::ostream& operator << (ostream &cout , const Subscriber& S)
 	cout << "___________" << endl; 
 	return cout;
 }
-
 std::istream& operator >> (istream &cin, Subscriber& S)
 {
 	cout << "enter in the order of 'name' 'address' 'number' " << endl; 
@@ -38,6 +36,7 @@ std::istream& operator >> (istream &cin, Subscriber& S)
 	
 	return cin ;
 }
+
 int lenght(list<Subscriber>& k)
 {
 	list<Subscriber> ::iterator i;
@@ -80,7 +79,7 @@ bool delete_abonent(list<Subscriber>& k)
 		}
 		k.erase(i);
 		return true; 
-	}
+	}//advance (k.begin, place) 1 аргумент - начало , 2 - насколько позиций смещаемся 
 
 }
 void search_number(list<Subscriber>& k)
