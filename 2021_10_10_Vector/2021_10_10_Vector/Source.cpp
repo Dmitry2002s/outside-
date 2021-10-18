@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std; 
 bool print(vector<double> a)
 {
@@ -155,6 +156,19 @@ bool subseq(vector<double> a, vector<double> b)
 			return false; 
 		}
 		return true; 
+	}
+}
+bool availability(vector<double> a, double x, int& i, int& j)
+{
+	vector<double> ::iterator p = upper_bound(a.begin(), a.end(), x);
+	if (p == a.end())
+	{
+
+	}
+	else
+	{
+		i = p - a.begin(); 
+		j = i; 
 	}
 }
 
