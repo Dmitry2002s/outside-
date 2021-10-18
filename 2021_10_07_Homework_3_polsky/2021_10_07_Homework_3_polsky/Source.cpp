@@ -6,49 +6,139 @@ using namespace std;
 int f2()
 {
 	stack<int> s;
-
-	string expression;
-	string output; 
-
-	cin >> expression;
-	int i = 0;
-	while (expression[i] != '\0')
+	int p; 
+	int a, b = 0;  
+	char x; 
+	int result; 
+	while (cin >> x)
 	{
-		if (isdigit(expression[i]))
+		if (isdigit(x))
 		{
-			int number = 0;
-			while (isdigit(expression[i]) || expression[i] != '\0')
+			cin.putback(x);
+			cin >> p; 
+			s.push(p);
+		}
+		else if(x != 'z') // окончить ввод буквой z ; 
+		{
+			a = s.top();
+			s.pop();
+			b = s.top();
+			s.pop();
+			switch (x)
 			{
-				number = number * 10 + expression[i];
-				i++;
+			case '+': s.push(a + b); break;
+			case '-': s.push(b - a); break;
+			case '*': s.push(a * b); break;
+			case '/': s.push(b / a); break;
 			}
-			s.push(number);
 		}
 		else
 		{
-			if (expression[i] == '*' || expression[i] == '/')
+			return s.top();
+		}
+	}
+	return s.top();
+}
+string f1()
+{
+/*stack<int> s;
+	int p = 0; 
+	char x; 
+	string result; 
+	char memory ='f';
+	while (cin >> x && x!='z')
+	{
+		
+		if (isdigit(x))
+		{
+			cin.putback(x);
+			cin >> p; 
+			result += to_string(p); 
+			if (memory != 'f')
 			{
-				output += expression[i]; 
-				s.pop();
-				s.push(expression[i]);
-			}
-			else
-			{
-				output += expression[i];
-				i++; 
+				result += memory; 
+				memory = 'f';
 			}
 		}
-
+		else
+		{
+			memory = x; 
+		}
 	}
-	while (s.empty() == 0)
+	int i = 0; 
+	char mem; 
+	while (result[i] != '\0')
 	{
-		output+= s.top();
-		s.pop();
+		if ((result[i] == '+' || result[i] == '-')&&(result[i+1] != '\0'))
+		{
+			if (result[i + 2] == '*' || result[i + 2] == '/')
+			{
+				mem = result[i]; 
+				result[i] = result[i + 1];
+				result[i + 1] = result[i + 2];
+				result[i + 2] = mem;
+			}
+		}
+		i++;
 	}
-	cout << output; 
+	return result; 
+	*/
+	stack<char> sign;
+	stack<int> numbers;
+	char x;
+	string result;
+	int number; 
+	while (cin >> x && x!='z')
+	{
+		if (isdigit(x))
+		{
+			cin.putback(x);
+			cin >> number; 
+			result += to_string(number);
+		}
+		else
+		{
+			if  ((x == '-' || x == '+'))
+			{
+				if (sign.empty() || sign.top() == '(')
+				{
+					sign.push(x);
+				}
+				else
+				{
 
+					result += sign.top();
+					sign.pop();
+					sign.push(x);
+				}
+			}
+			else if (x == '*' || x == '/')
+			{
+				sign.push(x);
+			}
+			else if (x == '(')
+			{
+				sign.push(x);
+			}
+			else if (x == ')')
+			{
+				while (sign.empty()==false&&sign.top() != '(')
+				{
+					result += sign.top();
+					sign.pop();
+				}
+				sign.pop();
+			}
+		}
+	}
+	while (sign.empty() == false)
+	{
+		result += sign.top();
+		sign.pop();
+	}
+	return result; 
 }
 int main()
 {
-	f2();
+	cout << "result = " << f1() << endl; 
 }
