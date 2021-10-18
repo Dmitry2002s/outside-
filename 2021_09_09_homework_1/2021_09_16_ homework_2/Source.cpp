@@ -341,7 +341,7 @@ struct DList
 		tail = P.tail;
 		return P;
 		*/
-		
+		del();
 		head = copy(l.head);
 		DNode* p = head;
 		while (p->next != nullptr)
