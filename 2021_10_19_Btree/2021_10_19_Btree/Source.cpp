@@ -10,7 +10,7 @@ struct BNode
 		data(d), left(l),right(r) {}
 };
 
-void f_print(BNode* r, int d = 0)
+void f_print(BNode* r, int d = 0) // функция отображающая дерево  
 {
 	if (r == nullptr)
 	{
@@ -30,7 +30,7 @@ void cprint(BNode* r)
 
 	f_print(r);
 	cout << "---------------------------------------------" << endl;
-}
+} // функция отображения с полосками(для удобства) 
 struct BThree
 {
 	BNode* root; 
@@ -40,7 +40,7 @@ struct BThree
 		cprint(root);
 	}
 };
-BThree quest1()
+BThree quest1() // создание дерева из задания 
 {
 	BNode* p13 = new BNode(13); 
 	BNode* p7 = new BNode(7); 
@@ -53,8 +53,8 @@ BThree quest1()
 	BNode* p8 = new BNode(8, p3, p10);
 	BThree result(p8);
 	return result; 
-}
-BNode* leftmost(BNode *p)
+}      
+BNode* leftmost(BNode *p) // левейший узел 
 {
 	BNode* result = p;
 	if (p->left != nullptr)
@@ -65,7 +65,7 @@ BNode* leftmost(BNode *p)
 	{
 		return result; 
 	}
-}
+} // 
 bool branchesNot(BNode* p)
 {
 	BNode* k = p; 
@@ -88,7 +88,7 @@ bool branchesNot(BNode* p)
 		}
 		return true; 
 	}
-}
+} // функция проверающая наличие разветвлений у "веток" узла. 
 BNode* leftmost_sheet(BNode* p)
 {
 	BNode* left = p; 
@@ -102,7 +102,7 @@ BNode* leftmost_sheet(BNode* p)
 	}
 		return left;
 	
-}
+} // левейший лист 
 BNode* left2_sheet(BNode* p)
 {
 	BNode* roat = p; 
@@ -116,15 +116,20 @@ BNode* left2_sheet(BNode* p)
 	result = leftmost_sheet(second->right);
 	return result;
 	
-}
-bool del(BNode* del, BThree d)
-{
-	return 0;
-}
+}  // функция проверяет наличие веток у элемента - если они есть, 
+ // то проверяет следующий по ветке элемент(Сначала левый, в случае отсутствия - правый) на наличие веток.
+// Если веток не оказывается - то отправляет в противоположную сторону функцию левейшего листа 
+
 bool delete_leftmost(BThree d)
 {
 	BNode* del = leftmost(d.root); 
 	BNode* prev = d.root; 
+	if (del == prev)
+	{
+		delete del;
+		return true; 
+		
+	}
 	while (prev->left != del)
 	{
 		prev = prev->left; 
@@ -168,7 +173,7 @@ bool delete_leftmost_sheet(BThree d)
 	
 	return true; 
 }
-bool add_leftmost(int data,BNode* r )
+bool add_leftmost(int data,BNode* r ) 
 {
 	BNode* NEW = new BNode(data) ;
 	BNode* prev = leftmost(r);
