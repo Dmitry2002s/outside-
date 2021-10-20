@@ -180,6 +180,140 @@ bool add_leftmost(int data,BNode* r )
 	prev->left = NEW; 
 	return true; 
 }
+
+// homework 2
+bool scale(BThree d)
+{
+	BNode* r = d.root; 
+	if (r != nullptr)
+	{
+		r->data *=3; 
+	}
+	if (r->left != nullptr)
+	{
+		scale(r->left);
+	}
+	if (r->right != nullptr)
+	{
+		scale(r->right);
+	}
+	return true; 
+}
+int sum(BThree d , int result = 0)
+{
+
+	BNode* r = d.root; 
+	if (r != nullptr)
+	{
+		result = result + r->data + sum(r->right) + sum(r->left);
+		return result; 
+	}
+	else
+	{
+		return 0; 
+	}
+}
+int count_neg(BThree d, int result = 0)
+{
+	BNode* r = d.root; 
+	if (r != nullptr)
+	{
+		if (r->data < 0)
+		{
+			result += 1; 
+		}
+		result = result + count_neg(r->right) + count_neg(r->left);
+		return result;
+	}
+	else
+	{
+		return 0; 
+	}
+}
+int height(BThree d, int result = 0)
+{
+	BNode* r = d.root;
+	if (r!=nullptr)
+	{
+		result += 1; 
+		result = result += (height(r->left) > height(r->right) ? height(r->left) : (height(r->right)));
+		return result; 
+	}
+	else
+	{
+		return 0; 
+	}
+}
+bool reflect(BThree d)
+{
+	BNode* r = d.root;
+	if (r == nullptr)
+	{
+		return true; 
+	}
+	if (r->right != nullptr || r->left != nullptr)
+	{
+		BNode* l = d.root->left;
+		d.root->left = d.root->right; 
+		d.root->right = l; 
+		reflect(r->right);
+		reflect(r->left);
+	}
+	
+}
+int mult(BThree d, int result = 1)
+{
+	BNode* r = d.root;
+	if (r != nullptr)
+	{
+		(r->right != nullptr && r->left != nullptr) ? result = result * r->data : result = result; 
+		result = result *  mult(d.root->right) * (mult(d.root->left));
+		return result; 
+	}
+	else
+	{
+		return result; 
+	}
+}
+int eval(BThree d, int result = 0)
+{
+	BNode* r = d.root;
+	if (r != nullptr)
+	{
+		if (r->right != nullptr && r->left != nullptr)
+		{
+			switch (r->data)
+			{
+			case 1: result = eval(r->right) + eval(r->left); break;
+			case 2: result = eval(r->right) - eval(r->left); break;
+			case 3: result = eval(r->right) * eval(r->left); break;
+			case 4: 	if (eval(r->right) != 0 && (eval(r->left) != 0))
+			{
+				if (eval(r->right) > eval(r->left))
+				{
+					return eval(r->right) / eval(r->left);
+				}
+				else
+				{
+					return (eval(r->left) / eval(r->right));
+				}
+			}
+			}
+		}
+		else if (r->right != nullptr)
+		{
+			return eval(r->right);
+		}
+		else if (r->left != nullptr)
+		{
+			return eval(r->left);
+		}
+		else
+		{
+			return r->data;
+		}
+	}
+}
 int main()
 {
 	BNode* p6 = new BNode(6);
@@ -210,6 +344,33 @@ int main()
 	delete_leftmost_sheet(p->root);
 	p->print();
 	cout  << left2_sheet(p->root)->data;
+
+	cout << endl << endl<<  "Check homework 2" << endl;
+	p->print();
+	scale(p->root);
+	p->print(); 
+	cout << "summ p = " << sum(p->root) << endl; 
+	cout << "count_neg p = " << count_neg(p->root) << endl; 
+	BNode* s6 = new BNode(6);
+	BNode* s5 = new BNode(-5);
+	BNode* s4 = new BNode(-4);
+	BNode* s0 = new BNode(5);
+	BNode* s3 = new BNode(3, s6, s0);
+	BNode* s2 = new BNode(4, s4, s5);
+	BNode* s1 = new BNode(1, s2, s3);
+	BThree k(s1); 
+	k.print();
+	cout << "count_neg k = " << count_neg(k.root) << endl;
+	cout << "height k = " << height(k.root) << endl;
+	p->print();
+	cout << "height p = " << height(p->root) << endl;
+	reflect(*p);
+	cout << "test reflect -  " << endl; 
+	p->print();
+	cout << "test mult p " << mult(*p) << endl; 
+	k.print();
+	cout << "test mult k " << mult(k) << endl; 
+	cout << "test eval k = " << eval(k) << endl; 
 	return EXIT_SUCCESS; 
 
 }
