@@ -289,13 +289,27 @@ int eval(BThree d, int result = 0)
 			case 3: result = eval(r->right) * eval(r->left); break;
 			case 4: 	if (eval(r->right) != 0 && (eval(r->left) != 0))
 			{
-				if (eval(r->right) > eval(r->left))
+				if (eval(r->right) > 0 && eval(r->right) > 0)
 				{
-					return eval(r->right) / eval(r->left);
+					if (eval(r->right) > eval(r->left))
+					{
+						return (eval(r->right) / eval(r->left));
+					}
+					else
+					{
+						return (eval(r->left) / eval(r->right));
+					}
 				}
 				else
 				{
-					return (eval(r->left) / eval(r->right));
+					if (eval(r->right) < eval(r->left))
+					{
+						return (eval(r->right) / eval(r->left));
+					}
+					else
+					{
+						return (eval(r->left) / eval(r->right));
+					}
 				}
 			}
 			}
@@ -313,6 +327,46 @@ int eval(BThree d, int result = 0)
 			return r->data;
 		}
 	}
+}
+BNode* find(BThree d, int T)
+{
+	BNode* r = d.root; 
+	if (r->data == T)
+	{
+		return r; 
+	}
+	else
+	{
+		if (find(r->left, T) != nullptr)
+		{
+			return find(r->left, T);
+		}
+		else if (find(r->right, T) != nullptr)
+		{
+			return find(r->right, T);
+		}
+	}
+	return nullptr; 
+}
+int min(BNode *d, int result = 99999999999)
+{
+	if (d != nullptr)
+	{
+		if (result > d->data)
+		{
+			result = d->data;
+		}
+		if (result > min(d->left, result))
+		{
+			result = min(d->left, result);
+		}
+		if (result > min(d->right), result)
+		{
+			result = min(d->right, result);
+		}
+	}
+	return result; 
+
 }
 int main()
 {
@@ -371,6 +425,12 @@ int main()
 	k.print();
 	cout << "test mult k " << mult(k) << endl; 
 	cout << "test eval k = " << eval(k) << endl; 
-	return EXIT_SUCCESS; 
+	cout << "print k "; 
+	k.print();
+	cout << "test k.min = " << min(k.root) << endl; 
 
+	p->print();
+	cout << "test p.min = " << min(p->root) << endl; 
+
+	return EXIT_SUCCESS; 
 }
