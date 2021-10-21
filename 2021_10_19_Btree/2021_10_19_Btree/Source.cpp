@@ -2,6 +2,7 @@
 
 using namespace std; 
 
+
 struct BNode
 {
 	int data;
@@ -10,6 +11,7 @@ struct BNode
 		data(d), left(l),right(r) {}
 };
 
+void f_del(BNode* p);
 void f_print(BNode* r, int d = 0) // функция отображающая дерево  
 {
 	if (r == nullptr)
@@ -38,6 +40,27 @@ struct BThree
 	void print()
 	{
 		cprint(root);
+	}
+	~BThree()
+	{
+		f_del(root);
+	}
+	void del0(BNode* p )
+	{
+		BNode* r = p; 
+		if (r != nullptr)
+		{
+			if (r->data == 0)
+			{
+				f_del(r);
+			}
+			del0(p->left);
+			del0(p->right);
+		}
+		else
+		{
+
+		}
 	}
 };
 BThree quest1() // создание дерева из задания 
@@ -368,6 +391,19 @@ int min(BNode *d, int result = 99999999999)
 	return result; 
 
 }
+
+// homework 3 
+void f_del(BNode* p)
+{
+	if (p == nullptr)
+		return; 
+	f_del(p->left);
+	f_del(p->right);
+	delete p;
+	p = nullptr; 
+}
+
+
 int main()
 {
 	BNode* p6 = new BNode(6);
