@@ -163,12 +163,12 @@ bool availability(vector<double> a, double x, int& i, int& j)
 	vector<double> ::iterator p = upper_bound(a.begin(), a.end(), x);
 	if (p == a.end())
 	{
-
+		i = upper_bound(a.begin(), a.end(), x);
+		j = lower_bound(a.begin(), a.end(), x); 
 	}
 	else
 	{
-		i = p - a.begin(); 
-		j = i; 
+		i = j = find(a.begin(), a.end(), x);
 	}
 }
 
