@@ -35,24 +35,21 @@ void cprint(BNode* r)
 } // функция отображения с полосками(для удобства) 
 struct BThree
 {
-	BNode* root; 
-	BThree (BNode * p ) : root(p) {} 
-	void print()
-	{
-		cprint(root);
-	}
 	~BThree()
 	{
 		f_del(root);
 	}
-	void del0(BNode* p )
+	BNode* root; 
+	BThree (BNode * p ) : root(p) {} 
+	
+
+	void del0(BNode* p)
 	{
-		BNode* r = p; 
-		if (r != nullptr)
+		if (p != nullptr)
 		{
-			if (r->data == 0)
+			if (p->data == 0)
 			{
-				f_del(r);
+				f_del(p);
 			}
 			del0(p->left);
 			del0(p->right);
@@ -62,8 +59,13 @@ struct BThree
 
 		}
 	}
+	void print()
+	{
+		cprint(root);
+	}
+	
 };
-BThree quest1() // создание дерева из задания 
+BThree *quest1() // создание дерева из задания 
 {
 	BNode* p13 = new BNode(13); 
 	BNode* p7 = new BNode(7); 
@@ -74,9 +76,23 @@ BThree quest1() // создание дерева из задания
 	BNode* p1 = new BNode(1);
 	BNode* p3 = new BNode(3, p1, p6);
 	BNode* p8 = new BNode(8, p3, p10);
-	BThree result(p8);
+	BThree* result = new BThree(p8);
 	return result; 
-}      
+}
+BThree* quest2() // создание дерева из задания 
+{
+	BNode* p13 = new BNode(13);
+	BNode* p7 = new BNode(7);
+	BNode* p4 = new BNode(4);
+	BNode* p14 = new BNode(0, p13);
+	BNode* p10 = new BNode(10, nullptr, p14);
+	BNode* p6 = new BNode(0, p4, p7);
+	BNode* p1 = new BNode(1);
+	BNode* p3 = new BNode(0, p1, p6);
+	BNode* p8 = new BNode(8, p3, p10);
+	BThree* result = new BThree(p8);
+	return result;
+}
 BNode* leftmost(BNode *p) // левейший узел 
 {
 	BNode* result = p;
@@ -149,6 +165,7 @@ bool delete_leftmost(BThree d)
 	BNode* prev = d.root; 
 	if (del == prev)
 	{
+
 		delete del;
 		return true; 
 		
@@ -165,6 +182,7 @@ bool delete_leftmost(BThree d)
 	else
 	{
 		prev->left = del->right; 
+		delete del; 
 	}
 	return true; 
 }
@@ -399,9 +417,45 @@ void f_del(BNode* p)
 		return; 
 	f_del(p->left);
 	f_del(p->right);
-	delete p;
 	p = nullptr; 
+	delete p;
 }
+void del0(BNode* p)
+{
+	if (p != nullptr)
+	{
+		if (p->data == 0)
+		{
+			f_del(p);
+		}
+		else
+		{
+			del0(p->left);
+			del0(p->right);
+		}
+	}
+}
+void delLeaves(BNode*p)
+{
+	if (p == nullptr)
+	{
+		
+	}
+	else
+	{
+		if (p->left == nullptr && p->right == nullptr)
+		{
+			p = nullptr;
+			delete p;
+		}
+		else
+		{
+			delLeaves(p->left);
+			delLeaves(p->right);
+		}
+	}
+}
+
 
 
 int main()
@@ -415,7 +469,7 @@ int main()
 	BNode*p1 = new BNode(1 ,p2 , p3 );
 	BThree t(p1); 
 	t.print(); 
-	BThree* p = new BThree(quest1().root);
+	BThree* p = quest1();
 	cout << leftmost(p1)->data << endl; 
 	p->print();
 	cout << leftmost(p->root)->data << endl;
@@ -467,6 +521,17 @@ int main()
 
 	p->print();
 	cout << "test p.min = " << min(p->root) << endl; 
+	p->print();
+	cout << "test deleteLeaves" << endl; 
+	delLeaves(p->root);
+	p->print();
+	BThree* N = quest2();
+	N->print();
+	cout << "test del0" << endl; 
+	N->del0(N->root);
+	N->print();
+	f_del(N->root);
+	N->print();
 
 	return EXIT_SUCCESS; 
 }
