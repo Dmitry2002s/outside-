@@ -11,26 +11,39 @@ struct BNode
 		data(d), left(l),right(r) {}
 };
 
-void f_del(BNode* p);
+void f_del(BNode* &p);
 void f_print(BNode* r, int d = 0) // функция отображающая дерево  
 {
 	if (r == nullptr)
 	{
-		return; 
+		return;
 	}
-	f_print(r->right, d + 3); 
+	f_print(r->right, d + 3);
 	for (int i = 0; i < d; i++)
 	{
-		cout << " "; 
+		cout << " ";
 	}
-	cout << r->data << endl; 
-	f_print(r->left, d + 3); 
+	cout << r->data << endl;
+	f_print(r->left, d + 3);
 }
+void c_print(BNode* r)
+{
+	if (r == nullptr)
+	{
+		cout << "BThree is empty" << endl; 
+		return; 
+	}
+	else
+	{
+		f_print(r);
+	}
+}
+
 void cprint(BNode* r)
 {
 	cout << "---------------------------------------------" << endl; 
 
-	f_print(r);
+	c_print(r);
 	cout << "---------------------------------------------" << endl;
 } // функция отображения с полосками(для удобства) 
 struct BThree
@@ -43,7 +56,7 @@ struct BThree
 	BThree (BNode * p ) : root(p) {} 
 	
 
-	void del0(BNode* p)
+	void del0(BNode*& p)
 	{
 		if (p != nullptr)
 		{
@@ -51,12 +64,16 @@ struct BThree
 			{
 				f_del(p);
 			}
-			del0(p->left);
-			del0(p->right);
+			else if (p->right != nullptr)
+				del0(p->right);
+			else  if (p->left != nullptr)
+			{
+				del0(p->left);
+			}
 		}
 		else
 		{
-
+			
 		}
 	}
 	void print()
@@ -159,10 +176,10 @@ BNode* left2_sheet(BNode* p)
  // то проверяет следующий по ветке элемент(Сначала левый, в случае отсутствия - правый) на наличие веток.
 // Если веток не оказывается - то отправляет в противоположную сторону функцию левейшего листа 
 
-bool delete_leftmost(BThree d)
+bool delete_leftmost(BThree *d)
 {
-	BNode* del = leftmost(d.root); 
-	BNode* prev = d.root; 
+	BNode* del = leftmost(d->root); 
+	BNode* prev = d->root; 
 	if (del == prev)
 	{
 
@@ -186,10 +203,10 @@ bool delete_leftmost(BThree d)
 	}
 	return true; 
 }
-bool delete_leftmost_sheet(BThree d)
+bool delete_leftmost_sheet(BThree *d)
 {
-	BNode* del = leftmost_sheet(d.root);
-	BNode* prev = d.root;
+	BNode* del = leftmost_sheet(d->root);
+	BNode* prev = d->root;
 	while (prev->left != del && prev->right != del)
 	{
 		if (prev->left != nullptr)
@@ -223,9 +240,9 @@ bool add_leftmost(int data,BNode* r )
 }
 
 // homework 2
-bool scale(BThree d)
+bool scale(BNode* d)
 {
-	BNode* r = d.root; 
+	BNode* r = d; 
 	if (r != nullptr)
 	{
 		r->data *=3; 
@@ -240,10 +257,10 @@ bool scale(BThree d)
 	}
 	return true; 
 }
-int sum(BThree d , int result = 0)
+int sum(BNode* d , int result = 0)
 {
 
-	BNode* r = d.root; 
+	BNode* r = d; 
 	if (r != nullptr)
 	{
 		result = result + r->data + sum(r->right) + sum(r->left);
@@ -254,9 +271,9 @@ int sum(BThree d , int result = 0)
 		return 0; 
 	}
 }
-int count_neg(BThree d, int result = 0)
+int count_neg(BNode* d, int result = 0)
 {
-	BNode* r = d.root; 
+	BNode* r = d; 
 	if (r != nullptr)
 	{
 		if (r->data < 0)
@@ -271,9 +288,9 @@ int count_neg(BThree d, int result = 0)
 		return 0; 
 	}
 }
-int height(BThree d, int result = 0)
+int height(BNode* d, int result = 0)
 {
-	BNode* r = d.root;
+	BNode* r = d;
 	if (r!=nullptr)
 	{
 		result += 1; 
@@ -285,30 +302,30 @@ int height(BThree d, int result = 0)
 		return 0; 
 	}
 }
-bool reflect(BThree d)
+bool reflect(BNode* d)
 {
-	BNode* r = d.root;
+	BNode* r = d;
 	if (r == nullptr)
 	{
 		return true; 
 	}
 	if (r->right != nullptr || r->left != nullptr)
 	{
-		BNode* l = d.root->left;
-		d.root->left = d.root->right; 
-		d.root->right = l; 
+		BNode* l = d->left;
+		d->left = d->right; 
+		d->right = l; 
 		reflect(r->right);
 		reflect(r->left);
 	}
 	
 }
-int mult(BThree d, int result = 1)
+int mult(BNode* d, int result = 1)
 {
-	BNode* r = d.root;
+	BNode* r = d;
 	if (r != nullptr)
 	{
-		(r->right != nullptr && r->left != nullptr) ? result = result * r->data : result = result; 
-		result = result *  mult(d.root->right) * (mult(d.root->left));
+		/*(r->right != nullptr && r->left != nullptr) ?*/ result = result * r->data; /*result = result*/;
+		result = result *  mult(d->right) * (mult(d->left));
 		return result; 
 	}
 	else
@@ -316,9 +333,9 @@ int mult(BThree d, int result = 1)
 		return result; 
 	}
 }
-int eval(BThree d, int result = 0)
+int eval(BNode* d, int result = 0)
 {
-	BNode* r = d.root;
+	BNode* r = d;
 	if (r != nullptr)
 	{
 		if (r->right != nullptr && r->left != nullptr)
@@ -411,7 +428,7 @@ int min(BNode *d, int result = 99999999999)
 }
 
 // homework 3 
-void f_del(BNode* p)
+void f_del(BNode* &p)
 {
 	if (p == nullptr)
 		return; 
@@ -420,22 +437,33 @@ void f_del(BNode* p)
 	p = nullptr; 
 	delete p;
 }
-void del0(BNode* p)
+void del0(BNode* &p)
 {
-	if (p != nullptr)
+	if (p == nullptr)
+	{
+		
+
+	}
+	else
 	{
 		if (p->data == 0)
 		{
 			f_del(p);
+			return;
 		}
-		else
-		{
-			del0(p->left);
-			del0(p->right);
+		else {
+			if (p->right != nullptr)
+			{
+				del0(p->right);
+			}
+			if (p->left != nullptr)
+			{
+				del0(p->left);
+			}
 		}
 	}
 }
-void delLeaves(BNode*p)
+void delLeaves(BNode* &p)
 {
 	if (p == nullptr)
 	{
@@ -455,8 +483,36 @@ void delLeaves(BNode*p)
 		}
 	}
 }
-
-
+void enlarge(BNode*& p,int d )
+{
+	if (p == nullptr)
+	{
+		BNode* k = new BNode(d);
+		p = k; 
+	}
+	else 
+	{
+		enlarge(p->left,d );
+		enlarge(p->right, d );
+	}
+}
+void dell(BNode*& p)
+{
+	if (p == nullptr)
+	{
+		return; 
+	}
+	else
+	{
+		if (p->data == 1)
+		{
+			while (p->left != nullptr)
+			{
+				
+			}
+		}
+	}
+}
 
 int main()
 {
@@ -473,19 +529,19 @@ int main()
 	cout << leftmost(p1)->data << endl; 
 	p->print();
 	cout << leftmost(p->root)->data << endl;
-	delete_leftmost(p->root); 
+	delete_leftmost(p); 
 	p->print();
 	cout << " test leftmost_sheet " << leftmost_sheet(p->root)->data << endl; 
 	add_leftmost(123, p->root);
 	cout << "test add_leftmost" << endl; 
 	p->print();
-	cout << " test leftmost_sheet " << leftmost_sheet(p->root)->data << endl; 
-	cout << "test delete_leftmost_sheet"; 
-	delete_leftmost_sheet(p->root);
+	cout << " test leftmost_sheet = " << leftmost_sheet(p->root)->data << endl; 
+	cout << "test delete_leftmost_sheet" << endl; 
+	delete_leftmost_sheet(p);
 	p->print();
-	delete_leftmost_sheet(p->root);
+	delete_leftmost_sheet(p);
 	p->print();
-	delete_leftmost_sheet(p->root);
+	delete_leftmost_sheet(p);	
 	p->print();
 	cout  << left2_sheet(p->root)->data;
 
@@ -495,6 +551,7 @@ int main()
 	p->print(); 
 	cout << "summ p = " << sum(p->root) << endl; 
 	cout << "count_neg p = " << count_neg(p->root) << endl; 
+	p->print();
 	BNode* s6 = new BNode(6);
 	BNode* s5 = new BNode(-5);
 	BNode* s4 = new BNode(-4);
@@ -508,30 +565,41 @@ int main()
 	cout << "height k = " << height(k.root) << endl;
 	p->print();
 	cout << "height p = " << height(p->root) << endl;
-	reflect(*p);
+	reflect(p->root);
 	cout << "test reflect -  " << endl; 
 	p->print();
-	cout << "test mult p " << mult(*p) << endl; 
+	cout << "test mult p " << mult(p->root) << endl; 
+	p->print();
 	k.print();
-	cout << "test mult k " << mult(k) << endl; 
-	cout << "test eval k = " << eval(k) << endl; 
+	cout << "test mult k " << mult(k.root) << endl; 
+	cout << "test eval k = " << eval(k.root) << endl; 
 	cout << "print k "; 
 	k.print();
 	cout << "test k.min = " << min(k.root) << endl; 
-
+	k.print();
 	p->print();
 	cout << "test p.min = " << min(p->root) << endl; 
 	p->print();
 	cout << "test deleteLeaves" << endl; 
 	delLeaves(p->root);
 	p->print();
-	BThree* N = quest2();
+	BThree *N = quest2();
 	N->print();
 	cout << "test del0" << endl; 
-	N->del0(N->root);
+	del0(N->root);
 	N->print();
 	f_del(N->root);
 	N->print();
+	enlarge(N->root, 123);
+	N->print();
 
+	enlarge(N->root, 123);
+	N->print();
+
+	enlarge(N->root, 123);
+	N->print();
+	p->print();
+	enlarge(p->root, 123);
+	p->print();
 	return EXIT_SUCCESS; 
 }
