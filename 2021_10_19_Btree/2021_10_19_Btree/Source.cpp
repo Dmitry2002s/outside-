@@ -502,16 +502,44 @@ void dell(BNode*& p)
 	{
 		return; 
 	}
+	else if (p->data == 1)
+	{
+		f_del(p);
+	}
 	else
 	{
-		if (p->data == 1)
+		if(p->left !=nullptr)
+		if (p->left->data == 1)
 		{
-			while (p->left != nullptr)
-			{
-				
-			}
+			f_del(p->left->left);
+			BNode* k = p->left; 
+			p->left = k->right; 
+			k = nullptr;
+			delete k; 
 		}
+		if(p->right!=nullptr)
+		if (p->right->data == 1)
+		{
+			f_del(p->right->left);
+			BNode* k = p->right;
+			p->right = k->right;
+			k = nullptr;
+			delete k;
+		}
+		dell(p->right);
+		dell(p->left);
 	}
+}
+int sum_alt(BNode* p,int result = 0)
+{
+	if (p != nullptr)
+	{
+		if(p->right !=nullptr)
+		result += p->right->data + sum_alt(p->right);
+		if (p->left != nullptr)
+			result -= p->left->data + sum_alt(p->left);
+	}
+	return result; 
 }
 
 int main()
@@ -519,10 +547,10 @@ int main()
 	BNode* p6 = new BNode(6);
 	BNode*p5 = new BNode(5);
 	BNode*p4 = new BNode(4);
-	BNode* p0 = new BNode(0);
+	BNode* p0 = new BNode(1);
 	BNode*p3 = new BNode(3 , p6 , p0 );
-	BNode*p2 = new BNode(2 , p4 , p5 );
-	BNode*p1 = new BNode(1 ,p2 , p3 );
+	BNode*p2 = new BNode(1 , p4 , p5 );
+	BNode*p1 = new BNode(3 ,p2 , p3 );
 	BThree t(p1); 
 	t.print(); 
 	BThree* p = quest1();
@@ -601,5 +629,13 @@ int main()
 	p->print();
 	enlarge(p->root, 123);
 	p->print();
+	t.print();
+	dell(t.root);
+	t.print();
+	cout << "sum alt = " << sum_alt(t.root) << endl; 
+	p->print();
+	cout << "sum alt = " << sum_alt(p->root) << endl;
+	N->print();
+	cout << "sum alt = " << sum_alt(N->root) << endl;
 	return EXIT_SUCCESS; 
 }
