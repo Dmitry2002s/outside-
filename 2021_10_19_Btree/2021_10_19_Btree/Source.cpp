@@ -300,7 +300,7 @@ int eval(BThree d, int result = 0)
 			}
 			}
 		}
-		else if (r->right != nullptr)
+		else if (r->right != nul
 		{
 			return eval(r->right);
 		}
