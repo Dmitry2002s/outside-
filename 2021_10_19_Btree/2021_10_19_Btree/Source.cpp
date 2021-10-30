@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <Stack>
 using namespace std; 
 
 
@@ -372,7 +372,7 @@ int eval(BNode* d, int result = 0)
 			}
 			}
 		}
-		else if (r->right != nul
+		else if (r->right != nullptr)
 		{
 			return eval(r->right);
 		}
@@ -406,7 +406,7 @@ BNode* find(BThree d, int T)
 	}
 	return nullptr; 
 }
-int min(BNode *d, int result = 99999999999)
+int min(BNode *d, int result = INT_MAX)
 {
 	if (d != nullptr)
 	{
@@ -541,7 +541,120 @@ int sum_alt(BNode* p,int result = 0)
 	}
 	return result; 
 }
+//homework 4 
+BNode* searchRe(BNode* p, int data)
+{
+	if (p != nullptr)
+	{
+		if (p->data == data)
+		{
+			return p;
+		}
+		else
+		{
+			if (searchRe(p->left, data) != nullptr)
+				return searchRe(p->left, data);
+			if (searchRe(p->right, data) != nullptr)
+				return searchRe(p->right, data);
 
+		}
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+BNode* searchCy(BNode* p, int data)
+{
+	stack <BNode*> stack;
+
+	BNode* check = p;
+	if (p != nullptr)
+	{
+		stack.push(p);
+	}
+	else
+	{
+
+	}
+	while (!stack.empty())
+	{
+		check = stack.top();
+		if (check->data == data)
+		{
+			return check;
+		}
+		stack.pop();
+		if (check->left != nullptr)
+			stack.push(check->left);
+
+		if (check->right != nullptr)
+			stack.push(check->right);
+
+	}
+	return nullptr;
+}
+bool addRe(BNode* p, int data)
+{
+	if (p != nullptr)
+	{
+		if (p->data < data)
+		{
+			addRe(p->right, data);
+		}
+		else if (p->data == data)
+		{
+			return false; 
+		}
+		else
+		{
+			addRe(p->left, data);
+		}
+	}
+	else
+	{
+		p->data = data; 
+	}
+
+}
+bool addCy(BNode* p, int data)
+{
+	stack<BNode*> stack;  
+	BNode* check = p; 
+	if (check != nullptr)
+	{
+		stack.push(check);
+	}
+	while (!stack.empty())
+	{
+		check = stack.top();
+		stack.pop();
+		if (check->data == data)
+		{
+			return false ; 
+		}
+		else if (check->data < data)
+		{
+			if (check->right != nullptr)
+				stack.push(check->right);
+			else
+			{
+				check->right =new BNode(data);
+				return true; 
+			}
+		}
+		else
+		{
+			if (check->left != nullptr)
+				stack.push(check->left);
+			else
+			{
+				check->left = new BNode(data);
+				return true;
+			}
+		}
+	}
+}
 int main()
 {
 	BNode* p6 = new BNode(6);
@@ -637,5 +750,18 @@ int main()
 	cout << "sum alt = " << sum_alt(p->root) << endl;
 	N->print();
 	cout << "sum alt = " << sum_alt(N->root) << endl;
+	BNode* r7 = new BNode(50);
+	BNode* r3 = new BNode(10);
+	BNode* r2 = new BNode(25,r3,r7);
+	BNode* r5 = new BNode(130);
+	BNode* r6 = new BNode(120);
+	BNode* r4 = new BNode(125,r6,r5);
+	BNode* r1 = new BNode(100,r2,r4);
+	BThree t1(r1);
+	t1.print();
+	addCy(r1, 27);
+	t1.print();
+	addCy(r1, 999);
+	t1.print();
 	return EXIT_SUCCESS; 
 }
