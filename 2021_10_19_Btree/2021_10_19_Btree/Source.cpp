@@ -176,10 +176,10 @@ BNode* left2_sheet(BNode* p)
  // то проверяет следующий по ветке элемент(Сначала левый, в случае отсутствия - правый) на наличие веток.
 // Если веток не оказывается - то отправляет в противоположную сторону функцию левейшего листа 
 
-bool delete_leftmost(BThree *d)
+bool delete_leftmost(BNode *d)
 {
-	BNode* del = leftmost(d->root); 
-	BNode* prev = d->root; 
+	BNode* del = leftmost(d); 
+	BNode* prev = d; 
 	if (del == prev)
 	{
 
@@ -386,9 +386,13 @@ int eval(BNode* d, int result = 0)
 		}
 	}
 }
-BNode* find(BThree d, int T)
+BNode* find(BNode* d, int T)
 {
-	BNode* r = d.root; 
+	BNode* r = d;
+	if (r == nullptr)
+	{
+		return nullptr; 
+	}
 	if (r->data == T)
 	{
 		return r; 
@@ -655,6 +659,84 @@ bool addCy(BNode* p, int data)
 		}
 	}
 }
+//homework 5 
+BNode* prefind(BNode* p, int data) // return element prev data
+{
+	BNode* r = p;
+	if (r == nullptr)
+	{
+		return nullptr; 
+	}
+	if (r->left != nullptr || r->left->data == data)
+	{
+		return r; 
+	}
+	if (r->right != nullptr || r->right->data == data)
+	{
+		return r;
+	}
+	else
+	{
+		if (prefind(r->left, data) != nullptr)
+		{
+			return prefind(r->left, data);
+		}
+		else if (prefind(r->right, data) != nullptr)
+		{
+			return prefind(r->right, data);
+		}
+	}
+	return nullptr;
+}
+bool del(BNode* p, int data)
+{
+	BNode* element = find(p, data);
+	BNode* preElement = prefind(p, data);
+	if (element == nullptr)
+	{
+		return false; 
+	}
+	else
+	{
+		if (element->left == nullptr && element->right != nullptr)
+		{
+			element->data = element->right->data; 
+			BNode* p = element->right; 
+			element->right = p->right; 
+			delete p; 
+		}
+		if (element->left != nullptr && element->right == nullptr)
+		{
+			element->data = element->left->data; 
+			BNode* left = element->left; 
+			element->left = left->left; 
+			element -> right = left->right;
+			delete left; 
+		}
+		if (element->left == nullptr && element->right == nullptr)
+		{
+			if (preElement->right == element)
+			{
+				preElement->right = nullptr;
+				delete element; 
+			}
+			else 			
+			{
+				preElement->left = nullptr;
+				delete element;
+			}
+		}
+		if (element->right != nullptr && element->left !=nullptr)
+		{
+			element->data = leftmost(element->right)->data; 
+			delete_leftmost(element->right); 
+		}
+		return true; 
+	}
+
+	
+}
+
 int main()
 {
 	BNode* p6 = new BNode(6);
@@ -670,7 +752,7 @@ int main()
 	cout << leftmost(p1)->data << endl; 
 	p->print();
 	cout << leftmost(p->root)->data << endl;
-	delete_leftmost(p); 
+	delete_leftmost(p->root); 
 	p->print();
 	cout << " test leftmost_sheet " << leftmost_sheet(p->root)->data << endl; 
 	add_leftmost(123, p->root);
@@ -762,6 +844,8 @@ int main()
 	addCy(r1, 27);
 	t1.print();
 	addCy(r1, 999);
+	t1.print();
+	del(t1.root, 999);
 	t1.print();
 	return EXIT_SUCCESS; 
 }
