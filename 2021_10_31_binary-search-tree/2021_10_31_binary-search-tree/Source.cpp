@@ -269,7 +269,7 @@ BNode* prefind(BNode* p, int data)
 		}
 	
 }
-bool del(BNode* r)
+bool del(BNode*& r)
 {
 	if (r == nullptr)
 	{
@@ -284,7 +284,7 @@ bool del(BNode* r)
 			BNode* prev = prefind(r->right, left->data);
 			prev->left = left->right; 
 			left = nullptr;
-			delete left; 
+			
 
 		}
 		else if (r->left == nullptr && r->right != nullptr)
@@ -299,7 +299,7 @@ bool del(BNode* r)
 				BNode* p = r->right; 
 				r->right = p -> right; 
 				r->left = p->left; 
-				delete p; 
+				p = nullptr;
 			}
 			
 		}
@@ -309,13 +309,13 @@ bool del(BNode* r)
 			BNode* p = r->left; 
 			r->left = p->left; 
 			r->right = p->right; 
-			delete p; 
+			p = nullptr;
 		}
 		else if (r->right == nullptr && r->left == nullptr)
 		{
 			r = nullptr ;
-			delete r;
 		}
+		return true; 
 	}
 }
 
@@ -342,12 +342,9 @@ int main()
 	addRe(r4, 43);
 	addRe(r4, 1);
 	t1->print();
-	del(find(r4, 1));
+	del(r4);
 	t1->print();
-
-	del(find(r4, 73));
-	t1->print();
-	del(find(r4, 70));
+	del(r7);
 	t1->print();
 	del(r6);
 	t1->print();
