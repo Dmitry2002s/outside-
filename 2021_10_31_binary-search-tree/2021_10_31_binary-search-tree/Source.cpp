@@ -1,6 +1,6 @@
 ﻿#include<iostream>
 #include<stack>
-using namespace std; 
+using namespace std;
 struct BNode
 {
 	int data;
@@ -86,15 +86,15 @@ struct BThree
 	}
 
 };
-BNode* find(BNode* r, int data)
+BNode*& find(BNode* &r, int data)
 {
 	if (r == nullptr)
 	{
-		return nullptr; 
+		return r;
 	}
 	else if (r->data == data)
 	{
-		return r; 
+		return r;
 	}
 	else if (data < r->data)
 	{
@@ -157,7 +157,7 @@ BNode* searchCy(BNode* p, int data)
 	}
 	return nullptr;
 }
-bool addRe(BNode* &p, int data)
+bool addRe(BNode*& p, int data)
 {
 	if (p != nullptr)
 	{
@@ -176,11 +176,11 @@ bool addRe(BNode* &p, int data)
 	}
 	else
 	{
-		p =new BNode ( data) ;
+		p = new BNode(data);
 	}
 
 }
-bool addCy(BNode* p, int data)
+bool addCy(BNode* &p, int data)
 {
 	stack<BNode*> stack;
 	BNode* check = p;
@@ -222,54 +222,54 @@ BNode* leftmost(BNode* p)
 {
 	if (p == nullptr)
 	{
-		return nullptr;
+		return p;
 	}
 	else
 	{
 		if (p->left == nullptr)
 		{
-			return p; 
+			return p;
 		}
 		else {
 			return leftmost(p->left);
 		}
 	}
 }
-BNode* prefind(BNode* p, int data)
+BNode*  prefind(BNode* p, int data)
 {
-	
-		if (p != nullptr)
-		{
-			if (p->left != nullptr)
-			{
-				if (p->left->data == data)
-				{
-					return p;
-				}
-			}
-			else if (p->right != nullptr)
-			{
-				if (p->right->data == data)
-				{
-					return p; 
-				}
-			}
-			else
-			{
-				if (searchRe(p->left, data) != nullptr)
-					return searchRe(p->left, data);
-				if (searchRe(p->right, data) != nullptr)
-					return searchRe(p->right, data);
 
+	if (p != nullptr)
+	{
+		if (p->left != nullptr)
+		{
+			if (p->left->data == data)
+			{
+				return p;
+			}
+		}
+		else if (p->right != nullptr)
+		{
+			if (p->right->data == data)
+			{
+				return p;
 			}
 		}
 		else
 		{
-			return nullptr;
+			if (searchRe(p->left, data) != nullptr)
+				return searchRe(p->left, data);
+			if (searchRe(p->right, data) != nullptr)
+				return searchRe(p->right, data);
+
 		}
-	
+	}
+	else
+	{
+		return nullptr;
+	}
+
 }
-bool del(BNode*& r)
+bool del(BNode* & r)
 {
 	if (r == nullptr)
 	{
@@ -279,43 +279,45 @@ bool del(BNode*& r)
 	{
 		if (r->left != nullptr && r->right != nullptr)
 		{
-			BNode* left = leftmost(r->right);
-			r->data = left->data; 
-			BNode* prev = prefind(r->right, left->data);
-			prev->left = left->right; 
-			left = nullptr;
 			
+			BNode* left = leftmost(r->right);
+			r->data = left->data;
+			BNode* prev = prefind(r->right, left->data);
+			
+			prev->left = left->right;
+			left = nullptr;
+
 
 		}
 		else if (r->left == nullptr && r->right != nullptr)
 		{
 			if (r->right == nullptr)
 			{
-				r = nullptr; 
+				r = nullptr;
 			}
 			else
 			{
-				r->data = r->right->data; 
-				BNode* p = r->right; 
-				r->right = p -> right; 
-				r->left = p->left; 
+				r->data = r->right->data;
+				BNode* p = r->right;
+				r->right = p->right;
+				r->left = p->left;
 				p = nullptr;
 			}
-			
+
 		}
 		else if (r->right == nullptr && r->left != nullptr)
 		{
-			r->data = r->left->data; 
-			BNode* p = r->left; 
-			r->left = p->left; 
-			r->right = p->right; 
+			r->data = r->left->data;
+			BNode* p = r->left;
+			r->left = p->left;
+			r->right = p->right;
 			p = nullptr;
 		}
 		else if (r->right == nullptr && r->left == nullptr)
 		{
-			r = nullptr ;
+			r = nullptr;
 		}
-		return true; 
+		return true;
 	}
 }
 
@@ -323,14 +325,14 @@ int main()
 {
 	BNode* r1 = new BNode(10);
 	BNode* r6 = new BNode(60);
-	BNode* r7 = new BNode(70,r6,nullptr);
-	BNode* r5 = new BNode(50,nullptr,r7);
+	BNode* r7 = new BNode(70, r6, nullptr);
+	BNode* r5 = new BNode(50, nullptr, r7);
 	BNode* r2 = new BNode(30);
-	BNode* r3 = new BNode(20,r1,r2);
-	BNode* r4 = new BNode(40,r3,r5);
+	BNode* r3 = new BNode(20, r1, r2);
+	BNode* r4 = new BNode(40, r3, r5);
 	BThree* t1 = new BThree(r4);
 	t1->print();
-	cout << find(r4, 30)->data; 
+	cout << find(r4, 30)->data;
 	addRe(r4, 123);
 	addRe(r4, 73);
 	addRe(r4, 83);
@@ -347,5 +349,10 @@ int main()
 	del(r7);
 	t1->print();
 	del(r6);
+	cout << "TEST" << endl;
+	t1->print();
+	del(find(r4, 1));
+	del(find(r4, 60));
+
 	t1->print();
 }
