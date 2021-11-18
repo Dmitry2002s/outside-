@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stack>
+#include <Stack>
 using namespace std; 
 
 
@@ -176,10 +176,10 @@ BNode* left2_sheet(BNode* p)
  // то проверяет следующий по ветке элемент(Сначала левый, в случае отсутствия - правый) на наличие веток.
 // Если веток не оказывается - то отправляет в противоположную сторону функцию левейшего листа 
 
-bool delete_leftmost(BThree *d)
+bool delete_leftmost(BNode *d)
 {
-	BNode* del = leftmost(d->root); 
-	BNode* prev = d->root; 
+	BNode* del = leftmost(d); 
+	BNode* prev = d; 
 	if (del == prev)
 	{
 
@@ -386,9 +386,13 @@ int eval(BNode* d, int result = 0)
 		}
 	}
 }
-BNode* find(BThree d, int T)
+BNode* find(BNode* d, int T)
 {
-	BNode* r = d.root; 
+	BNode* r = d;
+	if (r == nullptr)
+	{
+		return nullptr; 
+	}
 	if (r->data == T)
 	{
 		return r; 
@@ -406,7 +410,7 @@ BNode* find(BThree d, int T)
 	}
 	return nullptr; 
 }
-int min(BNode *d, int result = 99999999999)
+int min(BNode *d, int result = INT_MAX)
 {
 	if (d != nullptr)
 	{
@@ -541,7 +545,6 @@ int sum_alt(BNode* p,int result = 0)
 	}
 	return result; 
 }
-
 //homework 4 
 BNode* searchRe(BNode* p, int data)
 {
@@ -549,15 +552,15 @@ BNode* searchRe(BNode* p, int data)
 	{
 		if (p->data == data)
 		{
-			return p; 
+			return p;
 		}
 		else
 		{
-			if(	searchRe(p->left, data)!=nullptr)
+			if (searchRe(p->left, data) != nullptr)
 				return searchRe(p->left, data);
 			if (searchRe(p->right, data) != nullptr)
 				return searchRe(p->right, data);
-			
+
 		}
 	}
 	else
@@ -567,9 +570,9 @@ BNode* searchRe(BNode* p, int data)
 }
 BNode* searchCy(BNode* p, int data)
 {
-	stack <BNode*> stack; 
-	
-	BNode* check = p; 
+	stack <BNode*> stack;
+
+	BNode* check = p;
 	if (p != nullptr)
 	{
 		stack.push(p);
@@ -593,9 +596,146 @@ BNode* searchCy(BNode* p, int data)
 			stack.push(check->right);
 
 	}
-	return nullptr; 
-}	
+	return nullptr;
+}
+bool addRe(BNode* p, int data)
+{
+	if (p != nullptr)
+	{
+		if (p->data < data)
+		{
+			addRe(p->right, data);
+		}
+		else if (p->data == data)
+		{
+			return false; 
+		}
+		else
+		{
+			addRe(p->left, data);
+		}
+	}
+	else
+	{
+		p->data = data; 
+	}
 
+}
+bool addCy(BNode* p, int data)
+{
+	stack<BNode*> stack;  
+	BNode* check = p; 
+	if (check != nullptr)
+	{
+		stack.push(check);
+	}
+	while (!stack.empty())
+	{
+		check = stack.top();
+		stack.pop();
+		if (check->data == data)
+		{
+			return false ; 
+		}
+		else if (check->data < data)
+		{
+			if (check->right != nullptr)
+				stack.push(check->right);
+			else
+			{
+				check->right =new BNode(data);
+				return true; 
+			}
+		}
+		else
+		{
+			if (check->left != nullptr)
+				stack.push(check->left);
+			else
+			{
+				check->left = new BNode(data);
+				return true;
+			}
+		}
+	}
+}
+//homework 5 
+BNode* prefind(BNode* p, int data) // return element prev data
+{
+	BNode* r = p;
+	if (r == nullptr)
+	{
+		return nullptr; 
+	}
+	if (r->left != nullptr || r->left->data == data)
+	{
+		return r; 
+	}
+	if (r->right != nullptr || r->right->data == data)
+	{
+		return r;
+	}
+	else
+	{
+		if (prefind(r->left, data) != nullptr)
+		{
+			return prefind(r->left, data);
+		}
+		else if (prefind(r->right, data) != nullptr)
+		{
+			return prefind(r->right, data);
+		}
+	}
+	return nullptr;
+}
+bool del(BNode* p, int data)
+{
+	BNode* element = find(p, data);
+	BNode* preElement = prefind(p, data);
+	if (element == nullptr)
+	{
+		return false; 
+	}
+	else
+	{
+		if (element->left == nullptr && element->right != nullptr)
+		{
+			element->data = element->right->data; 
+			BNode* p = element->right; 
+			element->right = p->right; 
+			delete p; 
+		}
+		if (element->left != nullptr && element->right == nullptr)
+		{
+			element->data = element->left->data; 
+			BNode* left = element->left; 
+			element->left = left->left; 
+			element -> right = left->right;
+			delete left; 
+		}
+		if (element->left == nullptr && element->right == nullptr)
+		{
+			if (preElement->right == element)
+			{
+				preElement->right = nullptr;
+				delete element; 
+			}
+			else 			
+			{
+				preElement->left = nullptr;
+				delete element;
+			}
+		}
+		if (element->right != nullptr && element->left !=nullptr)
+		{
+			element->data = leftmost(element->right)->data; 
+			delete_leftmost(element->right); 
+		}
+		return true; 
+	}
+
+	
+}
 
 int main()
 {
@@ -612,7 +752,7 @@ int main()
 	cout << leftmost(p1)->data << endl; 
 	p->print();
 	cout << leftmost(p->root)->data << endl;
-	delete_leftmost(p); 
+	delete_leftmost(p->root); 
 	p->print();
 	cout << " test leftmost_sheet " << leftmost_sheet(p->root)->data << endl; 
 	add_leftmost(123, p->root);
@@ -692,5 +832,20 @@ int main()
 	cout << "sum alt = " << sum_alt(p->root) << endl;
 	N->print();
 	cout << "sum alt = " << sum_alt(N->root) << endl;
+	BNode* r7 = new BNode(50);
+	BNode* r3 = new BNode(10);
+	BNode* r2 = new BNode(25,r3,r7);
+	BNode* r5 = new BNode(130);
+	BNode* r6 = new BNode(120);
+	BNode* r4 = new BNode(125,r6,r5);
+	BNode* r1 = new BNode(100,r2,r4);
+	BThree t1(r1);
+	t1.print();
+	addCy(r1, 27);
+	t1.print();
+	addCy(r1, 999);
+	t1.print();
+	del(t1.root, 999);
+	t1.print();
 	return EXIT_SUCCESS; 
 }
