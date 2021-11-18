@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <stack>
 using namespace std; 
 
 
@@ -541,6 +541,61 @@ int sum_alt(BNode* p,int result = 0)
 	}
 	return result; 
 }
+
+//homework 4 
+BNode* searchRe(BNode* p, int data)
+{
+	if (p != nullptr)
+	{
+		if (p->data == data)
+		{
+			return p; 
+		}
+		else
+		{
+			if(	searchRe(p->left, data)!=nullptr)
+				return searchRe(p->left, data);
+			if (searchRe(p->right, data) != nullptr)
+				return searchRe(p->right, data);
+			
+		}
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+BNode* searchCy(BNode* p, int data)
+{
+	stack <BNode*> stack; 
+	
+	BNode* check = p; 
+	if (p != nullptr)
+	{
+		stack.push(p);
+	}
+	else
+	{
+
+	}
+	while (!stack.empty())
+	{
+		check = stack.top();
+		if (check->data == data)
+		{
+			return check;
+		}
+		stack.pop();
+		if (check->left != nullptr)
+			stack.push(check->left);
+
+		if (check->right != nullptr)
+			stack.push(check->right);
+
+	}
+	return nullptr; 
+}	
+
 
 int main()
 {
