@@ -28,6 +28,13 @@ bool check(string* square)
 		return true; 
 	return false; 
 }
+int sign(int a)
+{
+	if (a > 0)
+		return 1;
+	else
+		return -1; 
+}
 
 bool insert_I(string*& square, int i , int j, bool turn , bool del) // i - Строка , j - столбец 
 {
@@ -63,44 +70,43 @@ bool insert_I(string*& square, int i , int j, bool turn , bool del) // i - Строк
 		
 	}
 }
+// подумать над объединением поворотов.  // объединены 0 и 180 можно ли объединить их с 90 и 270 
 
-bool insert_L_0(string*& square, int i, int j) // передаётся координата конца хвоста 
-{
-	for (int k = 0; k < 4; k++)
+bool insert_L_0(string*& square, int i, int j,bool reverse,  bool turn , bool del) // передаётся координата конца хвоста 
+{ // каким образом объединить поворот на 180 и 0 градусов ? 
+	int p = 1; 
+	if (turn == true)
+		p = -1;
+	char insert = '_';
+	char extract = 'L';
+	if (del == true)
 	{
-		if (square[i + k][j] != '_') 
+		insert = 'L';
+		extract = '_';
+	}
+	int rev = 1; 
+	if (reverse == true)
+		rev = -1; 
+	int i_or = i; 
+	for (int k = 0 ; k < 4; k++)
+	{
+		if (square[i][j] != insert)
 		{
 			return false; 
 		}
+		i += rev; 
 	}
-	if (square[i+3][j + 1] != '_')
+	if (square[i][j + p] != insert)
 	{
 		return false; 
 	}
+	i = i_or;
 	for (int k = 0; k < 4; k++)
 	{
-		(square[i + k][j] = 'L');
+		(square[i][j] = extract);
+		i += rev;
 	}
-	(square[i+3][j + 1] = 'L');
-}
-bool insert_L_0_turn(string*& square, int i, int j) // передаётся координата конца хвоста 
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i + k][j] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i + 3][j - 1] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i + k][j] = 'L');
-	}
-	(square[i + 3][j - 1] = 'L');
+	(square[i-rev][j + p] = extract);
 }
 bool insert_L_90_turn(string*& square, int i, int j)
 {
@@ -122,45 +128,42 @@ bool insert_L_90_turn(string*& square, int i, int j)
 	(square[i + 1][j + 3] = 'L');
 
 }
-bool insert_L_90(string*& square, int i, int j)
+bool insert_L_90(string*& square, int i, int j, bool reverse , bool turn , bool del)
 {
-	for (int k = 0; k < 4; k++)
+	int p = 1;
+	if (turn == true)
+		p = -1;
+	char insert = '_';
+	char extract = 'L';
+	if (del == true)
 	{
-		if (square[i][j + k] != '_')
-		{
-			return false;
-		}
+		insert = 'L';
+		extract = '_';
 	}
-	if (square[i - 1][j + 3] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i][j + k] = 'L');
-	}
-	(square[i - 1][j + 3] = 'L');
+	int rev = 1;
+	if (reverse == true) // разобраться с reverse 
+		rev = -1;
+	int j_or = j;
 
-}
-bool insert_L_180(string*& square, int i, int j)
-{
 	for (int k = 0; k < 4; k++)
 	{
-		if (square[i - k][j] != '_')
+		if (square[i][j + rev] != extract)
 		{
 			return false;
 		}
+		j += rev; 
 	}
-	if (square[i - 3][j - 1] != '_')
+	if (square[i-rev][j] != extract)
 	{
 		return false;
 	}
+	j = j_or; 
 	for (int k = 0; k < 4; k++)
 	{
-		square[i - k][j] = 'L';
+		(square[i][j + rev] = insert);
+		j += rev; 
 	}
-	square[i - 3][j - 1] = 'L';
-	
+	(square[i-rev][j] = insert);
 }
 bool insert_L_180_turn(string*& square, int i, int j)
 {
@@ -1163,15 +1166,11 @@ int main()
 	print(square);
 	if(!check(square))
 		return EXIT_FAILURE;
-	insert_I(square, 1, 1, false, false);
+	insert_L_90(square, 5, 5,true , true, false);
+
+	insert_L_90(square, 5, 5, true, true, true);
 	print(square);
 
-	insert_I(square, 1, 1, false, true);
-	print(square);
-	insert_I(square, 1, 1, true, false);
-	print(square);
-	insert_I(square, 1, 1, true, true);
-	print(square);
 	return EXIT_SUCCESS;
 	
 }
