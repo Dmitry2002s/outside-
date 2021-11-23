@@ -36,7 +36,7 @@ int sign(int a)
 		return -1; 
 }
 
-bool insert_I(string*& square, int i , int j, bool turn , bool del) // i - Строка , j - столбец 
+bool insert_I(string*& square, int i, int j, bool reverse, bool turn, bool del) // i - Строка , j - столбец 
 {
 	int p = 0;
 	int n = 0; 
@@ -69,6 +69,7 @@ bool insert_I(string*& square, int i , int j, bool turn , bool del) // i - Строк
 		square[i][j] = insert;
 		
 	}
+	return true; 
 }
 // подумать над объединением поворотов.  // объединены 0 и 180 можно ли объединить их с 90 и 270 
 
@@ -96,7 +97,7 @@ bool insert_L_0(string*& square, int i, int j,bool reverse,  bool turn , bool de
 		}
 		i += rev; 
 	}
-	if (square[i][j + p] != insert)
+	if (square[i-rev][j + p] != insert)
 	{
 		return false; 
 	}
@@ -107,26 +108,7 @@ bool insert_L_0(string*& square, int i, int j,bool reverse,  bool turn , bool de
 		i += rev;
 	}
 	(square[i-rev][j + p] = extract);
-}
-bool insert_L_90_turn(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i][j+k] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i + 1][j + 3] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i][j+k] = 'L');
-	}
-	(square[i + 1][j + 3] = 'L');
-
+	return true; 
 }
 bool insert_L_90(string*& square, int i, int j, bool reverse , bool turn , bool del)
 {
@@ -147,7 +129,7 @@ bool insert_L_90(string*& square, int i, int j, bool reverse , bool turn , bool 
 
 	for (int k = 0; k < 4; k++)
 	{
-		if (square[i][j + rev] != extract)
+		if (square[i][j + rev] != insert)
 		{
 			return false;
 		}
@@ -164,520 +146,239 @@ bool insert_L_90(string*& square, int i, int j, bool reverse , bool turn , bool 
 		j += rev; 
 	}
 	(square[i-rev][j] = insert);
-}
-bool insert_L_180_turn(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i - k][j] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i - 3][j + 1] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		square[i - k][j] = 'L';
-	}
-	square[i - 3][j + 1] = 'L';
-
-}
-bool insert_L_270_turn(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i][j - k] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i - 1][j - 3] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i][j - k] = 'L');
-	}
-	(square[i - 1][j - 3] = 'L');
-
-}
-bool insert_L_270(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i][j-k] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i + 1][j - 3] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i][j - k] = 'L');
-	}
-	(square[i + 1][j - 3] = 'L');
-
+	return true;
 }
 
-bool insert_Y(string*& square, int i, int j)
+
+bool insert_Y(string*& square, int i, int j, bool reverse , bool turn , bool del)
 {
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i + k][j] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i + 2][j + 1] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i + k][j] = 'Y');
-	}
-	(square[i + 2][j + 1] = 'Y');
-}
-bool insert_Y_0_turn(string*& square, int i, int j) // передаётся координата конца хвоста 
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i + k][j] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i + 2][j - 1] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i + k][j] = 'Y');
-	}
-	(square[i + 2][j - 1] = 'Y');
-}
-bool insert_Y_90_turn(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i][j + k] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i + 1][j + 2] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i][j + k] = 'L');
-	}
-	(square[i + 1][j + 2] = 'L');
-
-}
-bool insert_Y_90(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i][j + k] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i - 1][j + 2] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i][j + k] = 'Y');
-	}
-	(square[i - 1][j + 2] = 'Y');
-
-}
-bool insert_Y_180(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i - k][j] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i - 2][j - 1] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		square[i - k][j] = 'L';
-	}
-	square[i - 2][j - 1] = 'L';
-
-}
-bool insert_Y_180_turn(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i - k][j] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i - 2][j + 1] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		square[i - k][j] = 'L';
-	}
-	square[i - 2][j + 1] = 'L';
-
-}
-bool insert_Y_270_turn(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i][j - k] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i - 1][j - 2] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i][j - k] = 'Y');
-	}
-	(square[i - 1][j - 2] = 'Y');
-
-}
-bool insert_Y_270(string*& square, int i, int j)
-{
-	for (int k = 0; k < 4; k++)
-	{
-		if (square[i][j - k] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i + 1][j - 2] != '_')
-	{
-		return false;
-	}
-	for (int k = 0; k < 4; k++)
-	{
-		(square[i][j - k] = 'L');
-	}
-	(square[i + 1][j - 2] = 'L');
-
-}
-
-bool insert_F(string*& square , int i, int j)
-{
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i+k][j] != '_')
-		{
-			return false; 
-		}
-	}
-	if (square[i][j-1] != '_')
-		return false; 
-	if (square[i-1][j+1] != '_')
-		return false;
-
-	for (int k = -1; k < 2; k++)
-	{
-		square[i+k][j] = 'F';
-	}
-	square[i][j - 1] = 'F';
-	square[i-1][j+1] = 'F';
-		
-}
-bool insert_F_turn(string*& square, int i, int j)
-{
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i + k][j] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i][j - 1] != '_')
-		return false;
-	if (square[i + 1][j] != '_')
-		return false;
-
-	for (int k = -1; k < 2; k++)
-	{
-		square[i + k][j] = 'F';
-	}
-	square[i][j + 1] = 'F';
-	square[i - 1][j - 1] = 'F';
-
-}
-bool insert_F_90(string*& square, int i, int j)
-{
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i][j + k] != '_')
-			return false;
-	}
-	if (square[i + 1][j + 1] != '_' || square[i-1][j] != '_')
-		return false; 
-
-	for (int k = -1; k < 2; k++)
-	{
-		square[i][j + k] = 'F';
-			
-	}
-	square[i + 1][j + 1] = 'F';  
-	square[i-1][j] = 'F';
-}
-bool insert_F_90_turn(string*& square, int i, int j)
-{
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i][j + k] != '_')
-			return false;
-	}
-	if (square[i - 1][j + 1] != '_' || square[i+1][j-1] != '_')
-		return false;
-
-	for (int k = -1; k < 2; k++)
-	{
-		square[i][j + k] = 'F';
-
-	}
-	square[i + 1][j - 1] = 'F';
-	square[i - 1][j] = 'F';
-}
-bool insert_F_180_turn(string*& square, int i, int j)
-{
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i + k][j] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i][j - 1] != '_')
-		return false;
-	if (square[i + 1][j+1] != '_')
-		return false;
-
-	for (int k = -1; k < 2; k++)
-	{
-		square[i + k][j] = 'F';
-	}
-	square[i][j - 1] = 'F';
-	square[i + 1][j + 1] = 'F';
-
-}
-bool insert_F_180(string*& square, int i, int j)
-{
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i + k][j] != '_')
-		{
-			return false;
-		}
-	}
-	if (square[i][j + 1] != '_')
-		return false;
-	if (square[i + 1][j - 1] != '_')
-		return false;
-
-	for (int k = -1; k < 2; k++)
-	{
-		square[i + k][j] = 'F';
-	}
-	square[i][j + 1] = 'F';
-	square[i + 1][j - 1] = 'F';
-
-}
-bool insert_F_270_turn(string*& square, int i, int j)
-{
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i][j + k] != '_')
-			return false;
-	}
-	if (square[i + 1][j - 1] != '_' || square[i - 1][j] != '_')
-		return false;
-
-	for (int k = -1; k < 2; k++)
-	{
-		square[i][j + k] = 'F';
-
-	}
-	square[i - 1][j - 1] = 'F';
-	square[i + 1][j] = 'F';
-}
-bool insert_F_270(string*& square, int i, int j)
-{
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i][j + k] != '_')
-			return false;
-	}
-	if (square[i + 1][j - 1] != '_' || square[i - 1][j] != '_')
-		return false;
-
-	for (int k = -1; k < 2; k++)
-	{
-		square[i][j + k] = 'F';
-
-	}
-	square[i + 1][j - 1] = 'F';
-	square[i - 1][j] = 'F';
-}
-
-bool insert_N(string*& square, int i, int j , bool turn)
-{
-	int p; 
-	if (turn == false)
-		p = 1;
-	else
-		p = -1; 
-	for (int k = 0; k < 3; k++)
-	{
-		if (square[i - k][j] != '_')
-			return false;
-	}
-	if (square[i][j - p] != '_')
-		return false; 
-	if (square[i - 1][j - p] != '_')
-		return false; 
-	for (int k = 0; k < 3; k++)
-	{
-		square[i - k][j] = 'N';
-	}
-	square[i][j - p] = 'N';
-	square[i + 1][j - p] = 'N';
-}
-bool insert_N_90(string*& square, int i, int j, bool turn)
-{
-	int p;
-	if (turn == false)
-		p = 1;
-	else
+	int p = 1;
+	if (turn == true)
 		p = -1;
-	for (int k = 0; k < 3; k++)
-	{
-		if (square[i][j + k] != '_')
-			return false; 
-	}
-	if (square[i-p][j] != '_')
-		return false; 
-	if (square[i - p][j -1 ] != '_')
-		return false; 
-
-	for (int k = 0; k < 3; k++)
-	{
-		square[i][j + k] = 'N';
-	}
-	square[i - p][j] = 'N';
-	square[i - p][j-1] = 'N';
-}
-bool insert_N_180(string*& square, int i, int j, bool turn, bool del)
-{
-	int p;
-	if (turn == false)
-		p = 1;
-	else
-		p = -1;
-	char insert = 'N';
+	char insert = 'Y';
 	char extract = '_';
 	if (del == true)
 	{
 		insert = '_';
-		extract = 'N';
+		extract = 'Y';
 	}
-	for (int k = 0; k < 3; k++)
+	int rev = 1;
+	if (reverse == true)
+		rev = 0;
+	for (int k = 0; k < 4; k++)
 	{
 		if (square[i + k][j] != extract)
+		{
 			return false;
+		}
 	}
-	if (square[i][j - p] != extract)
+	if (square[i + 1 + rev][j + p] != extract)
+	{
 		return false;
-	if (square[i - 1][j - p] != extract)
-		return false;
-	for (int k = 0; k < 3; k++)
+	}
+	for (int k = 0; k < 4; k++)
 	{
 		square[i + k][j] = insert;
 	}
-	square[i][j - p] = insert;
-	square[i - 1][j - p] = insert;
-
+	(square[i + 1 + rev][j + p] = insert);
+	return true;
 }
-bool insert_N_270(string*& square, int i, int j, bool turn, bool del)
+bool insert_Y_90(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
-	int p;
-	if (turn == false)
-		p = 1;
-	else
+	int p = 1;
+	if (turn == true)
 		p = -1;
-	char insert = 'N';
+	char insert = 'Y';
 	char extract = '_';
 	if (del == true)
 	{
 		insert = '_';
-		extract = 'N';
+		extract = 'Y';
 	}
-	for (int k = 0; k < 3; k++)
+	int rev = 1;
+	if (reverse == true)
+		rev = 0;
+	for (int k = 0; k < 4; k++)
 	{
-		if (square[i][j - k] != insert)
+		if (square[i][j + k] != extract)
+		{
+			return false;
+		}
+	}
+	if (square[i + p][j + 1 + rev] != extract)
+	{
+		return false;
+	}
+	for (int k = 0; k < 4; k++)
+	{
+		(square[i][j + k] = insert);
+	}
+	(square[i + p][j + 1 + rev] = insert);
+	return true;
+}
+
+bool insert_F(string*& square, int i, int j, bool reverse, bool turn, bool del)
+{
+	int p = 1;
+	if (turn == true)
+		p = -1;
+	char insert = 'F';
+	char extract = '_';
+	if (del == true)
+	{
+		insert = '_';
+		extract = 'F';
+	}
+	int rev = 1;
+	if (reverse == true)
+		rev = -1;
+	for (int k = -1; k < 2; k++)
+	{
+		if (square[i+k][j] != extract)
+		{
+			return false; 
+		}
+	}
+	if (square[i][j-p] != extract)
+		return false; 
+	if (square[i-rev][j+p] != extract)
+		return false;
+
+	for (int k = -1; k < 2; k++)
+	{
+		square[i+k][j] = insert;
+	}
+	square[i][j - p] = insert;
+	square[i-rev][j+p] = insert;
+	return true;
+		
+}
+bool insert_F_90(string*& square, int i, int j, bool reverse, bool turn, bool del)
+{
+	int p = 1;
+	if (turn == true)
+		p = -1;
+	char insert = '_';
+	char extract = 'F';
+	if (del == true)
+	{
+		insert = 'F';
+		extract = '_';
+	}
+	int rev = 1;
+	if (reverse == true)
+		rev = -1;
+	for (int k = -1; k < 2; k++)
+	{
+		if (square[i][j + k] != insert)
 			return false;
 	}
-	if (square[i + p][j] != insert)
-		return false;
-	if (square[i + p][j - 1] != insert)
-		return false;
+	if (square[i + p][j + rev] != insert || square[i-p][j] != insert)
+		return false; 
 
-	for (int k = 0; k < 3; k++)
+	for (int k = -1; k < 2; k++)
 	{
-		square[i][j - k] = extract;
+		square[i][j + k] = extract;
+			
 	}
-	square[i - p][j] = extract;
-	square[i - p][j + 1] = extract;
+	square[i + p][j + rev] = extract;
+	square[i-p][j] = extract;
+	return true;
 }
 
-bool insert_P(string*& square, int i, int j, bool turn, bool del)
+
+bool insert_N(string*& square, int i, int j, bool reverse, bool turn, bool del)
+{
+	int p = 1;
+	if (turn == true)
+		p = -2;
+	char insert = '_';
+	char extract = 'N';
+	if (del == true)
+	{
+		insert = 'N';
+		extract = '_';
+	}
+	int rev = 1;
+	if (reverse == true)
+		rev = -1;
+	for (int k = 0; k < 3; k++)
+	{
+		if (square[i - k][j] != insert)
+			return false;
+	}
+	if (square[i + p -1 ][j - rev] != insert)
+		return false; 
+	if (square[i + p][j - rev] != insert)
+		return false; 
+	for (int k = 0; k < 3; k++)
+	{
+		square[i - k][j] = extract;
+	}
+	square[i + p -1 ][j - rev] = extract;
+	square[i + p ][j - rev] = extract;
+	return true;
+}
+bool insert_N_90(string*& square, int i, int j, bool reverse, bool turn, bool del)
+{
+	int p = 1;
+	if (turn == true)
+		p = -1;
+	char insert = '_';
+	char extract = 'N';
+	if (del == true)
+	{
+		insert = 'N';
+		extract = '_';
+	}
+	int rev = 1;
+	if (reverse == true)
+		rev = -1;
+	for (int k = 0; k < 3; k++)
+	{
+		if (square[i ][j - k*p] != insert)
+			return false;
+	}
+	if (square[i - rev][j] != insert)
+		return false;
+	if (square[i - rev][j  + p] != insert)
+		return false;
+	for (int k = 0; k < 3; k++)
+	{
+		square[i][j - k*p] = extract;
+	}
+	square[i - rev][j] = extract;
+	square[i - rev][j  + p] = extract;
+	return true;
+}
+
+bool insert_P(string*& square, int i, int j, bool reverse ,bool turn, bool del)
 {
 	int p;
 	if (turn == false)
 		p = 1;
 	else
 		p = -1;
-	char insert = 'N';
+	int t; 
+	if (reverse == false)
+		t = 1;
+	else
+		t = -1;
+	char insert = 'P';
 	char extract = '_';
 	if (del == true)
 	{
 		insert = '_';
-		extract = 'N';
+		extract = 'P';
 	}
 	for (int k = -1; k < 2; k++)
 	{
 		if (square[i][j + k] != extract)
 			return false; 
 	}
-	if (square[i - 1][j] != extract)
+	if (square[i - t][j] != extract)
 		return false;
-	if (square[i - 1][j + p] != extract)
+	if (square[i - t][j + p] != extract)
 		return false; 
 
 	for (int k = -1; k < 2; k++)
@@ -685,103 +386,50 @@ bool insert_P(string*& square, int i, int j, bool turn, bool del)
 		square[i][j + k] = insert;
 			
 	}
-	square[i- 1][j] = insert;
-	square[i - 1][j + p] = insert;
+	square[i- t][j] = insert;
+	square[i - t][j + p] = insert;
+	return true;
 }
-bool insert_P_180(string*& square, int i, int j, bool turn, bool del)
+bool insert_P_90(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
 		p = 1;
 	else
 		p = -1;
-	char insert = 'N';
-	char extract = '_';
-	if (del == true)
-	{
-		insert = '_';
-		extract = 'N';
-	}
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i][j - k] != extract)
-			return false;
-	}
-	if (square[i + 1 ][j] != extract)
-		return false;
-	if (square[i + 1 ][j - p] != extract)
-		return false;
-
-	for (int k = -1; k < 2; k++)
-	{
-		square[i][j - k] = insert;
-
-	}
-	square[i + 1 ][j] = insert;
-	square[i + 1][j - p] = insert;
-}
-bool insert_P_90(string*& square, int i, int j, bool turn, bool del)
-{
-	int p;
-	if (turn == false)
-		p = 1;
+	int t;
+	if (reverse == false)
+		t = 1;
 	else
-		p = -1;
-	char insert = 'N';
+		t = -1;
+	char insert = 'P';
 	char extract = '_';
 	if (del == true)
 	{
 		insert = '_';
-		extract = 'N';
+		extract = 'P';
 	}
 	for (int k = -1; k < 2; k++)
 	{
-		if (square[i + k][j] != extract)
+		if (square[i+k][j] != extract)
 			return false;
 	}
-	if (square[i-p][j + 1] != extract)
-		return false; 
-	if (square[i][j + 1] != extract)
-		return false; 
-	for (int k = -1; k < 2; k++)
-	{
-		square[i + k][j] = insert;
-	}
-	square[i - p][j + 1] = insert;
-	square[i][j + 1] = insert;
-}
-bool insert_P_270(string*& square, int i, int j, bool turn, bool del)
-{
-	int p;
-	if (turn == false)
-		p = 1;
-	else
-		p = -1;
-	char insert = 'N';
-	char extract = '_';
-	if (del == true)
-	{
-		insert = '_';
-		extract = 'N';
-	}
-	for (int k = -1; k < 2; k++)
-	{
-		if (square[i - k][j] != extract)
-			return false;
-	}
-	if (square[i+p][j-1] != extract)
+	if (square[i ][j - t] != extract)
 		return false;
-	if (square[i][j - 1] != extract)
+	if (square[i + p][j  - t] != extract)
 		return false;
+
 	for (int k = -1; k < 2; k++)
 	{
-		square[i - k][j] = insert;
+		square[i + k][j ] = insert;
+
 	}
-	square[i + p][j - 1] = insert;
-	square[i][j - 1] = insert;
+	square[i][j - t] = insert;
+	square[i + p][j  - t] = insert;
+	return true;
 }
 
-bool insert_U(string*& square, int i, int j, bool turn, bool del)
+bool insert_U(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
@@ -814,8 +462,9 @@ bool insert_U(string*& square, int i, int j, bool turn, bool del)
 	square[i-1][j + p] = insert;
 	square[i + 1][j + p] = insert;
 
+	return true;
 }
-bool insert_U_90(string*& square, int i, int j, bool turn, bool del)
+bool insert_U_90(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
@@ -847,9 +496,10 @@ bool insert_U_90(string*& square, int i, int j, bool turn, bool del)
 		square[i][j + k] = insert;
 	}
 
+	return true;
 }
 
-bool insert_T(string*& square, int i, int j, bool turn, bool del)
+bool insert_T(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
@@ -882,8 +532,9 @@ bool insert_T(string*& square, int i, int j, bool turn, bool del)
 	square[i - p][j - 1] = insert;
 	square[i - p][j + 1] = insert;
 
+	return true;
 }
-bool insert_T_90(string*& square, int i, int j, bool turn, bool del)
+bool insert_T_90(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
@@ -916,9 +567,10 @@ bool insert_T_90(string*& square, int i, int j, bool turn, bool del)
 	square[i + 1][j - p] = insert;
 	square[i - 1][j - p] = insert;
 
+	return true;
 }
 
-bool insert_V(string*& square, int i, int j, bool turn, bool del)
+bool insert_V(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
@@ -951,8 +603,9 @@ bool insert_V(string*& square, int i, int j, bool turn, bool del)
 	square[i - p][j + 2] = insert;
 	square[i - p][j + 1] = insert;
 
+	return true;
 }
-bool insert_V_90(string*& square, int i, int j, bool turn, bool del)
+bool insert_V_90(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
@@ -985,9 +638,10 @@ bool insert_V_90(string*& square, int i, int j, bool turn, bool del)
 	square[i - p][j - 2] = insert;
 	square[i - p][j - 1] = insert;
 
+	return true;
 }
 
-bool insert_Z(string*& square, int i, int j, bool turn, bool del)
+bool insert_Z(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
@@ -1020,8 +674,9 @@ bool insert_Z(string*& square, int i, int j, bool turn, bool del)
 	square[i - 1][j - p] = insert;
 	square[i + 1][j + p] = insert;
 
+	return true;
 }
-bool insert_Z_90(string*& square, int i, int j, bool turn, bool del)
+bool insert_Z_90(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
@@ -1053,9 +708,10 @@ bool insert_Z_90(string*& square, int i, int j, bool turn, bool del)
 		square[i][j + k] = insert;
 	}
 
+	return true;
 }
 
-bool insert_W(string *& square,  int i , int j , bool turn , bool del)
+bool insert_W(string *& square,  int i , int j , bool reverse, bool turn , bool del)
 {
 	int p;
 	if (turn == false)
@@ -1084,8 +740,9 @@ bool insert_W(string *& square,  int i , int j , bool turn , bool del)
 	{
 		square[i + k*p][j + k*p] = insert;
 	}
+	return true;
 }
-bool insert_W_90(string*& square, int i, int j, bool turn, bool del)
+bool insert_W_90(string*& square, int i, int j, bool reverse, bool turn, bool del)
 {
 	int p;
 	if (turn == false)
@@ -1114,9 +771,10 @@ bool insert_W_90(string*& square, int i, int j, bool turn, bool del)
 	{
 		square[i - k * p][j + k * p] = insert;
 	}
+	return true;
 }
 
-bool insert_X(string*& square, int i, int j, bool turn, bool del) // i , j - координаты центра 
+bool insert_X(string*& square, int i, int j, bool reverse, bool turn, bool del) // i , j - координаты центра 
 {
 	char insert = 'X';
 	char extract = '_';
@@ -1146,11 +804,38 @@ bool insert_X(string*& square, int i, int j, bool turn, bool del) // i , j - коо
 	for (int k = -1; k < 2;k++)
 	{
 		square[i + k][j] = extract;
-		
 	}
+	return true;
 }
 
+bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse, bool turn, bool del), string*& square, int i)
+{
+	int result = false;  
+	for (int k = 1; square[k][0] != '\0'; k++)
+	{
+		for (int j = 1; square[k][j] != '\0'; j++)
+		{
+			for (bool reverse = false; reverse != true; reverse = true)
+			{
+				for (bool turn = false; turn != true; turn = true)
+				{
+						if (figure[i](square, k, j, reverse, turn, false) == true)
+						{
+							
+							
+							if (i == 0 || i == 3 || i == 5 || i == 7 || i == 9 || i == 11 || i == 13 || i == 15 || i == 17 || i == 19)
+								i++;
+							enumeration(figure, square, i + 1);
 
+							figure[i](square, k, j, reverse, turn, true);
+						}
+				}
+			}
+			
+		}
+	}
+
+}
 
 int main()
 {
@@ -1166,10 +851,34 @@ int main()
 	print(square);
 	if(!check(square))
 		return EXIT_FAILURE;
-	insert_L_90(square, 5, 5,true , true, false);
-
-	insert_L_90(square, 5, 5, true, true, true);
 	print(square);
+	bool((*figure[22]))(string * &square, int i, int j, bool reverse, bool turn, bool del);
+	
+	figure[0] = insert_L_0;
+	figure[1] = insert_L_90;
+	figure[2] = insert_I;
+	figure[3] = insert_Y;
+	figure[4] = insert_Y_90;
+	figure[5] = insert_F;
+	figure[6] = insert_F_90;
+	figure[7] = insert_N;
+	figure[8] = insert_N_90;
+	figure[9] = insert_P;
+	figure[10] = insert_P_90;
+	figure[11] = insert_U;
+	figure[12] = insert_U_90;
+	figure[13] = insert_T;
+	figure[14] = insert_T_90;
+	figure[15] = insert_V;
+	figure[16] = insert_V_90;
+	figure[17] = insert_Z;
+	figure[18] = insert_Z_90;
+	figure[19] = insert_W;
+	figure[20] = insert_W_90;
+	figure[21] = insert_X;
+	i = 0;
+	int j = 0; 
+	enumeration(figure, square, 0);
 
 	return EXIT_SUCCESS;
 	
