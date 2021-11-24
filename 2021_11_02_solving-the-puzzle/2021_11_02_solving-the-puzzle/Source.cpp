@@ -4,7 +4,8 @@ using namespace std;
 
 void print(string* square)
 {
-	for (int i = 0; i < 20; ++i)
+	cout << endl; 
+	for (int i = 0; square[i][0]!='\0'; ++i)
 	{
 		for (int j = 0; square[i][j] != '\0';j++)
 		{
@@ -12,6 +13,7 @@ void print(string* square)
 		}
 		cout << endl; 
 	}
+	cout << "________________________________________" << endl; 
 };
 bool check(string* square)
 {
@@ -626,6 +628,8 @@ bool insert_V_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 			return false;
 		}
 	}
+	if (j - 2 < 0)
+		return false; 
 	if (square[i - p][j - 2] != extract)
 		return false;
 	if (square[i - p][j - 1] != extract)
@@ -662,7 +666,7 @@ bool insert_Z(string*& square, int i, int j, bool reverse, bool turn, bool del)
 			return false;
 		}
 	}
-	if (square[i][j - p] != extract)
+	if (square[i - 1][j - p] != extract)
 		return false;
 	if (square[i + 1][j + p] != extract)
 		return false;
@@ -808,33 +812,88 @@ bool insert_X(string*& square, int i, int j, bool reverse, bool turn, bool del) 
 	return true;
 }
 
-bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse, bool turn, bool del), string*& square, int i)
+int square_empty(string*& square, int i, int j , int result)
 {
-	int result = false;  
-	for (int k = 1; square[k][0] != '\0'; k++)
+		if ((square[i][j] == '_'));
 	{
-		for (int j = 1; square[k][j] != '\0'; j++)
-		{
-			for (bool reverse = false; reverse != true; reverse = true)
+			if (square[i][j] != '#')
 			{
-				for (bool turn = false; turn != true; turn = true)
-				{
-						if (figure[i](square, k, j, reverse, turn, false) == true)
-						{
-							
-							
-							if (i == 0 || i == 3 || i == 5 || i == 7 || i == 9 || i == 11 || i == 13 || i == 15 || i == 17 || i == 19)
-								i++;
-							enumeration(figure, square, i + 1);
-
-							figure[i](square, k, j, reverse, turn, true);
-						}
-				}
+				result++;
+				square[i][j] = 'E';
+				
+				result += square_empty(square, i + 1, j , 0);
+				result += square_empty(square, i, j + 1, 0);
+				square[i][j] = '_';
 			}
+	}
+	
+	return result;
+}
+
+bool checking_empty(string* square)
+{
+	for (int i = 1; square[i][0] != '\0'; i++)
+	{
+		for (int j = 1; square[i][j] != '\0'; j++)
+		{
 			
+			if (square[i][j] == '_')
+				print(square);
+				if(square_empty(square, i, j,0)<5)
+					return false;
 		}
 	}
+	return true; 
+}
 
+bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse, bool turn, bool del), string* square, int i)
+{
+	if (checking_empty(square) == false)
+		return false; 
+	int memory = 0; 
+	int result = false; 
+	bool reverse = false;
+	bool turn = false;
+	if (i > -1)
+		print(square);
+	for (int k = 1; square[k][1 && 0] != '\0'; k++)
+	{
+		 
+		for (int j = 1; square[k][j] != '\0'; j++)
+		{
+			if (square[k][j] != '#')
+			{
+				for (int m = 0; m < 2; m++)
+				{
+
+					for (int n = 0; n < 2; n++)
+					{
+						if (figure[i](square, k, j, reverse, turn, false) == true)
+						{
+							memory = i; 
+							if (i == 21)
+								return true;
+							if (i == 0 || i == 3 || i == 5 || i == 7 || i == 9 || i == 11 || i == 13 || i == 15 || i == 17 || i == 19)
+								i++;
+							
+							if (enumeration(figure, square, i + 1) == true)
+							{
+								
+								return true;
+							}
+							figure[memory](square, k, j, reverse, turn, true);
+							
+						}
+
+						turn = true;
+					}
+					reverse = true;
+				}
+			}
+		}
+		
+	}
+	return false;
 }
 
 int main()
