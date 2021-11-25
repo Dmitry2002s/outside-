@@ -1,29 +1,67 @@
 #include <iostream>
 #include <string>
-using namespace std;
 
+using namespace std; 
 void print(string* square)
 {
-	cout << endl; 
-	for (int i = 0; square[i][0]!='\0'; ++i)
+	cout << endl;
+	for (int i = 0; square[i][0] != '\0'; ++i)
 	{
-		for (int j = 0; square[i][j] != '\0';j++)
+		for (int j = 0; square[i][j] != '\0'; j++)
 		{
-			cout << square[i][j]; 
+			cout << square[i][j];
 		}
-		cout << endl; 
+		cout << endl;
 	}
-	cout << "________________________________________" << endl; 
+	cout << "________________________________________" << endl;
 };
 
-int sign(int a)
+int square_room(string* square, int i, int j ,int result = 0 )
 {
-	if (a > 0)
-		return 1;
-	else
-		return -1; 
+	if (square[i][j] == '_')
+	{
+		result++; 
+		square[i][j] = 'E';
+		result += square_room(square, i + 1, j);
+		result += square_room(square, i, j + 1 );
+		result += square_room(square, i - 1 , j);
+		result += square_room(square, i, j - 1 );
+		
+	}
+	return result; 
 }
 
+void square_room_reserve(string* square, int i, int j)
+{
+	if (square[i][j] == 'E')
+	{
+		square[i][j] = '_';
+		square_room_reserve(square, i + 1, j);
+		square_room_reserve(square, i, j + 1);
+		square_room_reserve(square, i - 1, j);
+		square_room_reserve(square, i, j - 1);
+
+	}
+}
+bool check(string* square)
+{
+	for (int i = 0; square[i][0] != '\0';i++)
+	{
+		for (int j = 0; square[i][j] != '\0'; j++)
+		{
+			if (square[i][j] == '_')
+			{
+				if (square_room(square, i, j) < 5)
+				{
+					square_room_reserve(square,i,j);
+					return false;
+				}
+				square_room_reserve(square,i ,j);
+			}
+		}
+	}
+	return true; 
+}
 
 bool insert_I(string*& square, int i, int j, bool reverse, bool turn, bool del) // i - Строка , j - столбец 
 {
@@ -799,166 +837,23 @@ bool insert_X(string*& square, int i, int j, bool reverse, bool turn, bool del) 
 	return true;
 }
 
-int square_empty(string*& square, int i, int j , int result)
-{
-		if ((square[i][j] == '_'));
-	{
-			if (square[i][j] != '#')
-			{
-				result++;
-				square[i][j] = 'E';
-				
-				result += square_empty(square, i + 1, j , 0);
-				result += square_empty(square, i, j + 1, 0);
-				square[i][j] = '_';
-			}
-	}
-	
-	return result;
-}
-
-bool checking_empty(string* square)
-{
-	for (int i = 1; square[i][0] != '\0'; i++)
-	{
-		for (int j = 1; square[i][j] != '\0'; j++)
-		{
-			
-			if (square[i][j] == '_')
-				print(square);
-				if(square_empty(square, i, j,0)<5)
-					return false;
-		}
-	}
-	return true; 
-}
-int square_room(string* square, int i, int j, int result = 0)
-{
-	if (square[i][j] == '_')
-	{
-		result++;
-		square[i][j] = 'E';
-		result += square_room(square, i + 1, j);
-		result += square_room(square, i, j + 1);
-		result += square_room(square, i - 1, j);
-		result += square_room(square, i, j - 1);
-
-	}
-	return result;
-}
-
-void square_room_reserve(string* square, int i, int j)
-{
-	if (square[i][j] == 'E')
-	{
-		square[i][j] = '_';
-		square_room_reserve(square, i + 1, j);
-		square_room_reserve(square, i, j + 1);
-		square_room_reserve(square, i - 1, j);
-		square_room_reserve(square, i, j - 1);
-
-	}
-}
-bool check(string* square)
-{
-	for (int i = 0; square[i][0] != '\0'; i++)
-	{
-		for (int j = 0; square[i][j] != '\0'; j++)
-		{
-			if (square[i][j] == '_')
-			{
-				if (square_room(square, i, j) % 5 !=0)
-				{
-					square_room_reserve(square, i, j);
-					return false;
-				}
-				square_room_reserve(square, i, j);
-			}
-		}
-		
-	}
-	return true;
-}
-
-
-
-
-bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse, bool turn, bool del), string* square, int i)
-{
-	if (check(square) == false)
-	{
-		return false;
-	}
-	
-	int memory = 0; 
-	int result = false; 
-	bool reverse = false;
-	bool turn = false;
-	if (i > 17)
-		return true; 
-	for (int k = 1; square[k][1 && 0] != '\0'; k++)
-	{
-		 
-		for (int j = 1; square[k][j] != '\0'; j++)
-		{
-			
-			if (square[k][j] != '#')
-			{
-				for (int m = 0; m < 2; m++)
-				{
-
-					for (int n = 0; n < 2; n++)
-					{
-
-						if (figure[i](square, k, j, reverse, turn, false) == true)
-						{
-							
-							memory = i; 
-							if (i == 21)
-							{
-								print(square);
-								return true;
-							}
-							if (i == 0 || i == 3 || i == 5 || i == 7 || i == 9 || i == 11 || i == 13 || i == 15 || i == 17 || i == 19)
-								i++;
-							
-							if (enumeration(figure, square, i + 1) == true)
-							{
-								print(square);
-								return true;
-							}
-							figure[memory](square, k, j, reverse, turn, true);
-							
-						}
-
-						turn = true;
-					}
-					reverse = true;
-				}
-			}
-		}
-		
-	}
-
-	return false;
-}
 
 int main()
 {
 	string* square = new string[20];
 	string x; 
-	int i = 0;
+	int i = 0; 
 	while (cin >> x)
 	{
 
-		square[i] += x; 
+		square[i] += x;
 		++i;
 	}
 	print(square);
-	
+	cout << check(square);
 	print(square);
 	bool((*figure[22]))(string * &square, int i, int j, bool reverse, bool turn, bool del);
-	
+
 	figure[0] = insert_L_0;
 	figure[1] = insert_L_90;
 	figure[2] = insert_I;
@@ -981,10 +876,24 @@ int main()
 	figure[19] = insert_W;
 	figure[20] = insert_W_90;
 	figure[21] = insert_X;
-	i = 0;
-	int j = 0; 
-	enumeration(figure, square, 0);
+	bool turn = false; 
+	bool reverse = false; 
+	for (int i = 0; i < 22; i++)
+	{
+		reverse = false;
+		for (int l = 0; l < 2; l++)
+		{
+			turn = false;
+			for (int k = 0; k < 2; k++)
 
-	return EXIT_SUCCESS;
-	
+			{
+				figure[i](square, 5, 6, reverse, turn, false);
+				print(square);
+				figure[i](square, 5, 6, reverse, turn, true);
+				turn = true;
+
+			}
+			reverse = true; 
+		}
+	}
 }
