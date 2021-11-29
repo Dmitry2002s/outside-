@@ -918,7 +918,7 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 	int result = false;
 	bool reverse = false;
 	bool turn = false;
-	if (i == 1)
+	if (i > 1)
 		print(square);
 	for (int k = 1; square[k][1 && 0] != '\0'; k++)
 	{
@@ -946,9 +946,7 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 									return true;
 								}
 
-								i++;
-
-								if (enumeration(figure, square, i + 1) == true)
+								if (enumeration(figure, square, i + 2) == true)
 								{
 									print(square);
 									return true;
@@ -956,7 +954,7 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 								figure[memory](square, k, j, reverse, turn, true);
 
 							}
-							else if (figure[++i](square, k, j, reverse, turn, false) == true)
+							else if (figure[i+1](square, k, j, reverse, turn, false) == true)
 							{
 
 								memory = i;
@@ -967,12 +965,13 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 								}
 
 
-								if (enumeration(figure, square, i + 1) == true)
+								if (enumeration(figure, square, i + 2) == true)
 								{
 									print(square);
 									return true;
 								}
 								figure[memory](square, k, j, reverse, turn, true);
+								
 
 							}
 						}
@@ -1024,7 +1023,7 @@ bool test(bool((*figure[21]))(string*& square, int i, int j, bool reverse, bool 
 	int result = false;
 	bool reverse = true;
 	bool turn = true;
-
+	i = 12;
 	for (int k = 1; square[k][1 && 0] != '\0'; k++)
 	{
 
@@ -1100,6 +1099,7 @@ int main()
 	figure[21] = insert_P_90; // 21 
 
 	enumeration(figure, square, 0);
+	//test(figure, square, 0);
 
 
 
