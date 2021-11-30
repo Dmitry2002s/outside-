@@ -918,7 +918,7 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 	int result = false;
 	bool reverse = false;
 	bool turn = false;
-	if (i > 1)
+	if (i > 0)
 		print(square);
 	for (int k = 1; square[k][1 && 0] != '\0'; k++)
 	{
@@ -938,7 +938,7 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 						{
 							if (figure[i](square, k, j, reverse, turn, false) == true)
 							{
-
+								print(square);
 								memory = i;
 								if (i == 21 || i == 20)
 								{

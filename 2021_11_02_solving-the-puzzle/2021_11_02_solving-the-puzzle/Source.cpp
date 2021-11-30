@@ -918,11 +918,11 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 	int result = false;
 	bool reverse = false;
 	bool turn = false;
-	if (i == 1)
-		print(square);
+
+		
 	for (int k = 1; square[k][1 && 0] != '\0'; k++)
 	{
-
+		
 		for (int j = 1; square[k][j] != '\0'; j++)
 		{
 
@@ -945,10 +945,8 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 									print(square);
 									return true;
 								}
-
-								i++;
-
-								if (enumeration(figure, square, i + 1) == true)
+								
+								if (enumeration(figure, square, i + 2) == true)
 								{
 									print(square);
 									return true;
@@ -956,10 +954,9 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 								figure[memory](square, k, j, reverse, turn, true);
 
 							}
-							else if (figure[++i](square, k, j, reverse, turn, false) == true)
+							if (figure[i+1](square, k, j, reverse, turn, false) == true)
 							{
-
-								memory = i;
+								memory = i + 1 ;
 								if (i == 21 || i == 20)
 								{
 									print(square);
@@ -967,20 +964,20 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 								}
 
 
-								if (enumeration(figure, square, i + 1) == true)
+								if (enumeration(figure, square, i + 2) == true)
 								{
 									print(square);
 									return true;
 								}
 								figure[memory](square, k, j, reverse, turn, true);
-
 							}
 						}
 						else
 						{
+							
 							if (figure[i](square, k, j, reverse, turn, false) == true)
 							{
-
+								
 								memory = i;
 								if (i == 21 || i == 20)
 								{
@@ -1005,9 +1002,10 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 
 			}
 		}
-
+		
 	}
-
+	if (i == 0)
+		cout << "The solution could not be found" << endl;
 	return false;
 }
 bool test(bool((*figure[21]))(string*& square, int i, int j, bool reverse, bool turn, bool del), string* square, int i)
@@ -1017,7 +1015,7 @@ bool test(bool((*figure[21]))(string*& square, int i, int j, bool reverse, bool 
 		return false;
 	}
 
-	i = 1;
+	i =2;
 	int j = 0;
 
 	int memory = 0;
@@ -1062,7 +1060,7 @@ bool test(bool((*figure[21]))(string*& square, int i, int j, bool reverse, bool 
 }
 int main()
 {
-	string* square = new string[24];
+	string* square = new string[60];
 	string x;
 	int i = 0;
 	while (cin >> x)
@@ -1071,7 +1069,7 @@ int main()
 		square[i] += x;
 		++i;
 	}
-	print(square);
+
 
 	print(square);
 	bool((*figure[22]))(string * &square, int i, int j, bool reverse, bool turn, bool del);
@@ -1099,8 +1097,8 @@ int main()
 	figure[20] = insert_P; // 20 
 	figure[21] = insert_P_90; // 21 
 
+	//test (figure, square, 2);
 	enumeration(figure, square, 0);
-
 
 
 	//test(figure, square, 1);
