@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 void print(string* square)
@@ -36,10 +37,10 @@ bool insert_I(string*& square, int i, int j, bool reverse, bool turn, bool del) 
 	else
 		n = 1;
 	char insert = 'I';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'I';
 	}
 	for (int k = 0; k < 5; k++)
@@ -69,12 +70,12 @@ bool insert_L_0(string*& square, int i, int j, bool reverse, bool turn, bool del
 	int p = 1;
 	if (turn == true)
 		p = -1;
-	char insert = '_';
+	char insert = ' ';
 	char extract = 'L';
 	if (del == true)
 	{
 		insert = 'L';
-		extract = '_';
+		extract = ' ';
 	}
 	int rev = 1;
 	if (reverse == true)
@@ -107,10 +108,10 @@ bool insert_L_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	if (turn == true)
 		p = -1;
 	char insert = 'L';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'L';
 	}
 	int rev = 1;
@@ -147,10 +148,10 @@ bool insert_Y(string*& square, int i, int j, bool reverse, bool turn, bool del)
 	if (turn == true)
 		p = -1;
 	char insert = 'Y';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'Y';
 	}
 	int rev = 1;
@@ -180,10 +181,10 @@ bool insert_Y_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	if (turn == true)
 		p = -1;
 	char insert = 'Y';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'Y';
 	}
 	int rev = 1;
@@ -214,10 +215,10 @@ bool insert_F(string*& square, int i, int j, bool reverse, bool turn, bool del)
 	if (turn == true)
 		p = -1;
 	char insert = 'F';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'F';
 	}
 	int rev = 1;
@@ -249,12 +250,12 @@ bool insert_F_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	int p = 1;
 	if (turn == true)
 		p = -1;
-	char insert = '_';
+	char insert = ' ';
 	char extract = 'F';
 	if (del == true)
 	{
 		insert = 'F';
-		extract = '_';
+		extract = ' ';
 	}
 	int rev = 1;
 	if (reverse == true)
@@ -283,12 +284,12 @@ bool insert_N(string*& square, int i, int j, bool reverse, bool turn, bool del)
 	int p = 1;
 	if (turn == true)
 		p = -2;
-	char insert = '_';
+	char insert = ' ';
 	char extract = 'N';
 	if (del == true)
 	{
 		insert = 'N';
-		extract = '_';
+		extract = ' ';
 	}
 	int rev = 1;
 	if (reverse == true)
@@ -315,12 +316,12 @@ bool insert_N_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	int p = 1;
 	if (turn == true)
 		p = -1;
-	char insert = '_';
+	char insert = ' ';
 	char extract = 'N';
 	if (del == true)
 	{
 		insert = 'N';
-		extract = '_';
+		extract = ' ';
 	}
 	int rev = 1;
 	if (reverse == true)
@@ -356,10 +357,10 @@ bool insert_P(string*& square, int i, int j, bool reverse, bool turn, bool del)
 	else
 		t = -1;
 	char insert = 'P';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'P';
 	}
 	for (int k = -1; k < 2; k++)
@@ -394,10 +395,10 @@ bool insert_P_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	else
 		t = -1;
 	char insert = 'P';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'P';
 	}
 	for (int k = -1; k < 2; k++)
@@ -430,10 +431,10 @@ bool insert_U(string*& square, int i, int j, bool reverse, bool turn, bool del)
 	else
 		p = -1;
 	char insert = 'U';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'U';
 	}
 	for (int k = -1; k < 2; k++)
@@ -467,10 +468,10 @@ bool insert_U_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	else
 		p = -1;
 	char insert = 'U';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'U';
 	}
 	for (int k = -1; k < 2; k++)
@@ -504,10 +505,10 @@ bool insert_T(string*& square, int i, int j, bool reverse, bool turn, bool del)
 	else
 		p = -1;
 	char insert = 'T';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'T';
 	}
 	for (int k = -1; k < 2; k++)
@@ -541,10 +542,10 @@ bool insert_T_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	else
 		p = -1;
 	char insert = 'T';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'T';
 	}
 	for (int k = -1; k < 2; k++)
@@ -579,10 +580,10 @@ bool insert_V(string*& square, int i, int j, bool reverse, bool turn, bool del)
 	else
 		p = -1;
 	char insert = 'V';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'V';
 	}
 	for (int k = -1; k < 2; k++)
@@ -616,10 +617,10 @@ bool insert_V_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	else
 		p = -1;
 	char insert = 'V';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'V';
 	}
 	for (int k = -1; k < 2; k++)
@@ -656,10 +657,10 @@ bool insert_Z(string*& square, int i, int j, bool reverse, bool turn, bool del)
 	else
 		p = -1;
 	char insert = 'Z';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'Z';
 	}
 	for (int k = -1; k < 2; k++)
@@ -693,10 +694,10 @@ bool insert_Z_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	else
 		p = -1;
 	char insert = 'Z';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'Z';
 	}
 	for (int k = -1; k < 2; k++)
@@ -730,10 +731,10 @@ bool insert_W(string*& square, int i, int j, bool reverse, bool turn, bool del)
 	else
 		p = -1;
 	char insert = 'W';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'W';
 	}
 	for (int k = -1; k < 2; k++)
@@ -763,10 +764,10 @@ bool insert_W_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 	else
 		p = -1;
 	char insert = 'W';
-	char extract = '_';
+	char extract = ' ';
 	if (del == true)
 	{
-		insert = '_';
+		insert = ' ';
 		extract = 'W';
 	}
 	for (int k = -1; k < 2; k++)
@@ -789,14 +790,14 @@ bool insert_W_90(string*& square, int i, int j, bool reverse, bool turn, bool de
 
 bool insert_X(string*& square, int i, int j, bool reverse, bool turn, bool del) // i , j - координаты центра 
 {
-	char insert = '_';
+	char insert = ' ';
 	char extract = 'X';
 	if (turn == true || reverse == true)
 		return false;
 	if (del == true)
 	{
 		insert = 'X';
-		extract = '_';
+		extract = ' ';
 	}
 	for (int k = -1; k < 2; k++)
 	{
@@ -825,7 +826,7 @@ bool insert_X(string*& square, int i, int j, bool reverse, bool turn, bool del) 
 
 int square_empty(string*& square, int i, int j, int result)
 {
-	if ((square[i][j] == '_'));
+	if ((square[i][j] == ' '));
 	{
 		if (square[i][j] != '#')
 		{
@@ -834,7 +835,7 @@ int square_empty(string*& square, int i, int j, int result)
 
 			result += square_empty(square, i + 1, j, 0);
 			result += square_empty(square, i, j + 1, 0);
-			square[i][j] = '_';
+			square[i][j] = ' ';
 		}
 	}
 
@@ -848,7 +849,7 @@ bool checking_empty(string* square)
 		for (int j = 1; square[i][j] != '\0'; j++)
 		{
 
-			if (square[i][j] == '_')
+			if (square[i][j] == ' ')
 				print(square);
 			if (square_empty(square, i, j, 0) < 5)
 				return false;
@@ -858,7 +859,7 @@ bool checking_empty(string* square)
 }
 int square_room(string* square, int i, int j, int result = 0)
 {
-	if (square[i][j] == '_')
+	if (square[i][j] == ' ')
 	{
 		result++;
 		square[i][j] = 'E';
@@ -875,7 +876,7 @@ void square_room_reserve(string* square, int i, int j)
 {
 	if (square[i][j] == 'E')
 	{
-		square[i][j] = '_';
+		square[i][j] = ' ';
 		square_room_reserve(square, i + 1, j);
 		square_room_reserve(square, i, j + 1);
 		square_room_reserve(square, i - 1, j);
@@ -889,7 +890,7 @@ bool check(string* square)
 	{
 		for (int j = 0; square[i][j] != '\0'; j++)
 		{
-			if (square[i][j] == '_')
+			if (square[i][j] == ' ')
 			{
 				if (square_room(square, i, j) % 5 != 0)
 				{
@@ -919,10 +920,10 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 	bool reverse = false;
 	bool turn = false;
 
-		
+
 	for (int k = 1; square[k][1 && 0] != '\0'; k++)
 	{
-		
+
 		for (int j = 1; square[k][j] != '\0'; j++)
 		{
 
@@ -942,31 +943,32 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 								memory = i;
 								if (i == 21 || i == 20)
 								{
-									print(square);
+
 									return true;
 								}
-								
+
 								if (enumeration(figure, square, i + 2) == true)
 								{
-									print(square);
+
 									return true;
 								}
 								figure[memory](square, k, j, reverse, turn, true);
 
 							}
-							if (figure[i+1](square, k, j, reverse, turn, false) == true)
+							if (figure[i + 1](square, k, j, reverse, turn, false) == true)
 							{
-								memory = i + 1 ;
+								memory = i + 1;
 								if (i == 21 || i == 20)
 								{
-									print(square);
+
 									return true;
 								}
 
 
 								if (enumeration(figure, square, i + 2) == true)
 								{
-									print(square);
+
+
 									return true;
 								}
 								figure[memory](square, k, j, reverse, turn, true);
@@ -974,21 +976,22 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 						}
 						else
 						{
-							
+
 							if (figure[i](square, k, j, reverse, turn, false) == true)
 							{
-								
+
 								memory = i;
 								if (i == 21 || i == 20)
 								{
-									print(square);
+
 									return true;
 								}
 
 
 								if (enumeration(figure, square, i + 1) == true)
 								{
-									print(square);
+									if (i == 0)
+										print(square);
 									return true;
 								}
 								figure[memory](square, k, j, reverse, turn, true);
@@ -1002,7 +1005,7 @@ bool enumeration(bool((*figure[21]))(string*& square, int i, int j, bool reverse
 
 			}
 		}
-		
+
 	}
 	if (i == 0)
 		cout << "The solution could not be found" << endl;
@@ -1015,7 +1018,7 @@ bool test(bool((*figure[21]))(string*& square, int i, int j, bool reverse, bool 
 		return false;
 	}
 
-	i =2;
+	i = 2;
 	int j = 0;
 
 	int memory = 0;
@@ -1063,7 +1066,8 @@ int main()
 	string* square = new string[60];
 	string x;
 	int i = 0;
-	while (cin >> x)
+	//while (cin >> x)
+	while (getline(cin, x))
 	{
 
 		square[i] += x;
