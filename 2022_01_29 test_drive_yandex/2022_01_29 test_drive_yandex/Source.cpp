@@ -3,45 +3,54 @@
 using namespace std;
 string max(string& str1, string& str2,string result ="\0", int i = 0)
 {
-	if (str1 == str2 == 'X')
+	if (str1 == str2)
 		return "\0";
-	if (str1[i] == '\0')
+	if (str1[i] == ('\0'||'X'))
 	{
 		result = str2;
 		str2 = "X";
-		return result; 
 	}
-	else if (str2[i] == '\0')
+	else if (str2[i] == ('\0' || 'X'))
 	{
 		result = str1;
 		str1 = "X";
-		return result; 
 	}
 	else if (str1[i] > str2[i])
 	{
 		result = str1;
 		str1 = "X";
-		return result; 
 	}
 	else if (str1[i] < str2[i])
 	{
 		result = str2;
 		str2 = "X";
-		return result;
 	}
 	else
 	{
-		return max(str1, str2, result, ++i);
+		result =  max(str1, str2, result, ++i);
 	}
+	if (result == "X")
+		return "\0";
+	return result;
 }
 string number(string*& mas)
-{
-	string max; 
-	string result; 
-	for (int i = 0; i < 100; i++)
-		for (int j = 0; j < 100; j++)
-			max(mas[i], mas[j]);
-	return 0; 
+{ 
+	string result;
+	for(int i = 0 ; i < 100 ; i++ ) 
+		if (mas[i] != "X")
+		{
+			string lmax = mas[i];
+			for (int j = 0; j < 100; j++)
+			{
+				if (i != j && mas[j] != "")
+				{
+					lmax = max(lmax, mas[j]);
+					
+				}
+			}
+			result += lmax;
+		}
+	return result; 
 }
 
 int main()
@@ -53,6 +62,5 @@ int main()
 		getline(cin, mas[i]);
 		i++;
 	}
-	max(mas[i], mas[i]);
 	cout << number(mas);
 }
