@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2022_01_29 test_drive_yandex", "2022_01_29 test_drive_yandex\2022_01_29 test_drive_yandex.vcxproj", "{62A0A04E-93BE-410E-8F4E-C4BDE6601128}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2022_01_31_Yadnex_segments", "2022_01_31_Yadnex_segments\2022_01_31_Yadnex_segments.vcxproj", "{0EBE11FC-313F-4833-B2BC-8071D93F850D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{62A0A04E-93BE-410E-8F4E-C4BDE6601128}.Release|x64.Build.0 = Release|x64
 		{62A0A04E-93BE-410E-8F4E-C4BDE6601128}.Release|x86.ActiveCfg = Release|Win32
 		{62A0A04E-93BE-410E-8F4E-C4BDE6601128}.Release|x86.Build.0 = Release|Win32
+		{0EBE11FC-313F-4833-B2BC-8071D93F850D}.Debug|x64.ActiveCfg = Debug|x64
+		{0EBE11FC-313F-4833-B2BC-8071D93F850D}.Debug|x64.Build.0 = Debug|x64
+		{0EBE11FC-313F-4833-B2BC-8071D93F850D}.Debug|x86.ActiveCfg = Debug|Win32
+		{0EBE11FC-313F-4833-B2BC-8071D93F850D}.Debug|x86.Build.0 = Debug|Win32
+		{0EBE11FC-313F-4833-B2BC-8071D93F850D}.Release|x64.ActiveCfg = Release|x64
+		{0EBE11FC-313F-4833-B2BC-8071D93F850D}.Release|x64.Build.0 = Release|x64
+		{0EBE11FC-313F-4833-B2BC-8071D93F850D}.Release|x86.ActiveCfg = Release|Win32
+		{0EBE11FC-313F-4833-B2BC-8071D93F850D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
