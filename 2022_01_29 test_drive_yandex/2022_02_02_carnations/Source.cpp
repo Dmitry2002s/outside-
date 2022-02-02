@@ -44,7 +44,7 @@ int main()
 {
 	int quantity = 0; 
 	cin >> quantity;
-	Carnation* Carnations = new Carnation[quantity];s
+	Carnation* Carnations = new Carnation[quantity];
 	int i = 0; 
 	
 	while (i<quantity)
