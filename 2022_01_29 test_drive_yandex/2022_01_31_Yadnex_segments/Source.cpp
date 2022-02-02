@@ -42,12 +42,115 @@ void placement(Stall* S, int K)
 }
 int minDistance(Stall* S, int K)
 {
-	int result = 100000000; 
+	int result = 100000000;
 	for (int i = 0; i < K; i++)
 		for (int j = i + 1; j < K; j++)
-			if(S[i].free == 0 && S[j].free== 0 && result > distance(S[i], S[j]))
+			if (S[i].free == 0 && S[j].free == 0 && result > distance(S[i], S[j]))
 				result = distance(S[i], S[j]);
-	return result; 
+	return result;
+}
+//Возвращает минимальную дистанцию между занятыми. 
+int maxDistance(Stall* S, int K)
+{
+	int M = 0; 
+	int N = 0; 
+	int result = 0; 
+	int Z = 0;
+	int number = -1 ; 
+	for (int i = 0; i < K; i++)
+	{
+		if (i == 0)
+			Z = distance(S[i], S[i + 1]);
+		else if (i == K - 1)
+			Z = distance(S[i], S[i - 1]);
+		else
+		{
+			M = distance(S[i], S[i - 1]); 
+			N = distance(S[i + 1], S[i]); 
+			M < N ? Z = M : Z = N;
+		}
+		if (Z > result)
+		{
+			result = Z;
+			number = i; 
+		}
+	}
+	return number; 
+}
+//ВОзвращает точку, максимально удалённую от соседей(незанятых) . 
+int NearestUP(Stall* S, int quantity, int number)
+{
+	for (int i = number + 1 ; i < quantity; i++)
+	{
+		if (S[i].free == false)
+			return i; 
+	}
+	return -1; 
+}
+// Возвращает ближайший занятый вверх. Если таких нет , то -1. 
+int NearestDOWN (Stall* S, int quantity, int number)
+{
+	for (int i = number-1; i > -1 ; i--)
+	{
+		if (S[i].free == false)
+			return i;
+	}
+	return -1; 
+} 
+// Возвращает ближайший занятый вниз. Если таких нет , то -1. 
+int maxDistanceToOccupied(Stall* S, int K)
+{
+	{
+		int M = 0;
+		int N = 0;
+		int result = 0;
+		int Z = 0;
+		int number = -1;
+		int Nearestup = -1; 
+		int Nearestdown = -1;
+
+		for (int i = 0; i < K; i++)
+		{
+			if (S[i].free == true)
+			{
+				Nearestdown = NearestDOWN(S, K, i);
+				Nearestup = NearestUP(S, K, i);
+				if (i == 0)
+					Z = distance(S[i], S[Nearestup]);
+				else if (i == K - 1)
+					Z = distance(S[i], S[Nearestdown]);
+				else
+				{
+					M = distance(S[i], S[Nearestdown]);
+					N = distance(S[Nearestup], S[i]);
+					M < N ? Z = M : Z = N;
+				}
+				if (Z > result)
+				{
+					result = Z;
+					number = i;
+				}
+			}
+
+		}
+		return number;
+	}
+}
+void firstElement(Stall* S, int K)
+{
+	S[maxDistance(S, K)].free = false; 
+}
+void Completion(Stall* S, int quantity, int quantityCow )
+{
+	for (int i = 0; i < quantityCow; i++)
+	{
+		if (i == 0)
+			firstElement(S, quantity);
+		else
+		{
+			S[maxDistanceToOccupied(S, quantity)].free = false; 
+		}
+	 }
 }
 int replacement(Stall* S, int K)
 {
@@ -94,10 +197,10 @@ int main()
 		cin >> S[n].X;
 		n++; 
 	}
-	placement(S, K);
 	
-	minDistance(S, N);
-	cout <<replacement(S, N);
-
+	Completion(S, N, K);
+	print(S, N);
+	cout << minDistance(S, N) << endl; ;
+	return 0; 
 	
 }
