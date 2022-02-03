@@ -119,7 +119,6 @@ BNode* searchRe(BNode* p, int data)
 				return searchRe(p->left, data);
 			if (searchRe(p->right, data) != nullptr)
 				return searchRe(p->right, data);
-
 		}
 	}
 	else
@@ -130,16 +129,13 @@ BNode* searchRe(BNode* p, int data)
 BNode* searchCy(BNode* p, int data)
 {
 	stack <BNode*> stack;
-
 	BNode* check = p;
 	if (p != nullptr)
 	{
 		stack.push(p);
 	}
 	else
-	{
-
-	}
+	{}
 	while (!stack.empty())
 	{
 		check = stack.top();
@@ -150,10 +146,8 @@ BNode* searchCy(BNode* p, int data)
 		stack.pop();
 		if (check->left != nullptr)
 			stack.push(check->left);
-
 		if (check->right != nullptr)
 			stack.push(check->right);
-
 	}
 	return nullptr;
 }
@@ -178,7 +172,6 @@ bool addRe(BNode*& p, int data)
 	{
 		p = new BNode(data);
 	}
-
 }
 bool addCy(BNode* &p, int data)
 {
@@ -235,87 +228,117 @@ BNode* leftmost(BNode* p)
 		}
 	}
 }
-BNode*  prefind(BNode* p, int data)
+BNode*  prefind(BNode* p, int data) // находит отца указанного элемента 
 {
-
 	if (p != nullptr)
 	{
-		if (p->left != nullptr)
+
+		if (p->left != nullptr && data < p->data)
 		{
-			if (p->left->data == data)
-			{
+
+			if (p->left->data == data )
 				return p;
-			}
+			else
+				return prefind(p->left, data);
 		}
-		else if (p->right != nullptr)
+		else if (p->right != nullptr && data > p->data)
 		{
 			if (p->right->data == data)
-			{
 				return p;
+			else
+				return prefind(p->right, data);
+			/* }
+			if (p->left != nullptr)
+			{
+				if (p->left->data == data)
+				{
+					return p;
+				}
 			}
+			else if (p->right != nullptr)
+			{
+				if (p->right->data == data)
+				{
+					return p;
+				}
+			}
+			else
+			{
+				if (searchRe(p->left, data) != nullptr)
+					return searchRe(p->left, data);
+				if (searchRe(p->right, data) != nullptr)
+					return searchRe(p->right, data);
+			}
+			*/
 		}
 		else
 		{
-			if (searchRe(p->left, data) != nullptr)
-				return searchRe(p->left, data);
-			if (searchRe(p->right, data) != nullptr)
-				return searchRe(p->right, data);
-
+			return nullptr;
 		}
 	}
-	else
-	{
-		return nullptr;
-	}
-
 }
-bool del(BNode* & r)
+bool del(BNode* root , BNode* &DEL)
 {
-	if (r == nullptr)
+	if (DEL == nullptr)
 	{
 		return false;
 	}
 	else
-	{
-		if (r->left != nullptr && r->right != nullptr)
+	{ // Необходимо проработать удаление для случая двух соседей(для случая если у удаляемого есть соседи) 
+		if (DEL->left != nullptr && DEL->right != nullptr) // удаление на случай если есть оба соседа. 
 		{
-			
-			BNode* left = leftmost(r->right);
-			r->data = left->data;
-			BNode* prev = prefind(r->right, left->data);
-			
-			prev->left = left->right;
-			left = nullptr;
-
-
-		}
-		else if (r->left == nullptr && r->right != nullptr)
-		{
-			if (r->right == nullptr)
+			if (DEL != root)
 			{
-				r = nullptr;
+				BNode* left = leftmost(DEL->right);
+				BNode* prevleft = prefind(root, left->data);
+				BNode* prev = prefind(root, DEL->data);
+				DEL->data = left->data;
+				prev->left = left->right;
+				if (prevleft->left == left)
+					prevleft->left = nullptr;
+				else
+					prevleft->right = nullptr;
+				left = nullptr;
 			}
 			else
 			{
-				r->data = r->right->data;
-				BNode* p = r->right;
-				r->right = p->right;
-				r->left = p->left;
+
+				BNode* left = leftmost(DEL->right);
+				BNode* prevleft = prefind(root, left->data);
+				DEL->data = left->data;
+				if (prevleft->left == left)
+					prevleft->left = nullptr;
+				else
+					prevleft->right = nullptr;
+				left = nullptr;
+			}
+		}
+		else if (DEL ->left == nullptr && DEL ->right != nullptr) // удаление в случаае только правого соседа. 
+		{
+			if (DEL ->right == nullptr)
+			{
+				DEL  = nullptr;
+			}
+			else
+			{
+				 DEL ->data = DEL ->right->data;
+				BNode* p = DEL ->right;
+				DEL ->right = p->right;
+				DEL ->left = p->left;
 				p = nullptr;
 			}
-
 		}
-		else if (r->right == nullptr && r->left != nullptr)
+		else if (DEL ->right == nullptr && DEL ->left != nullptr) // Удаление в случае только левого соседа 
 		{
-			r->data = r->left->data;
-			BNode* p = r->left;
-			r->left = p->left;
-			r->right = p->right;
+			DEL ->data = DEL ->left->data;
+			BNode* p = DEL ->left;
+			DEL ->left = p->left;
+			DEL ->right = p->right;
 			p = nullptr;
 		}
-		else if (r->right == nullptr && r->left == nullptr)
+		else if (DEL ->right == nullptr && DEL->left == nullptr) // удаление в случае отсутствия соседей. 
 		{
-			r = nullptr;
+			DEL = nullptr;
 		}
 		return true;
 	}
@@ -344,15 +367,10 @@ int main()
 	addRe(r4, 43);
 	addRe(r4, 1);
 	t1->print();
-	del(r4);
-	t1->print();
-	del(r7);
-	t1->print();
-	del(r6);
-	cout << "TEST" << endl;
-	t1->print();
-	del(find(r4, 1));
-	del(find(r4, 60));
 
+	// удаление без соседей работает 
+	del(r4, find(r4, 73));
+	t1->print();
+	del(r4, find(r4, 40));
 	t1->print();
 }
