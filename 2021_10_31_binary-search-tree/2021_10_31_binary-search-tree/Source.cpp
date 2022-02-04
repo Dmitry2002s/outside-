@@ -315,26 +315,35 @@ bool del(BNode* root , BNode* &DEL)
 		}
 		else if (DEL ->left == nullptr && DEL ->right != nullptr) // удаление в случаае только правого соседа. 
 		{
-			if (DEL ->right == nullptr)
+			if (DEL == root)
 			{
-				DEL  = nullptr;
+				root = root->right; 
+				DEL = nullptr; 
 			}
 			else
 			{
-				 DEL ->data = DEL ->right->data;
-				BNode* p = DEL ->right;
-				DEL ->right = p->right;
-				DEL ->left = p->left;
+				DEL->data = DEL->right->data;
+				BNode* p = DEL->right;
+				DEL->right = p->right;
+				DEL->left = p->left;
 				p = nullptr;
 			}
 		}
 		else if (DEL ->right == nullptr && DEL ->left != nullptr) // Удаление в случае только левого соседа 
 		{
-			DEL ->data = DEL ->left->data;
-			BNode* p = DEL ->left;
-			DEL ->left = p->left;
-			DEL ->right = p->right;
-			p = nullptr;
+			if (root == DEL)
+			{
+				root = root->left;  
+				delete DEL; 
+			}
+			else
+			{
+				DEL->data = DEL->left->data;
+				BNode* p = DEL->left;
+				DEL->left = p->left;
+				DEL->right = p->right;
+				p = nullptr;
+			}
 		}
 		else if (DEL ->right == nullptr && DEL->left == nullptr) // удаление в случае отсутствия соседей. 
 		{
