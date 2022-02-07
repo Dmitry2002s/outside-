@@ -56,10 +56,11 @@ void question3() // отобразить элементы без повторений , которые по€вл€ютс€ ровн
 	}
 	Print(Double);
 }
-set <class S> question4 (set<S> set1, set<S> set2)
+template<typename T>  
+set <T> question4 (set<T> set1, set<T> set2)
 {
-	set<S> result; 
-	typename set<S>::iterator i;
+	set<T> result; 
+	typename set<T>::iterator i;
 	for (i = set1.begin(); i != set1.end(); ++i)
 		result.insert(*i);
 	for (i = set2.begin(); i != set2.end(); ++i)
@@ -70,8 +71,9 @@ set <class S> question4 (set<S> set1, set<S> set2)
 int main()
 {
 	
-	set<class S > set1 = { 1, 2 ,3,4,5,6 };
+	set<int > set1 = { 1, 2 ,3,4,5,6 };
 
-	set<S> set2 = { 3, 4 ,5,6,7,8 };
-	question4(set1, set2);
+	set<int > set2 = { 3, 4 ,5,6,7,8 };
+	
+	Print(question4(set1, set2));
 }
