@@ -75,6 +75,7 @@ map<T, N> question4(map<T, N> x, map<T, N> y)  // объединение отображений ( отоб
 
 template<typename T, typename N>
 map<T, N> question5(map<T, N> first, map<T, N> two)
+{
 	map <T, T> result;
 	for (auto x : first)
 		for (auto y : two)
