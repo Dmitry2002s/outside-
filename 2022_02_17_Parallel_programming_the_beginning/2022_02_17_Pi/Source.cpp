@@ -18,29 +18,28 @@ int main()
 	double sum = 0;
 	//test parallel 
 	cout << "2 streams " << endl; 
-#pragma omp parallel sections 
+#pragma omp parallel sections reduction (+:result)
 	{
 #pragma omp section 
 		{
-			double sum1 = 0; 
 			for (int i = 1; i < n/2; ++i)
 			{
-				sum1 += f((2 * i - 1) / (2 * n));
+				result += f((2 * i - 1) / (2 * n));
 			}
-			result += sum1 ;
+			
 		}
 #pragma omp section
 		{
-			double sum2 = 0; 
+			 
 			for (int i = n/2; i < n; ++i)
 			{
-				sum2 += f((2 * i - 1) / (2 * n));
+				result += f((2 * i - 1) / (2 * n));
 			}
-			result += sum2;
+			
 		}
 	}
-		result = (result * 4) / n;
-		cout << result << endl;
+		//result = (result * 4.0) / n;
+		cout << (result * 4.0) / n << endl;
 		cout << "time : " << omp_get_wtime() - t << endl;
 
 		//No parallel 
@@ -65,43 +64,42 @@ int main()
 
 		result = 0; 
 		t = omp_get_wtime();
-#pragma omp parallel sections 
+#pragma omp parallel sections reduction (+:result)
 		{
 #pragma omp section 
 			{
-				double sum1 = 0;
-				for (int i = 1; i < n/4; ++i)
+				
+				for (int i = 1; i <= n/4; ++i)
 				{
-					sum1 += f((2 * i - 1) / (2 * n));
+					result += f((2 * i - 1) / (2 * n));
 				}
-				result += sum1;
+				
 			}
 #pragma omp section
 			{
-				double sum2 = 0;
-				for (int i = n/4; i < n/2; ++i)
+				
+				for (int i = n/4; i <= n/2; ++i)
 				{
-					sum2 += f((2 * i - 1) / (2 * n));
+					result += f((2 * i - 1) / (2 * n));
 				}
-				result += sum2;
+				
 			}
 #pragma omp section 
 			{
-				double sum3 = 0;
-				for (int i = n/2; i < (3*n/4); ++i)
+
+				for (int i = n / 2; i <= (3 * n / 4); ++i)
 				{
-					sum3 += f((2 * i - 1) / (2 * n));
+					result += f((2 * i - 1) / (2 * n));
 				}
-				result += sum3;
-			}
+			}	
+		
 #pragma omp section
 			{
-				double sum4 = 0;
+				
 				for (int i = 3*n/4; i < n; ++i)
 				{
-					sum4 += f((2 * i - 1) / (2 * n));
+					result += f((2 * i - 1) / (2 * n));
 				}
-				result += sum4;
 			}
 		}
 		result = result * 4 / n; 
