@@ -38,9 +38,9 @@ int main()
 			
 		}
 	}
-		//result = (result * 4.0) / n;
-		cout << (result * 4.0) / n << endl;
+		result = (result * 4.0) / n;
 		cout << "time : " << omp_get_wtime() - t << endl;
+		cout << result << endl;
 
 		//No parallel 
 		cout << endl << endl << "II" << endl << "No parallel " << endl; 
@@ -57,8 +57,8 @@ int main()
 			}
 		}
 		result += (sum * 4) / n;
-		cout << result << endl;
 		cout << "time : " << omp_get_wtime() - t << endl;
+		cout << result << endl;
 		cout << endl << endl << "III" << endl;
 		cout << "4 streams " << endl;
 
@@ -103,11 +103,12 @@ int main()
 			}
 		}
 		result = result * 4 / n; 
-		cout << result << endl; 
 		cout << "time : " << omp_get_wtime() - t << endl;
-		/*
+		cout << result << endl; 
+		
 		//12 streams 
 		result = 0;
+		cout << "12 streams" << endl; 
 		t = omp_get_wtime();
 #pragma omp parallel sections 
 		{
@@ -222,9 +223,9 @@ int main()
 		}
 		}
 		result = result * 4 / n;
-		cout << result << endl;
 		cout << "time : " << omp_get_wtime() - t << endl;
-		*/
+		cout << result << endl;
+		
 		return 0;
 	
 }
