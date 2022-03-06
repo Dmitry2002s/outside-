@@ -30,28 +30,18 @@ bool Prime_multi(int number)
 
 	if (number % 3 == 0 && number != 3)
 		return false;
-#pragma omp parallel sections
-	{
+	bool result = false;
 
+		{
 			for (int i = 1; (6 * i - 1) * (6 * i - 1) <= number; i++)
 			{
-#pragma omp section
-				{
-					if (number % (6 * i - 1) == 0)
-					return false;
-				}
-#pragma omp section
-				{
-					if (number % (6 * i + 1) == 0)
-						return false;
-				}
+				if (number % (6 * i - 1) == 0)
+					result = true;
+				if (number % (6 * i + 1) == 0)
+					result = true;
 			}
-	
-
 			
-		
-	}
-	return true;
+		}
 }
 int Prime_numbers(int n)
 {
@@ -66,11 +56,13 @@ int Prime_numbers(int n)
 int Prime_numbers_multi(int n)
 {
 	int count = 0;
-#pragma omp parallel sections(+:count)
+	if (n > 3)
+		count++; 
+#pragma omp parallel sections reduction(+:count)
 	{
 #pragma omp section
 
-		{		for (int i = 5; i < n; i += 4)
+		{		for (int i = 5; i < n; i += 6)
 			{
 				if (Prime(i))
 					count++;
@@ -78,7 +70,7 @@ int Prime_numbers_multi(int n)
 		}
 #pragma omp section
 		{
-			for (int i = 3; i < n; i += 4)
+			for (int i = 7; i < n; i += 6)
 			{
 				if (Prime(i) == true)
 					count++;
