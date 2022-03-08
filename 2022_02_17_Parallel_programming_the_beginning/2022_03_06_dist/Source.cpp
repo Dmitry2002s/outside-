@@ -122,7 +122,7 @@ int main()
 	{
 #pragma omp section 
 		{
-
+			double a1; 
 			vector<Point> ::iterator i = Points.begin();
 			vector<Point> ::iterator m = Points.begin();
 			vector<Point> ::iterator beg = i;
@@ -130,14 +130,14 @@ int main()
 			for (i = beg; i != end; i++)
 				for (m = i + 1; m != end; m++)
 				{
-					a = dist(*i, *m);
-					if (a > max1)
-						max1 = a;
+					a1 = dist(*i, *m);
+					if (a1 > max1)
+						max1 = a1;
 				}
 		}
 #pragma omp section 
 		{
-
+			double a2;
 			vector<Point> ::iterator i = Points.begin();
 			vector<Point> ::iterator m = Points.begin();
 			vector<Point> ::iterator beg = i + e1;
@@ -145,14 +145,14 @@ int main()
 			for (i = beg; i != end; i++)
 				for (m = i + 1; m != end; m++)
 				{
-					a = dist(*i, *m);
-					if (a > max2)
-						max2 = a;
+					a2 = dist(*i, *m);
+					if (a2 > max2)
+						max2 = a2;
 				}
 		}
 #pragma omp section 
 		{
-
+			double a3;
 			vector<Point> ::iterator i = Points.begin();
 			vector<Point> ::iterator m = Points.begin();
 			vector<Point> ::iterator beg = i + e2;
@@ -160,9 +160,9 @@ int main()
 			for (i = beg; i != end; i++)
 				for (m = i + 1; m != end; m++)
 				{
-					a = dist(*i, *m);
-					if (a > max3)
-						max3 = a;
+					a3 = dist(*i, *m);
+					if (a3 > max3)
+						max3 = a3;
 				}
 		}
 
@@ -205,9 +205,9 @@ int main()
 				for (m = i + 1; m != end; m++)
 				{
 
-					a = dist(*i, *m);
-					if (a > max1)
-						max1 = a;
+					a1 = dist(*i, *m);
+					if (a1 > max1)
+						max1 = a1;
 				}
 			}
 		}
@@ -221,9 +221,9 @@ int main()
 			for (i = beg; i != end; i++) {
 				for (m = i + 1; m != end; m++)
 				{
-					a = dist(*i, *m);
-					if (a > max2)
-						max2 = a;
+					a2 = dist(*i, *m);
+					if (a2 > max2)
+						max2 = a2;
 				}
 
 			}
@@ -238,9 +238,9 @@ int main()
 				for (i = beg; i != end; i++)
 					for (m = i + 1; m != end; m++)
 					{
-						a = dist(*i, *m);
-						if (a > max3)
-							max3 = a;
+						a3 = dist(*i, *m);
+						if (a3 > max3)
+							max3 = a3;
 					}
 			}
 #pragma omp section 
@@ -253,9 +253,9 @@ int main()
 				for (i = beg; i != end; i++)
 					for (m = i + 1; m != end; m++)
 					{
-						a = dist(*i, *m);
-						if (a > max4)
-							max4 = a;
+						a4 = dist(*i, *m);
+						if (a4 > max4)
+							max4 = a4;
 					}
 			}
 	}
