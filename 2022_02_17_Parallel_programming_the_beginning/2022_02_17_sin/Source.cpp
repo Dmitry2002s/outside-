@@ -1,86 +1,91 @@
 #include <iostream>
 #include <cstdlib>
 #include <omp.h>
-#include <math.h>
+#include <cmath>
+#include <map>
+
 using namespace std;
 
-
+#define PI 3.14159265
 
 int main()
 {
-	double step = 100000000; 
+	map<double, double> table;
+	double step = 1000000; 
 	double result = 0;
+	cout << "1 stream" << endl; 
 	double t = omp_get_wtime(); 
-	for (double i = 1; i > 0; i -= (1 / step))
+	for (double i = 0; i < PI/2; i += (PI /(2* step)))
 	{
-		result = i ;
+		 table[i] = sin(i);
 	}
-	cout << omp_get_wtime() - t << endl; 
-
+	cout << "time = " <<  omp_get_wtime() - t << endl;
+	
 
 	result = 0;
+	cout << "2 streams" << endl; 
+	t = omp_get_wtime();
+#pragma omp parallel sections 
+	{
+#pragma omp section
+		{
+			double result1 = 0;
+			for (double i = PI/4; i <= PI/2; i += (PI /(2* step)))
+			{
+				table[i] = sin(i);
+			}
+		}
+#pragma omp section
+		{
+			double result2 = 0;
+			for (double i = 0; i < PI/4 ; i += (PI/ (2 * step)))
+			{
+				table[i] = sin(i);
+			}
+		}
+	}
+	cout << "time = " <<  omp_get_wtime() - t << endl;
+
+	result = 0;
+	cout << "4 streams" << endl; 
 	t = omp_get_wtime();
 #pragma omp parallel sections 
 	{
 
 #pragma omp section
 		{
-			double result1 = 0;
-			for (double i = 1; i > 0.5; i -= (1 / step))
+			
+			for (double i = 3 * PI / 4; i <= PI / 2; i += (PI / (2 * step)))
 			{
-				result1 = i;
+				table[i] = sin(i);
 			}
 		}
 #pragma omp section
 		{
-			double result2 = 0;
-			for (double i = 0.5; i > 0; i -= (1 / step))
+			
+			for (double i = PI / 4; i < 3*PI/8 ; i += (PI / (2 * step)))
 			{
-				result2 = i;
+				table[i] = sin(i);
+			}
+		}
+#pragma omp section
+		{
+		
+			for (double i = PI / 8 ; i <PI/4; i += (PI / (2 * step)))
+			{
+				table[i] = sin(i);
+			}
+		}
+#pragma omp section
+		{
+		
+			for (double i = 0; i < PI/8 ; i += (PI /(2* step)))
+			{
+				table[i] = sin(i);
 			}
 		}
 	}
-	cout << omp_get_wtime() - t << endl;
-
-	result = 0;
-	t = omp_get_wtime();
-#pragma omp parallel sections 
-	{
-
-#pragma omp section
-		{
-			double result1 = 0;
-			for (double i = 1; i > 0.75; i -= (1 / step))
-			{
-				result1 = i;
-			}
-		}
-#pragma omp section
-		{
-			double result2 = 0;
-			for (double i = 0.75; i > 0.5; i -= (1 / step))
-			{
-				result2 = i;
-			}
-		}
-#pragma omp section
-		{
-			double result3 = 0;
-			for (double i = 0.5; i > 0.25; i -= (1 / step))
-			{
-				result3 = i;
-			}
-		}
-#pragma omp section
-		{
-			double result4 = 0;
-			for (double i = 0.25; i > 0; i -= (1 / step))
-			{
-				result4 = i;
-			}
-		}
-	}
-	cout << omp_get_wtime() - t << endl;
+	cout << "time = " << omp_get_wtime() - t << endl;
 
 	return EXIT_SUCCESS; 
 }

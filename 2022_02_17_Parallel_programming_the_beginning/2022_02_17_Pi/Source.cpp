@@ -117,6 +117,7 @@ int main()
 		/*
 		//12 streams 
 		result = 0;
+		cout << "12 streams" << endl; 
 		t = omp_get_wtime();
 #pragma omp parallel sections 
 		{
@@ -231,9 +232,9 @@ int main()
 		}
 		}
 		result = result * 4 / n;
-		cout << result << endl;
 		cout << "time : " << omp_get_wtime() - t << endl;
-		*/
+		cout << result << endl;
+		
 		return 0;
 	
 }
