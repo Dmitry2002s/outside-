@@ -12,12 +12,13 @@ double f(double x)
 
 int main()
 {
-	double t = omp_get_wtime();
 	double n = 100000000;
 	double result = 0;
 	double sum = 0;
+	double time = 0; 
 	//test parallel 
 	cout << "2 streams " << endl; 
+	double t = omp_get_wtime();
 #pragma omp parallel sections reduction (+:result)
 	{
 #pragma omp section 
@@ -39,8 +40,10 @@ int main()
 		}
 	}
 		//result = (result * 4.0) / n;
+	time = omp_get_wtime() - t; 
+	cout << time << endl; 
+	cout << "time" << endl;
 		cout << (result * 4.0) / n << endl;
-		cout << "time : " << omp_get_wtime() - t << endl;
 
 		//No parallel 
 		cout << endl << endl << "II" << endl << "No parallel " << endl; 
@@ -57,11 +60,14 @@ int main()
 			}
 		}
 		result += (sum * 4) / n;
+		time = omp_get_wtime() - t;
+		
+		cout << time << endl;
+		cout << "time" << endl; 
 		cout << result << endl;
-		cout << "time : " << omp_get_wtime() - t << endl;
 		cout << endl << endl << "III" << endl;
-		cout << "4 streams " << endl;
 
+		cout << "4 streams " << endl;
 		result = 0; 
 		t = omp_get_wtime();
 #pragma omp parallel sections reduction (+:result)
@@ -103,8 +109,11 @@ int main()
 			}
 		}
 		result = result * 4 / n; 
+		time = omp_get_wtime() - t; 
+
+		cout << time << endl;
+		cout << "time : " << endl; 
 		cout << result << endl; 
-		cout << "time : " << omp_get_wtime() - t << endl;
 		/*
 		//12 streams 
 		result = 0;
