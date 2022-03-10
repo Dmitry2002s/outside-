@@ -138,7 +138,7 @@ vector<string> last_multi(vector<string> field)
 {
 	string a;
 	vector<string> result = field;
-#pragma omp parallel sections reduction
+#pragma omp parallel sections 
 	{
 #pragma omp section 
 		{

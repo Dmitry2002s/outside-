@@ -10,16 +10,19 @@ using namespace std;
 
 int main()
 {
-	map<double, double> table;
-	double step = 1000000; 
+	double smallness = 1000000; 
+	cin >> smallness; 
+	double* table = new double[smallness];
 	double result = 0;
+	double time = 0; 
 	cout << "1 stream" << endl; 
 	double t = omp_get_wtime(); 
-	for (double i = 0; i < PI/2; i += (PI /(2* step)))
+	for (int i = 0; i < smallness; i += 1)
 	{
-		 table[i] = sin(i);
+		 table[i] = sin(i* (PI / (2 * smallness)));
 	}
-	cout << "time = " <<  omp_get_wtime() - t << endl;
+	time = omp_get_wtime() - t;
+	cout << "time = " << time << endl;
 	
 
 	result = 0;
@@ -29,63 +32,60 @@ int main()
 	{
 #pragma omp section
 		{
-			double result1 = 0;
-			for (double i = PI/4; i <= PI/2; i += (PI /(2* step)))
+			for (int i = 0; i < smallness /2; i += 1)
 			{
-				table[i] = sin(i);
+				table[i] = sin(i * PI / (2 * smallness));
 			}
 		}
 #pragma omp section
 		{
-			double result2 = 0;
-			for (double i = 0; i < PI/4 ; i += (PI/ (2 * step)))
+			for (int i = smallness / 2; i <= smallness; i += 1)
 			{
-				table[i] = sin(i);
+				table[i] = sin(i * PI / (2 * smallness));
 			}
 		}
 	}
-	cout << "time = " <<  omp_get_wtime() - t << endl;
+	time = omp_get_wtime() - t;
+	cout << "time = " << time << endl;
 
 	result = 0;
 	cout << "4 streams" << endl; 
 	t = omp_get_wtime();
 #pragma omp parallel sections 
 	{
-
 #pragma omp section
 		{
 			
-			for (double i = 3 * PI / 4; i <= PI / 2; i += (PI / (2 * step)))
+			for (int i = 0; i < smallness /4; i += 1)
 			{
-				table[i] = sin(i);
+				table[i] = sin(i * PI / (2 * smallness));
 			}
 		}
 #pragma omp section
 		{
 			
-			for (double i = PI / 4; i < 3*PI/8 ; i += (PI / (2 * step)))
+			for (int i = smallness/4; i < smallness /2; i += 1)
 			{
-				table[i] = sin(i);
+				table[i] = sin(i * PI / (2 * smallness));
 			}
 		}
 #pragma omp section
 		{
-		
-			for (double i = PI / 8 ; i <PI/4; i += (PI / (2 * step)))
-			{
-				table[i] = sin(i);
-			}
+			for (int i = smallness/2; i < smallness *3/4; i += 1)
+		{
+			table[i] = sin(i * PI / (2 * smallness));
+		}
 		}
 #pragma omp section
 		{
-		
-			for (double i = 0; i < PI/8 ; i += (PI /(2* step)))
+			for (int i = smallness*3 /4; i <= smallness; i += 1)
 			{
-				table[i] = sin(i);
+				table[i] = sin(i * PI / (2 * smallness));
 			}
 		}
 	}
-	cout << "time = " << omp_get_wtime() - t << endl;
-
+	time = omp_get_wtime() - t;
+	cout << "time = " << time << endl;
+	
 	return EXIT_SUCCESS; 
 }
