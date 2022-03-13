@@ -12,100 +12,112 @@ double f(double x)
 
 int main()
 {
-	double t = omp_get_wtime();
 	double n = 100000000;
 	double result = 0;
 	double sum = 0;
+	double time = 0;
 	//test parallel 
-	cout << "2 streams " << endl; 
+	cout << "2 streams " << endl;
+	double t = omp_get_wtime();
 #pragma omp parallel sections reduction (+:result)
 	{
 #pragma omp section 
 		{
-			for (int i = 1; i < n/2; ++i)
+			for (int i = 1; i < n / 2; ++i)
 			{
 				result += f((2 * i - 1) / (2 * n));
 			}
-			
+
 		}
 #pragma omp section
 		{
-			 
-			for (int i = n/2; i < n; ++i)
+
+			for (int i = n / 2; i <= n; ++i)
 			{
 				result += f((2 * i - 1) / (2 * n));
 			}
-			
+
 		}
 	}
-		result = (result * 4.0) / n;
-		cout << "time : " << omp_get_wtime() - t << endl;
-		cout << result << endl;
+	//result = (result * 4.0) / n;
+	time = omp_get_wtime() - t;
+	cout << time << endl;
+	cout << "time" << endl;
+	cout << (result * 4.0) / n << endl;
 
-		//No parallel 
-		cout << endl << endl << "II" << endl << "No parallel " << endl; 
-		 t = omp_get_wtime();
-	
-		 result = 0;
-		 sum = 0;
+	//No parallel 
+	cout << endl << endl << "II" << endl << "No parallel " << endl;
+
+	result = 0;
+	sum = 0;
+	t = omp_get_wtime();
+	{
 		{
+			for (int i = 1; i <= n; ++i)
 			{
-				for (int i = 1 ; i < n; ++i)
-				{
-					sum += f((2 * i - 1) / (2 * n));
-				}
+				sum += f((2 * i - 1) / (2 * n));
 			}
 		}
-		result += (sum * 4) / n;
-		cout << "time : " << omp_get_wtime() - t << endl;
-		cout << result << endl;
-		cout << endl << endl << "III" << endl;
-		cout << "4 streams " << endl;
+	}
+	time = omp_get_wtime() - t;
+	result += (sum * 4) / n;
 
-		result = 0; 
-		t = omp_get_wtime();
+	cout << time << endl;
+	cout << "time" << endl;
+	cout << result << endl;
+	cout << endl << endl << "III" << endl;
+
+	cout << "4 streams " << endl;
+	result = 0;
+	t = omp_get_wtime();
 #pragma omp parallel sections reduction (+:result)
+	{
+#pragma omp section 
 		{
-#pragma omp section 
-			{
-				
-				for (int i = 1; i <= n/4; ++i)
-				{
-					result += f((2 * i - 1) / (2 * n));
-				}
-				
-			}
-#pragma omp section
-			{
-				
-				for (int i = n/4; i <= n/2; ++i)
-				{
-					result += f((2 * i - 1) / (2 * n));
-				}
-				
-			}
-#pragma omp section 
-			{
 
-				for (int i = n / 2; i <= (3 * n / 4); ++i)
-				{
-					result += f((2 * i - 1) / (2 * n));
-				}
-			}	
-		
-#pragma omp section
+			for (int i = 1; i <= n / 4; ++i)
 			{
-				
-				for (int i = 3*n/4; i < n; ++i)
-				{
-					result += f((2 * i - 1) / (2 * n));
-				}
+				result += f((2 * i - 1) / (2 * n));
+			}
+
+		}
+#pragma omp section
+		{
+
+			for (int i = n / 4; i <= n / 2; ++i)
+			{
+				result += f((2 * i - 1) / (2 * n));
+			}
+
+		}
+#pragma omp section 
+		{
+
+			for (int i = n / 2; i <= (3 * n / 4); ++i)
+			{
+				result += f((2 * i - 1) / (2 * n));
 			}
 		}
-		result = result * 4 / n; 
-		cout << "time : " << omp_get_wtime() - t << endl;
-		cout << result << endl; 
-		
+
+#pragma omp section
+		{
+
+			for (int i = 3 * n / 4; i < n; ++i)
+			{
+				result += f((2 * i - 1) / (2 * n));
+			}
+		}
+	}
+	time = omp_get_wtime() - t;
+	result = result * 4 / n;
+
+	cout << time << endl;
+	cout << "time : " << endl;
+	cout << result << endl;
+
+	return 0;
+}
+		/*
 		//12 streams 
 		result = 0;
 		cout << "12 streams" << endl; 
@@ -228,4 +240,4 @@ int main()
 		
 		return 0;
 	
-}
+} */

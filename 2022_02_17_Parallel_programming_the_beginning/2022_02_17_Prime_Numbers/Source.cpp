@@ -48,7 +48,7 @@ int Prime_numbers(int n)
 	int count = 0; 
 	for (int i = 3; i < n; i++)
 	{
-		if (Prime(i) == true)
+		if (Prime(i))
 			count++; 
 	}
 	return count; 

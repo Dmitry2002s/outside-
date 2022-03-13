@@ -52,11 +52,11 @@ int main()
 	cout << "quantity = " << q(Points) << endl;
 	vector<Point> ::iterator end = Points.end();
 	vector<Point> ::iterator beg = Points.begin();
-	double t = omp_get_wtime();
 	double max = 0;
 	vector<Point> ::iterator i = Points.begin();
 	double a;
 	vector<Point> ::iterator m = i + 1;
+	double t = omp_get_wtime();
 	for (i = beg; i != end; i++)
 		for (m = i + 1; m != end; m++)
 		{
@@ -80,7 +80,7 @@ int main()
 			vector<Point> ::iterator i = Points.begin();
 			vector<Point> ::iterator m = Points.begin();
 			vector<Point> ::iterator beg = i;
-			vector<Point> ::iterator end = i + e;
+			vector<Point> ::iterator end = Points.end();
 			for (i = beg; i != end; i++)
 				for (m = i + 1; m != end; m++)
 				{
@@ -126,9 +126,9 @@ int main()
 			vector<Point> ::iterator i = Points.begin();
 			vector<Point> ::iterator m = Points.begin();
 			vector<Point> ::iterator beg = i;
-			vector<Point> ::iterator end = i + e1;
-			for (i = beg; i != end; i++)
-				for (m = i + 1; m != end; m++)
+			vector<Point> ::iterator end = Points.end;
+			for (i = beg; i != Points.begin(); i++)
+				for (m = Points.begin(); m != end; m++)
 				{
 					a1 = dist(*i, *m);
 					if (a1 > max1)
