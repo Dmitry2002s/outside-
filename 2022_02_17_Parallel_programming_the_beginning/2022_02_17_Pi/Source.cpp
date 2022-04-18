@@ -115,7 +115,23 @@ int main()
 	cout << "time : " << endl;
 	cout << result << endl;
 
+	cout << "schedule" << endl; 
+	result = 0;
+	sum = 0;
+	t = omp_get_wtime();
+#pragma omp parallel for schedule (guided)
+			for (int i = 1; i <= n; ++i)
+			{
+				sum += f((2 * i - 1) / (2 * n));
+			}
+		
+	time = omp_get_wtime() - t;
+	result += (sum * 4) / n;
+
+
 	return 0;
+
+
 }
 		/*
 		//12 streams 

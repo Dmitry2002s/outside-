@@ -10,8 +10,7 @@ using namespace std;
 
 int main()
 {
-	double smallness = 1000000; 
-	cin >> smallness; 
+	double smallness = 100000000; 
 	double* table = new double[smallness];
 	double result = 0;
 	double time = 0; 
@@ -87,5 +86,15 @@ int main()
 	time = omp_get_wtime() - t;
 	cout << "time = " << time << endl;
 	
+	t = omp_get_wtime();
+#pragma parallel for schedule (guided,5)
+	for (int i = 0; i < smallness; i += 1)
+	{
+		table[i] = sin(i * (PI / (2 * smallness)));
+	}
+	time = omp_get_wtime() - t;
+	cout << "time = " << time << endl;
+
+
 	return EXIT_SUCCESS; 
 }

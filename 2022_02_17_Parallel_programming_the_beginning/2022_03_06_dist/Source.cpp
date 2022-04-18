@@ -270,5 +270,8 @@ int main()
 		cout << omp_get_wtime() - t << endl;
 		cout << "max dist = " << max << endl;
 
+
+
+
 		return EXIT_SUCCESS;
 	}

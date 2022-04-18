@@ -135,17 +135,36 @@ vector<string> last(vector<string> field)
 	}
 	return result;
 }
+vector<string> last_for(vector<string> field)
+{
+	string a;
+	vector<string> result = field;
+#pragma omp parallel for schedule  
+		for (int i = 0; i < field.size(); i++)
+		{
+			for (int j = 0; field[i][j] != '\0'; j++)
+			{
+				if (moment(field, i, j) == true)
+					a += '1';
+				else
+					a += '0';
+			}
+			result[i] = a;
+			a = "";
+		}
+	return result;
+}
 vector<string> last_multi(vector<string> field)
 {
 	string a;
 	vector<string> result = field;
-#pragma omp parallel sections 
+#pragma omp parallel sections
 	{
 #pragma omp section 
 		{
+			string a;
 			int z = field.size() / 2;
-			vector<string> result1;
-			for (int i = field.size() / 2; i < field.size(); i++)
+			for (int i = z; i < field.size(); i++)
 			{
 				for (int j = 0; field[i][j] != '\0'; j++)
 				{
@@ -155,11 +174,12 @@ vector<string> last_multi(vector<string> field)
 						a += '0';
 				}
 				result[i] = a;
-				a = "";
+				a ="";
 			}
 		}
 #pragma omp section 
 		{
+			string a;
 			for (int i = 0; i < field.size() / 2; i++)
 			{
 				for (int j = 0; field[i][j] != '\0'; j++)
@@ -204,13 +224,19 @@ int main()
 		field.push_back(str);
 	}
 	double m = omp_get_wtime();
-	for (int i = 10; i > 0; i--)
+	for (int i = 100; i > 0; i--)
 	{
-		field = last_multi(field);
+		field = last_for(field);
+		
+	}
+	cout << omp_get_wtime() - m << endl;
+	m = omp_get_wtime();
+	for (int i = 100; i > 0; i--)
+	{
+		field = last(field);
 
 	}
 	cout << omp_get_wtime() - m << endl;
-
 }
 /*	
 */

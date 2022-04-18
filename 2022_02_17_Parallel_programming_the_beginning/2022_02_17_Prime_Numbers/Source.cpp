@@ -23,6 +23,22 @@ bool Prime(int number)
 	}
 	return true; 
 }
+bool Prime_for(int number)
+{
+	if (number % 2 == 0)
+		return false;
+
+	if (number % 3 == 0 && number != 3)
+		return false;
+	for (int i = 1; (6 * i - 1) * (6 * i - 1) <= number; i++)
+	{
+		if (number % (6 * i - 1) == 0)
+			return false;
+		if (number % (6 * i + 1) == 0)
+			return false;
+	}
+	return true;
+}
 bool Prime_multi(int number)
 {
 	if (number % 2 == 0)
@@ -52,6 +68,17 @@ int Prime_numbers(int n)
 			count++; 
 	}
 	return count; 
+}
+int Prime_numbers_for(int n)
+{
+	int count = 0;
+#pragma omp parallel for schedule (guided) reduction(+: count)
+	for (int i = 3; i < n; i++)
+	{
+		if (Prime_for(i))
+			count++;
+	}
+	return count;
 }
 int Prime_numbers_multi(int n)
 {
@@ -93,7 +120,11 @@ int main()
 
 	double t = omp_get_wtime();
 	cout << Prime_numbers(n) << endl; 
-	cout << "Time one core = " << ( omp_get_wtime() - t );
+	cout << "Time one core = " << ( omp_get_wtime() - t ) << endl;
+
+	t = omp_get_wtime();
+	cout << Prime_numbers_for(n) << endl;
+	cout << "Time schedule = " << (omp_get_wtime() - t);
 
 	
 	return EXIT_SUCCESS; 
