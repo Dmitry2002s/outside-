@@ -51,8 +51,9 @@ void transform(double** massive, int lenght )
 		}
 		swap(massive, z, number_max, lenght);
 		divide(massive, z, massive[z][z], lenght);
-		for (int k = z+1; k < lenght; k++)
+		for (int k = 0; k < lenght; k++)
 		{
+			if(k!=z)
 			subtract(massive, k, z, massive[k][z], lenght);
 		}
 	} 
@@ -74,7 +75,7 @@ void transform_par(double** massive, int lenght)
 		}
 		swap(massive, z, number_max, lenght);
 		divide(massive, z, massive[z][z], lenght);
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(static, 12)
 		for (int k = z + 1; k < lenght; k++)
 		{
 			subtract(massive, k, z, massive[k][z], lenght);
@@ -98,8 +99,25 @@ int main()
 			massive[i][k] = rand() % 10;
 		}
 	}
-	
+	double t = 0; 
+	//(massive, lenght, n);
+	t = omp_get_wtime();
 	transform(massive, n);
+	cout << omp_get_wtime() - t << endl; 
+	//print(massive, lenght, n);
+
 	
-	
+	cout << "test parallel" << endl; 
+	for (int i = 0; i < n; i++)
+	{
+		for (int k = 0; k < lenght; k++)
+		{
+			massive[i][k] = rand() % 10;
+		}
+	}
+	//print(massive, lenght, n);
+	t = omp_get_wtime();
+	transform_par(massive, n);
+	cout << omp_get_wtime() - t << endl;
+	//print(massive, lenght, n);
 }
