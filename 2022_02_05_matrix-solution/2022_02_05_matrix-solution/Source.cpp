@@ -43,9 +43,9 @@ void transform(double** massive, int lenght )
 		int max = 0;
 		for (int i = z; i < lenght; ++i)
 		{
-			if (max < massive[i][0])
+			if (max < abs(massive[i][z]))
 			{
-				max = massive[i][0];
+				max = massive[i][z];
 				number_max = i;
 			}
 		}
@@ -58,6 +58,20 @@ void transform(double** massive, int lenght )
 		}
 	} 
 }
+int largest_first(double** massive, int lenght, int k , int j)
+{
+	int max = INT_MIN;
+	int number_max = 0; 
+	for (int i = 0; i < lenght; ++i)
+	{
+		if (max < massive[i][0])
+		{
+			max = massive[i][0];
+			number_max = i;
+		}
+	}
+	return number_max;
+}
 void transform_par(double** massive, int lenght)
 {
 
@@ -67,9 +81,9 @@ void transform_par(double** massive, int lenght)
 		int max = 0;
 		for (int i = z; i < lenght; ++i)
 		{
-			if (max < massive[i][0])
+			if (max < abs(massive[i][z]))
 			{
-				max = massive[i][0];
+				max = massive[i][z];
 				number_max = i;
 			}
 		}
@@ -96,7 +110,7 @@ int main()
 	{
 		for (int k = 0; k < lenght; k++)
 		{
-			massive[i][k] = rand() % 10;
+			cin >> massive[i][k] ;
 		}
 	}
 	double t = 0; 
@@ -104,6 +118,7 @@ int main()
 	t = omp_get_wtime();
 	transform(massive, n);
 	cout << omp_get_wtime() - t << endl; 
+	print(massive, lenght, n);
 	//print(massive, lenght, n);
 
 	
@@ -112,7 +127,7 @@ int main()
 	{
 		for (int k = 0; k < lenght; k++)
 		{
-			massive[i][k] = rand() % 10;
+			cin >> massive[i][k] ;
 		}
 	}
 	//print(massive, lenght, n);
