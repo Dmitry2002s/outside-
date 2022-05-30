@@ -6,23 +6,19 @@
 using namespace std;
 using namespace std::chrono;
 const int n = 100000000; 
-int block_size(int threads)
-{
-	return n / threads + (n % threads ? 1 : 0);
-}
+
 
 double f(double x)
 {
-	double result = (1 / (1 + (x * x)));
+	double result =1 / (1 + (x * x));
 	return result;
 }
-double pi_counting(double from, int threats )
+double pi_counting(int from, int to )
 {
 	double sum = 0; 
-	int  bl_size = block_size(threats);
-	for (int i = from; i <= from +bl_size ; ++i)
+	for (int i = from; i <= to ; ++i)
 	{
-		sum += f((2 * i - 1) / (2 * n));
+		sum += f((2.0 * i - 1) / (2.0 * n));
 	}
 	return (sum * 4) / n;
 }
@@ -42,7 +38,7 @@ double pi_counting(double from, int threats )
 	}
 	return (sum * 4) / n;
 }*/
-
+/*
 void MultiThreadPi(int threads)
 {
 	vector<future <void>> fut(threads);
@@ -60,11 +56,11 @@ void MultiThreadPi(int threads)
 		fut[j].get();
 	// дожидаемся результатов параллельных вычислений
 }
-
+*/
 
 int main()
 {
-	
+	/*
 	double result = 0;
 	double sum = 0;
 	cout << endl << endl << "II" << endl << "No parallel " << endl;
@@ -90,11 +86,12 @@ int main()
 	cout << "test asyns" << endl; 
 	int p = 0; 
 	cin >> p;  // p = threats 
-
-	cout << pi(p); 
+	*/
+	cout << "AAAAAAAAAAAAAAAAAAA" << endl << endl; 
+	future<double> f1 = async(pi_counting, 1, 100000000 / 2);
+	future<double> f2 = async(pi_counting, 100000000 / 2 + 1, 100000000);
+	cout << (f1.get() + f2.get());
 
 	
-
-	future<void>(pi);
 }
 
